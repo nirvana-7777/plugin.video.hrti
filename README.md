@@ -5,7 +5,8 @@ This plugin is not officially commisioned/supported by HRT.
 Any trademarks used belong to their owning companies & organisations.
 
 ## Dependencies
- * valid HRTi account (https://www.https://hrti.hrt.hr)
+ * valid free HRTi account (https://www.https://hrti.hrt.hr)
+ * Croatian IP-address to access geo-blocked content
  * script.module.inputstreamhelper (http://mirrors.kodi.tv/addons/krypton/script.module.inputstreamhelper/)
 
 This add-on requires Kodi 18 or higher with InputStream Adaptive installed.
