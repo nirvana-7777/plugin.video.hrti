@@ -24,15 +24,13 @@
             <screenshot>resources/media/screenshot-03.jpg</screenshot>
             <screenshot>resources/media/screenshot-04.jpg</screenshot>
         </assets>
-        <summary lang="de_DE">ERLEBE DEINEN SPORT. LIVE UND AUF ABRUF.</summary>
+        <summary lang="de_DE">Kroatisches Fernsehen HRT</summary>
         <description lang="de_DE">
-DAZN ist ein live und on-demand Sportstreaming-Dienst. 
-Du kannst jetzt Sportevents anschauen, wann immer es dir passt. Jederzeit. Überall.
         </description>
         <disclaimer lang="de_DE">Inoffizielles Addon - Benutzung auf eigene Gefahr</disclaimer>
         <platform>all</platform>
         <license>GNU GENERAL PUBLIC LICENSE. Version 3, 29 June 2007</license>
-        <website>https://www.dazn.com</website>
+        <website>https://www.hrti.hrt.hr</website>
         <source>https://github.com/nirvana-7777/plugin.video.hrti</source>
     </extension>
 </addon>
