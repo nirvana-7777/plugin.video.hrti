@@ -18,8 +18,13 @@ class HRTiAPI:
         self.logged_in = False
         self.__username = username
         self.__password = password
-        self.__provider = provider # 0 = waipu, 1 = O2
-
+        self.__provider = 'hrt'
+        
+    def getIP()
+        url = "https://hrti.hrt.hr/api/api/ott/getIPAddress"
+        r = requests.get(url)
+        return r.json()
+        
     def fetchToken(self):
         if self.__provider == 0:
             # waipu
