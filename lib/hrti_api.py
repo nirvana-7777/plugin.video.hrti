@@ -20,6 +20,7 @@ class HRTiAPI:
         self.__password = password
         self.__provider = 'hrt'
         self.__ip = self.getIP()
+        xbmc.log("hrti init with IP: " + str(self.__ip), level=xbmc.LOGDEBUG)
         
     def getIP(self):
         url = "https://hrti.hrt.hr/api/api/ott/getIPAddress"
@@ -143,7 +144,7 @@ class HRTiAPI:
     def getChannels(self, epg_hours_future=0):
         self.getToken()
 
-        starttime = time.strftime("%Y-%m-%dT%H:%M:%S", time.localtime());
+        starttime = time.strftime("%Y-%m-%dT%H:%M:%S", time.localtime())
         endtime = time.strftime("%Y-%m-%dT%H:%M:%S", time.localtime(time.time() + int(epg_hours_future) * 60 * 60))
 
         url = "https://epg.waipu.tv/api/programs?includeRunningAtStartTime=true&startTime=" + starttime + "&stopTime=" + endtime
@@ -188,7 +189,7 @@ class HRTiAPI:
     
     def getEPGForChannel(self, channelId):
         self.getToken()
-        starttime = time.strftime("%Y-%m-%dT%H:%M:%S", time.localtime(time.time() - 3*24 * 60 * 60));
+        starttime = time.strftime("%Y-%m-%dT%H:%M:%S", time.localtime(time.time() - 3*24 * 60 * 60))
         endtime = time.strftime("%Y-%m-%dT%H:%M:%S", time.localtime(time.time() + 3*24 * 60 * 60))
         headers = {'User-Agent': self.user_agent,
                    'Authorization': 'Bearer ' + self._auth['access_token']}
