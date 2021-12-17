@@ -19,13 +19,13 @@ plugin = routing.Plugin()
 
 username = xbmcplugin.getSetting(plugin.handle, "username")
 password = xbmcplugin.getSetting(plugin.handle, "password")
-provider = int(xbmcplugin.getSetting(plugin.handle, "provider_select"))
+provider = "hrt"
 
 # open settings,
 if not username or not password:
     xbmcaddon.Addon().openSettings()
 
-w = WaipuAPI(username, password, provider)
+w = HRTiAPI(username, password, provider)
 
 def _T(id):
     return xbmcaddon.Addon().getLocalizedString(id)
@@ -62,7 +62,7 @@ def load_acc_details():
 def list_recordings():
     # Set plugin category. It is displayed in some skins as the name
     # of the current section.
-    xbmcplugin.setPluginCategory(plugin.handle, 'waipu.tv')
+    xbmcplugin.setPluginCategory(plugin.handle, 'hrti.hr')
     # Set plugin content. It allows Kodi to select appropriate views
     # for this type of content.
     xbmcplugin.setContent(plugin.handle, 'videos')

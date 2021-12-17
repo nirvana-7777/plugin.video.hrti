@@ -19,8 +19,9 @@ class HRTiAPI:
         self.__username = username
         self.__password = password
         self.__provider = 'hrt'
+        self.__ip = self.getIP()
         
-    def getIP()
+    def getIP(self):
         url = "https://hrti.hrt.hr/api/api/ott/getIPAddress"
         r = requests.get(url)
         return r.json()
