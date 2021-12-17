@@ -19,13 +19,12 @@ plugin = routing.Plugin()
 
 username = xbmcplugin.getSetting(plugin.handle, "username")
 password = xbmcplugin.getSetting(plugin.handle, "password")
-provider = "hrt"
 
 # open settings,
 if not username or not password:
     xbmcaddon.Addon().openSettings()
 
-w = HRTiAPI(username, password, provider)
+w = HRTiAPI(username, password)
 
 def _T(id):
     return xbmcaddon.Addon().getLocalizedString(id)
@@ -487,7 +486,7 @@ def index():
 
     # Set plugin category. It is displayed in some skins as the name
     # of the current section.
-    xbmcplugin.setPluginCategory(plugin.handle, 'waipu.tv')
+    xbmcplugin.setPluginCategory(plugin.handle, 'hrti.hr')
 
     # TV channel list
     list_item = xbmcgui.ListItem(label=_T(32030))
