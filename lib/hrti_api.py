@@ -10,7 +10,7 @@ except ImportError:
 import xbmc
 
 
-class WaipuAPI:
+class HRTiAPI:
     user_agent = "kodi plugin for waipu.tv (python)"
 
     def __init__(self, username, password, provider):
