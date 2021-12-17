@@ -11,7 +11,7 @@ import xbmc
 
 
 class HRTiAPI:
-    user_agent = "kodi plugin for waipu.tv (python)"
+    user_agent = "kodi plugin for hrti.hr (python)"
 
     def __init__(self, username, password, provider):
         self._auth = None
