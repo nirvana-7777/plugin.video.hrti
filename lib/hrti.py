@@ -482,7 +482,7 @@ def play_recording():
 
 @plugin.route('/')
 def index():
-    xbmc.log("hrti 1: ", level=xbmc.LOGDEBUG)
+    xbmc.log("hrti 1: ", level=xbmc.LOGERROR)
     #load_acc_details()
 
     # Set plugin category. It is displayed in some skins as the name
