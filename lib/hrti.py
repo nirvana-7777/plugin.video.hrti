@@ -26,6 +26,7 @@ if not username or not password:
 
 w = HRTiAPI(username, password)
 
+
 def _T(id):
     return xbmcaddon.Addon().getLocalizedString(id)
 
@@ -56,6 +57,7 @@ def load_acc_details():
             xbmcaddon.Addon().setSetting('accinfo_network', "Waipu verfügbar")
         else:
             xbmcaddon.Addon().setSetting('accinfo_network', status["statusText"])
+
 
 @plugin.route('/list-recordings')
 def list_recordings():
@@ -130,6 +132,7 @@ def filter_pictograms(data, filter=True):
     if filter:
         return ''.join(c for c in data if ord(c) < 0x25A0 or ord(c) > 0x1F5FF)
     return data
+
 
 @plugin.route('/play-vod')
 def play_vod():
@@ -503,6 +506,7 @@ def index():
 
     # Finish creating a virtual folder.
     xbmcplugin.endOfDirectory(plugin.handle)
+
 
 def run():
     plugin.run()
