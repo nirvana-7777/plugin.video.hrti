@@ -490,16 +490,16 @@ def index():
     xbmcplugin.setPluginCategory(plugin.handle, 'hrti.hr')
 
     # TV channel list
-    list_item = xbmcgui.ListItem(label=_T(32030))
-    xbmcplugin.addDirectoryItem(plugin.handle, plugin.url_for(list_channels), list_item, isFolder=True)
+    #list_item = xbmcgui.ListItem(label=_T(32030))
+    #xbmcplugin.addDirectoryItem(plugin.handle, plugin.url_for(list_channels), list_item, isFolder=True)
 
     # VoD Channels
-    list_item = xbmcgui.ListItem(label=_T(32032))
-    xbmcplugin.addDirectoryItem(plugin.handle, plugin.url_for(list_vod_channels), list_item, isFolder=True)
+    #list_item = xbmcgui.ListItem(label=_T(32032))
+    #xbmcplugin.addDirectoryItem(plugin.handle, plugin.url_for(list_vod_channels), list_item, isFolder=True)
 
     # recordings list
-    list_item = xbmcgui.ListItem(label=_T(32031))
-    xbmcplugin.addDirectoryItem(plugin.handle, plugin.url_for(list_recordings), list_item, isFolder=True)
+    #list_item = xbmcgui.ListItem(label=_T(32031))
+    #xbmcplugin.addDirectoryItem(plugin.handle, plugin.url_for(list_recordings), list_item, isFolder=True)
 
     # Finish creating a virtual folder.
     xbmcplugin.endOfDirectory(plugin.handle)
