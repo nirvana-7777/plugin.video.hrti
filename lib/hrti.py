@@ -14,18 +14,47 @@ import xbmcaddon
 import inputstreamhelper
 import time
 from dateutil import parser
+from hashlib import sha256
+
+
+class ItemClass(object):
+    pass
+
 
 plugin = routing.Plugin()
 
-username = xbmcplugin.getSetting(plugin.handle, "username")
-password = xbmcplugin.getSetting(plugin.handle, "password")
+username = xbmcaddon.Addon().getSetting("username")
+password = xbmcaddon.Addon().getSetting("password")
+provider = int(xbmcaddon.Addon().getSetting("provider_select"))
+
+device_id = xbmcaddon.Addon().getSetting("device_id_uuid4")
+if not device_id:
+    import uuid
+    device_id = str(uuid.uuid4())
+    xbmcaddon.Addon().setSetting("device_id_uuid4", device_id)
+
 
 # open settings,
 if not username or not password:
     xbmcaddon.Addon().openSettings()
 
+# setup user_agent
+user_agent = xbmc.getUserAgent()
+addon_id = xbmcaddon.Addon().getAddonInfo("id")
+addon_version = xbmcaddon.Addon().getAddonInfo("version")
+user_agent = user_agent.replace(" ", " {}/{} ".format(addon_id, addon_version), 1)
+
+
 w = HRTiAPI(username, password)
 
+itemList = []
+
+
+def itemExits(assetID, aList):
+    for aItem in aList:
+        if aItem.assetId == assetID:
+            return True
+    return False
 
 def _T(id):
     return xbmcaddon.Addon().getLocalizedString(id)
@@ -493,16 +522,16 @@ def index():
     xbmcplugin.setPluginCategory(plugin.handle, 'hrti.hr')
 
     # TV channel list
-    #list_item = xbmcgui.ListItem(label=_T(32030))
-    #xbmcplugin.addDirectoryItem(plugin.handle, plugin.url_for(list_channels), list_item, isFolder=True)
+    list_item = xbmcgui.ListItem(label=_T(32030))
+    xbmcplugin.addDirectoryItem(plugin.handle, plugin.url_for(list_channels), list_item, isFolder=True)
 
     # VoD Channels
-    #list_item = xbmcgui.ListItem(label=_T(32032))
-    #xbmcplugin.addDirectoryItem(plugin.handle, plugin.url_for(list_vod_channels), list_item, isFolder=True)
+    list_item = xbmcgui.ListItem(label=_T(32032))
+    xbmcplugin.addDirectoryItem(plugin.handle, plugin.url_for(list_vod_channels), list_item, isFolder=True)
 
     # recordings list
-    #list_item = xbmcgui.ListItem(label=_T(32031))
-    #xbmcplugin.addDirectoryItem(plugin.handle, plugin.url_for(list_recordings), list_item, isFolder=True)
+    list_item = xbmcgui.ListItem(label=_T(32031))
+    xbmcplugin.addDirectoryItem(plugin.handle, plugin.url_for(list_recordings), list_item, isFolder=True)
 
     # Finish creating a virtual folder.
     xbmcplugin.endOfDirectory(plugin.handle)
