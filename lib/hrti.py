@@ -56,6 +56,7 @@ def itemExits(assetID, aList):
             return True
     return False
 
+
 def _T(id):
     return xbmcaddon.Addon().getLocalizedString(id)
 
@@ -198,13 +199,13 @@ def list_vod_channel():
     xbmcplugin.setPluginCategory(plugin.handle, 'waipu.tv')
     streams = w.getEPGForChannel(channel_id)
     for stream in streams:
-        #print("stream: "+str(stream))
+        # print("stream: "+str(stream))
         title = filter_pictograms(stream["title"])
-        streamUrlProvider = stream["streamUrlProvider"]
+        streamurlprovider = stream["streamUrlProvider"]
                 
-        previewImage=""
+        previewimage=""
         if "previewImages" in stream:
-            previewImage = stream["previewImages"][0] + "?width=200&height=200"
+            previewimage = stream["previewImages"][0] + "?width=200&height=200"
             
         plot = ""
         if "description" in stream:
@@ -215,12 +216,12 @@ def list_vod_channel():
                                     'plot': plot,
                                     'mediatype': 'video'})
 
-        list_item.setArt({'thumb': previewImage, 'icon': previewImage, 'clearlogo': previewImage})
+        list_item.setArt({'thumb': previewimage, 'icon': previewimage, 'clearlogo': previewimage})
         list_item.setProperty('IsPlayable', 'true')
             
 
-        url = plugin.url_for(play_vod, streamUrlProvider=streamUrlProvider,
-                             title=title.encode('ascii', 'ignore').decode('ascii'), logo_url=previewImage)
+        url = plugin.url_for(play_vod, streamurlprovider=streamurlprovider,
+                             title=title.encode('ascii', 'ignore').decode('ascii'), logo_url=previewimage)
         xbmcplugin.addDirectoryItem(plugin.handle, url, list_item, isFolder=False)
 
     # Finish creating a virtual folder.
@@ -273,6 +274,7 @@ def list_vod_channels():
     xbmcplugin.addSortMethod(plugin.handle, xbmcplugin.SORT_METHOD_TRACKNUM)
     # Finish creating a virtual folder.
     xbmcplugin.endOfDirectory(plugin.handle)
+
 
 @plugin.route('/list-channels')
 def list_channels():
@@ -351,6 +353,7 @@ def list_channels():
     # Finish creating a virtual folder.
     xbmcplugin.endOfDirectory(plugin.handle)
 
+
 @plugin.route('/play-channel')
 def play_channel():
     playouturl = plugin.args['playout_url'][0]
@@ -421,6 +424,7 @@ def play_channel():
 
     xbmcplugin.setResolvedUrl(plugin.handle, True, listitem=listitem)
 
+
 @plugin.route('/renew-token')
 def renew_token():
     playouturl = plugin.args['playouturl'][0]
@@ -433,7 +437,7 @@ def renew_token():
 
     url = ""
     for stream in channel["streams"]:
-        if (stream["protocol"] == 'mpeg-dash'):
+        if stream["protocol"] == 'mpeg-dash':
             # if (stream["protocol"] == 'hls'):
             for link in stream['links']:
                 path = link["href"]
@@ -449,6 +453,7 @@ def renew_token():
     xbmcplugin.addDirectoryItem(plugin.handle, url, listitem)
     xbmcplugin.endOfDirectory(plugin.handle, cacheToDisc=False)
 
+
 @plugin.route('/play-recording')
 def play_recording():
     recordingid = plugin.args['recording_id'][0]
@@ -459,11 +464,11 @@ def play_recording():
 
     user_agent = "kodi plugin for waipu.tv (python)"
 
-    streamingData = w.playRecording(recordingid)
-    xbmc.log("play recording: " + str(streamingData), level=xbmc.LOGDEBUG)
+    streamingdata = w.playRecording(recordingid)
+    xbmc.log("play recording: " + str(streamingdata), level=xbmc.LOGDEBUG)
 
-    for stream in streamingData["streamingDetails"]["streams"]:
-        if (stream["protocol"] == 'MPEG_DASH'):
+    for stream in streamingdata["streamingDetails"]["streams"]:
+        if stream["protocol"] == 'MPEG_DASH':
             path = stream["href"]
             if path:
                 path = path + "|User-Agent=" + user_agent
@@ -475,29 +480,29 @@ def play_recording():
     b_recordingdate = xbmcplugin.getSetting(plugin.handle, "recordings_date") == "true"
     title = ""
     metadata = {'mediatype': 'video'}
-    if streamingData["epgData"]["title"]:
-        title = filter_pictograms(streamingData["epgData"]["title"], b_filter)
-    if streamingData["epgData"]["episodeTitle"]:
-        title = title + ": " + filter_pictograms(streamingData["epgData"]["episodeTitle"], b_filter)
-    if b_recordingdate and not streamingData["epgData"]["episodeId"] and streamingData["epgData"]["startTime"]:
-        startDate = parser.parse(streamingData['epgData']['startTime'])
+    if streamingdata["epgData"]["title"]:
+        title = filter_pictograms(streamingdata["epgData"]["title"], b_filter)
+    if streamingdata["epgData"]["episodeTitle"]:
+        title = title + ": " + filter_pictograms(streamingdata["epgData"]["episodeTitle"], b_filter)
+    if b_recordingdate and not streamingdata["epgData"]["episodeId"] and streamingdata["epgData"]["startTime"]:
+        startDate = parser.parse(streamingdata['epgData']['startTime'])
         title = title + " " + startDate.strftime("(%d.%m.%Y %H:%M)")
-    if b_episodeid and streamingData['epgData']['season'] and streamingData['epgData']['episode']:
-        title = title + " (S" + streamingData['epgData']['season'] + "E" + streamingData['epgData']['episode'] + ")"
+    if b_episodeid and streamingdata['epgData']['season'] and streamingdata['epgData']['episode']:
+        title = title + " (S" + streamingdata['epgData']['season'] + "E" + streamingdata['epgData']['episode'] + ")"
         metadata.update({
-            'season': streamingData['epgData']['season'],
-            'episode': streamingData['epgData']['episode'],
+            'season': streamingdata['epgData']['season'],
+            'episode': streamingdata['epgData']['episode'],
         })
 
     metadata.update({"title": title})
 
     listitem = xbmcgui.ListItem(title, path=path)
 
-    if "epgData" in streamingData and streamingData["epgData"]["description"]:
-        metadata.update({"plot": filter_pictograms(streamingData["epgData"]["description"], b_filter)})
+    if "epgData" in streamingdata and streamingdata["epgData"]["description"]:
+        metadata.update({"plot": filter_pictograms(streamingdata["epgData"]["description"], b_filter)})
 
-    if "epgData" in streamingData and len(streamingData["epgData"]["previewImages"]) > 0:
-        logo_url = streamingData["epgData"]["previewImages"][0] + "?width=256&height=256"
+    if "epgData" in streamingdata and len(streamingdata["epgData"]["previewImages"]) > 0:
+        logo_url = streamingdata["epgData"]["previewImages"][0] + "?width=256&height=256"
         listitem.setArt({'thumb': logo_url, 'icon': logo_url})
 
     listitem.setInfo('video', metadata)
@@ -512,10 +517,11 @@ def play_recording():
 
     xbmcplugin.setResolvedUrl(plugin.handle, True, listitem=listitem)
 
+
 @plugin.route('/')
 def index():
     xbmc.log("hrti 1: ", level=xbmc.LOGERROR)
-    #load_acc_details()
+    # load_acc_details()
 
     # Set plugin category. It is displayed in some skins as the name
     # of the current section.
