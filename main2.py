@@ -208,6 +208,7 @@ def router(paramstring):
     """
     # Parse a URL-encoded paramstring to the dictionary of
     # {<parameter>: <value>} elements
+    xbmc.log("hrti 1: ", level=xbmc.LOGDEBUG)
     params = dict(parse_qsl(paramstring))
     # Check the parameters passed to the plugin
     if params:
