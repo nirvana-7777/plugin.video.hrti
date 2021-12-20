@@ -1,6 +1,6 @@
 # Module: main
-# Author: Roman V. M.
-# Created on: 28.11.2014
+# Author: Nirvana
+# Created on: 20.12.2021
 # License: GPL v.3 https://www.gnu.org/copyleft/gpl.html
 """
 Example video plugin that is compatible with Kodi 19.x "Matrix" and above
@@ -9,11 +9,14 @@ import sys
 from urllib.parse import urlencode, parse_qsl
 import xbmcgui
 import xbmcplugin
+from lib.hrti_api import HRTiAPI
 
 # Get the plugin url in plugin:// notation.
 _URL = sys.argv[0]
 # Get the plugin handle as an integer number.
 _HANDLE = int(sys.argv[1])
+
+api = HRTiAPI(username, password)
 
 # Free sample videos are provided by www.vidsplay.com
 # Here we use a fixed set of properties simply for demonstrating purposes
