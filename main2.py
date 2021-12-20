@@ -16,7 +16,7 @@ _URL = sys.argv[0]
 # Get the plugin handle as an integer number.
 _HANDLE = int(sys.argv[1])
 
-api = HRTiAPI(username, password)
+# api = HRTiAPI(username, password)
 
 # Free sample videos are provided by www.vidsplay.com
 # Here we use a fixed set of properties simply for demonstrating purposes
