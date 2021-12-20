@@ -16,6 +16,8 @@ _URL = sys.argv[0]
 # Get the plugin handle as an integer number.
 _HANDLE = int(sys.argv[1])
 
+username = xbmcplugin.getSetting(_HANDLE, "username")
+password = xbmcplugin.getSetting(_HANDLE, "password")
 api = HRTiAPI(username, password)
 
 # Free sample videos are provided by www.vidsplay.com
