@@ -3,10 +3,6 @@ import time
 import base64
 import json
 
-try:
-    import http.cookiejar
-except ImportError:
-    import cookielib
 import xbmc
 
 
@@ -18,4 +14,4 @@ class HRTiAPI:
         self.logged_in = False
         self.__username = username
         self.__password = password
-        self.__provider = 'hrt'
+
