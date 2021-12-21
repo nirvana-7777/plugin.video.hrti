@@ -18,6 +18,7 @@ class HRTiAPI:
         self.__ip = self.get_ip()
         # self.__device_id = "a8dc5ca6-8932-4932-88b6-6aee5d843624"
         xbmc.log("hrti init with IP: " + str(self.__ip), level=xbmc.LOGDEBUG)
+        self.grant_access()
 
     @staticmethod
     def get_ip():
