@@ -31,7 +31,8 @@ class HRTiAPI:
     def grant_access(self):
         url = "https://hrti.hrt.hr/api/api/ott/GrantAccess"
         payload = {'username': self.__username, 'password': self.__password, 'OperatorReferenceId': 'hrt'}
-        headers = {'Content-Type': 'application/json',
+        headers = {'Authorization': 'Client lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8kmqwKNSUc8Gw'
+                   'Content-Type': 'application/json',
                    'DeviceId': 'a8dc5ca6-8932-4932-88b6-6aee5d843624',
                    'DeviceTypeId': '6',
                    'Host': 'hrti.hrt.hr',
