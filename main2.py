@@ -23,7 +23,7 @@ plugin = Common(
 
 username = xbmcplugin.getSetting(_HANDLE, "username")
 password = xbmcplugin.getSetting(_HANDLE, "password")
-api = HRTiAPI(username, password, plugin.uniq_id())
+api = HRTiAPI(username, password)
 
 # Free sample videos are provided by www.vidsplay.com
 # Here we use a fixed set of properties simply for demonstrating purposes

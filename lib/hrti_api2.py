@@ -9,14 +9,14 @@ import xbmc
 class HRTiAPI:
     user_agent = "kodi plugin for hrti.hrt.hr (python)"
 
-    def __init__(self, username, password, deviceid):
+    def __init__(self, username, password):
         self.plugin = plugin
         self._auth = None
         self.logged_in = False
         self.__username = username
         self.__password = password
         self.__ip = self.get_ip()
-        self.device_id = deviceid
+        self.device_id = 'a8dc5ca6-8932-4932-88b6-6aee5d843624'
         xbmc.log("hrti init with IP: " + str(self.__ip), level=xbmc.LOGDEBUG)
 
     @staticmethod
