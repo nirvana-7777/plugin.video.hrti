@@ -31,7 +31,7 @@ class HRTiAPI:
         payload = {'username': self.__username, 'password': self.__password, 'OperatorReferenceId': 'hrt'}
         headers = {'Content-Type': 'application/json',
                    'DeviceId': 'a8dc5ca6-8932-4932-88b6-6aee5d843624',
-                   'DeviceTypeId': 6,
+                   'DeviceTypeId': '6',
                    'Host': 'hrti.hrt.hr',
                    'IPAddress': self.__ip,
                    'OperatorReferenceId': 'hrt',
