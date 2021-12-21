@@ -9,7 +9,7 @@ import sys
 from urllib.parse import urlencode, parse_qsl
 import xbmcgui
 import xbmcplugin
-from hrti_api3 import HRTiAPI
+from lib.hrti_api2 import HRTiAPI
 
 # Get the plugin url in plugin:// notation.
 _URL = sys.argv[0]

@@ -14,4 +14,11 @@ class HRTiAPI:
         self.logged_in = False
         self.__username = username
         self.__password = password
+        self.__ip = self.get_ip()
+        xbmc.log("hrti init with IP: " + str(self.__ip), level=xbmc.LOGDEBUG)
 
+    @staticmethod
+    def get_ip():
+        url = "https://hrti.hrt.hr/api/api/ott/getIPAddress"
+        r = requests.get(url)
+        return r.json()
