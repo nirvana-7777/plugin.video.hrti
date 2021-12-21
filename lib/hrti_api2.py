@@ -41,6 +41,7 @@ class HRTiAPI:
                    'Referer': 'https://hrti.hrt.hr/signin'}
         self._auth = None
         r = requests.post(url, data=payload, headers=headers)
+        xbmc.log("hrti status code: " + str(r.status_code), level=xbmc.LOGDEBUG)
         if r.status_code == 200:
             self._auth = r.json()
             self.logged_in = True
