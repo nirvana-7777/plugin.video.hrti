@@ -33,7 +33,7 @@ class HRTiAPI:
                    'DeviceId': 'a8dc5ca6-8932-4932-88b6-6aee5d843624',
                    'DeviceTypeId': '6',
                    'Host': 'hrti.hrt.hr',
-                   'IPAddress': self.__ip,
+                   'IPAddress': str(self.__ip),
                    'OperatorReferenceId': 'hrt',
                    'Origin': 'https://hrti.hrt.hr',
                    'Referer': 'https://hrti.hrt.hr/signin'}
