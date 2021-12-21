@@ -9,17 +9,10 @@ import sys
 from urllib.parse import urlencode, parse_qsl
 import xbmcgui
 import xbmcplugin
-import xbmcaddon
 from lib.hrti_api2 import HRTiAPI
 
 _HANDLE = int(sys.argv[1])
 _URL = sys.argv[0]
-
-plugin = Common(
-    addon=xbmcaddon.Addon(),
-    addon_handle=_HANDLE,
-    addon_url=_URL
-)
 
 username = xbmcplugin.getSetting(_HANDLE, "username")
 password = xbmcplugin.getSetting(_HANDLE, "password")
