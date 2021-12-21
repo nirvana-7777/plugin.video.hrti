@@ -3,6 +3,10 @@ import time
 import base64
 import json
 
+try:
+    import http.cookiejar
+except ImportError:
+    import cookielib
 import xbmc
 
 
