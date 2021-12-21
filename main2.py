@@ -9,16 +9,21 @@ import sys
 from urllib.parse import urlencode, parse_qsl
 import xbmcgui
 import xbmcplugin
+import xbmcaddon
 from lib.hrti_api2 import HRTiAPI
 
-# Get the plugin url in plugin:// notation.
-_URL = sys.argv[0]
-# Get the plugin handle as an integer number.
 _HANDLE = int(sys.argv[1])
+_URL = sys.argv[0]
+
+plugin = Common(
+    addon=xbmcaddon.Addon(),
+    addon_handle=_HANDLE,
+    addon_url=_URL
+)
 
 username = xbmcplugin.getSetting(_HANDLE, "username")
 password = xbmcplugin.getSetting(_HANDLE, "password")
-api = HRTiAPI(username, password)
+api = HRTiAPI(username, password, plugin)
 
 # Free sample videos are provided by www.vidsplay.com
 # Here we use a fixed set of properties simply for demonstrating purposes
