@@ -25,22 +25,22 @@ class HRTiAPI:
         r = requests.get(url)
         return r.json()
 
-#   def grant_access(self):
-#       url = "https://hrti.hrt.hr/api/api/ott/GrantAccess"
-#       payload = {'username': self.__username, 'password': self.__password, 'OperatorReferenceId': 'hrt'}
-#       headers = {'Content-Type': 'application/json',
-#                  'DeviceId': 'a8dc5ca6-8932-4932-88b6-6aee5d843624',
-#                  'DeviceTypeId': 6,
-#                  'Host': 'hrti.hrt.hr',
-#                  'IPAddress': self.__ip,
-#                  'OperatorReferenceId': 'hrt',
-#                  'Origin': 'https://hrti.hrt.hr',
-#                  'Referer': 'https://hrti.hrt.hr/signin'}
-#       self._auth = None
-#       r = requests.post(url, data=payload, headers=headers)
-#       if r.status_code == 200:
-#           self._auth = r.json()
-#           self.logged_in = True
-#           xbmc.log("hrti grant access: " + str(self._auth), level=xbmc.LOGDEBUG)
-#           self._auth["expires"] = time.time() + self._auth["expires_in"]
-#       return r.status_code
+    def grant_access(self):
+        url = "https://hrti.hrt.hr/api/api/ott/GrantAccess"
+        payload = {'username': self.__username, 'password': self.__password, 'OperatorReferenceId': 'hrt'}
+        headers = {'Content-Type': 'application/json',
+                   'DeviceId': 'a8dc5ca6-8932-4932-88b6-6aee5d843624',
+                   'DeviceTypeId': 6,
+                   'Host': 'hrti.hrt.hr',
+                   'IPAddress': self.__ip,
+                   'OperatorReferenceId': 'hrt',
+                   'Origin': 'https://hrti.hrt.hr',
+                   'Referer': 'https://hrti.hrt.hr/signin'}
+        self._auth = None
+        r = requests.post(url, data=payload, headers=headers)
+        if r.status_code == 200:
+            self._auth = r.json()
+            self.logged_in = True
+            xbmc.log("hrti grant access: " + str(self._auth), level=xbmc.LOGDEBUG)
+            self._auth["expires"] = time.time() + self._auth["expires_in"]
+        return r.status_code
