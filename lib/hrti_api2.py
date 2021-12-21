@@ -16,7 +16,7 @@ class HRTiAPI:
         self.__username = username
         self.__password = password
         self.__ip = self.get_ip()
-        self.device_id = 'a8dc5ca6-8932-4932-88b6-6aee5d843624'
+        self.__device_id = "a8dc5ca6-8932-4932-88b6-6aee5d843624"
         xbmc.log("hrti init with IP: " + str(self.__ip), level=xbmc.LOGDEBUG)
 
     @staticmethod
@@ -29,7 +29,7 @@ class HRTiAPI:
         url = "https://hrti.hrt.hr/api/api/ott/GrantAccess"
         payload = {'username': self.__username, 'password': self.__password, 'OperatorReferenceId': 'hrt'}
         headers = {'Content-Type': 'application/json',
-                   'DeviceId': '',
+                   'DeviceId': self.__device_id,
                    'DeviceTypeId': 6,
                    'Host': 'hrti.hrt.hr',
                    'IPAddress': self.__ip,
