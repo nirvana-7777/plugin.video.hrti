@@ -64,7 +64,8 @@ class HRTiAPI:
             self.logged_in = True
             # result = r.get('Result')
             # token = result.get()
-            print(json.dumps(r))
+            parsed_json = (json.loads(r.json()))
+            print(json.dumps(parsed_json, indent=4, sort_keys=True))
             # xbmc.log("hrti grant access: " + str(r.json()), level=xbmc.LOGDEBUG)
             # self._auth["expires"] = time.time() + self._auth["expires_in"]
         return r.status_code
