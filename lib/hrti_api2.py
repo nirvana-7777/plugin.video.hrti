@@ -24,6 +24,7 @@ class HRTiAPI:
         xbmc.log("hrti init with IP: " + str(self.__ip), level=xbmc.LOGDEBUG)
         xbmc.log("hrti init with User: " + username, level=xbmc.LOGDEBUG)
         xbmc.log("hrti init with PW: " + password, level=xbmc.LOGDEBUG)
+        xbmc.log("hrti init with IP: " + str(self.cookie), level=xbmc.LOGDEBUG)
         self.grant_access()
 
     @staticmethod
