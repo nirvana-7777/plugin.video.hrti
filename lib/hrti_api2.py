@@ -30,6 +30,7 @@ class HRTiAPI:
     def get_ip():
         url = "https://hrti.hrt.hr/api/api/ott/getIPAddress"
         r = requests.get(url)
+        print(r.cookies)
         return r.json()
 
     def grant_access(self):
