@@ -45,6 +45,7 @@ class HRTiAPI:
                    'Host': 'hrti.hrt.hr',
                    'IPAddress': str(self.__ip),
                    'OperatorReferenceId': 'hrt',
+                   'sec-ch-ua-mobile': '?0',
                    'Origin': 'https://hrti.hrt.hr',
                    'Referer': 'https://hrti.hrt.hr/signin',
                    'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
