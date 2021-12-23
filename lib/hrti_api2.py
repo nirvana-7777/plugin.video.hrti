@@ -34,9 +34,11 @@ class HRTiAPI:
 
     def grant_access(self):
         url = "https://hrti.hrt.hr/api/api/ott/GrantAccess"
-        payload = {'username': self.__username, 'password': self.__password, 'OperatorReferenceId': 'hrt'}
+        payload = {'Username': self.__username, 'Password': self.__password, 'OperatorReferenceId': 'hrt'}
         headers = {'Authorization': 'Client lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8kmqwKNSUc8Gw',
                    'Content-Type': 'application/json',
+                   'Accept': 'application/json, text/plain, */*',
+                   'Connection': 'keep-alive',
                    'DeviceId': 'a8dc5ca6-8932-4932-88b6-6aee5d843624',
                    'DeviceTypeId': '6',
                    'Host': 'hrti.hrt.hr',
@@ -44,6 +46,9 @@ class HRTiAPI:
                    'OperatorReferenceId': 'hrt',
                    'Origin': 'https://hrti.hrt.hr',
                    'Referer': 'https://hrti.hrt.hr/signin',
+                   'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
+                   'sec-ch-ua-platform': '"Linux"',
+                   'Cookie': 'G_ENABLED_IDPS=google; __gfp_64b=dvp3hBZb2fPYy3qzSZtVq.Ry9tKP.Qk5fq.vGYYpDin.27|1638888286; g_state={"i_p":1640256389790,"i_l":3,"i_t":1640340704876}; ',
                    'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'}
         self._auth = None
         r = requests.post(url, data=payload, headers=headers)
