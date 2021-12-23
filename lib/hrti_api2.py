@@ -39,6 +39,7 @@ class HRTiAPI:
                    'Content-Type': 'application/json',
                    'Accept': 'application/json, text/plain, */*',
                    'Connection': 'keep-alive',
+                   'content-length': '88',
                    'DeviceId': 'a8dc5ca6-8932-4932-88b6-6aee5d843624',
                    'DeviceTypeId': '6',
                    'Host': 'hrti.hrt.hr',
@@ -48,6 +49,11 @@ class HRTiAPI:
                    'Referer': 'https://hrti.hrt.hr/signin',
                    'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
                    'sec-ch-ua-platform': '"Linux"',
+                   'accept-encoding': 'gzip, deflate, br',
+                   'accept-language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
+                   'sec-fetch-site': 'same-origin',
+                   'sec-fetch-mode': 'cors',
+                   'sec - fetch - dest': 'empty',
                    'Cookie': 'G_ENABLED_IDPS=google; __gfp_64b=dvp3hBZb2fPYy3qzSZtVq.Ry9tKP.Qk5fq.vGYYpDin.27|1638888286; g_state={"i_p":1640256389790,"i_l":3,"i_t":1640340704876}; ',
                    'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'}
         self._auth = None
