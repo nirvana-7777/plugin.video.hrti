@@ -20,7 +20,7 @@ class HRTiAPI:
         self.__username = username
         self.__password = password
         self.__ip = self.get_ip(self)
-        self.__session = requests.session()
+        self.__session = requests.Session
         # self.__device_id = "a8dc5ca6-8932-4932-88b6-6aee5d843624"
         xbmc.log("hrti init with IP: " + str(self.__ip), level=xbmc.LOGDEBUG)
         xbmc.log("hrti init with User: " + username, level=xbmc.LOGDEBUG)
