@@ -47,7 +47,7 @@ class HRTiAPI:
                 cookie_header = cookie.name+"="+cookie.value
         print(cookie_header)
         url = "https://hrti.hrt.hr/api/api/ott/GrantAccess"
-        payload = {'Username': self.__username, 'Password': self.__password, 'OperatorReferenceId': 'hrt'}
+        payload = {"Username": self.__username, "Password": self.__password, "OperatorReferenceId": "hrt"}
         xbmc.log("hrti payload: " + str(payload), level=xbmc.LOGDEBUG)
         headers = {'Authorization': 'Client lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8kmqwKNSUc8Gw',
                    'Content-Type': 'application/json',
