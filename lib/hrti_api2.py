@@ -12,7 +12,7 @@ import xbmc
 
 class HRTiAPI:
     user_agent = "kodi plugin for hrti.hrt.hr (python)"
-    session = requests.Session
+    session = requests.Session()
 
     def __init__(self, username, password):
         #        self.plugin = plugin
