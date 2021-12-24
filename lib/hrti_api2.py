@@ -31,7 +31,7 @@ class HRTiAPI:
     @staticmethod
     def get_ip(self):
         url = "https://hrti.hrt.hr/api/api/ott/getIPAddress"
-        r = self.session.get(url)
+        r = self.__session.get(url)
         # r = requests.get(url)
         # self.cookie = r.cookies
         return r.json()
@@ -65,7 +65,7 @@ class HRTiAPI:
                    'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'}
         self._auth = None
         # r = requests.post(url, json=payload, headers=headers, cookies=self.cookie)
-        r = self.session.post(url, json=payload, headers=headers)
+        r = self.__session.post(url, json=payload, headers=headers)
         xbmc.log("hrti status code: " + str(r.status_code), level=xbmc.LOGDEBUG)
         if r.status_code == 200:
             # self._auth = r.json()
