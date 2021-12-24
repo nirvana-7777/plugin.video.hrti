@@ -12,6 +12,7 @@ import xbmc
 
 class HRTiAPI:
     user_agent = "kodi plugin for hrti.hrt.hr (python)"
+    session = requests.Session
 
     def __init__(self, username, password):
         #        self.plugin = plugin
@@ -20,18 +21,17 @@ class HRTiAPI:
         self.__username = username
         self.__password = password
         self.__ip = self.get_ip(self)
-        self.__session = requests.Session
         # self.__device_id = "a8dc5ca6-8932-4932-88b6-6aee5d843624"
         xbmc.log("hrti init with IP: " + str(self.__ip), level=xbmc.LOGDEBUG)
         xbmc.log("hrti init with User: " + username, level=xbmc.LOGDEBUG)
         xbmc.log("hrti init with PW: " + password, level=xbmc.LOGDEBUG)
-        xbmc.log("hrti init with Cookie: " + str(self.__session.cookies), level=xbmc.LOGDEBUG)
+        xbmc.log("hrti init with Cookie: " + str(self.session.cookies), level=xbmc.LOGDEBUG)
         self.grant_access()
 
     @staticmethod
     def get_ip(self):
         url = "https://hrti.hrt.hr/api/api/ott/getIPAddress"
-        r = self.__session.get(url)
+        r = self.session.get(url)
         # r = requests.get(url)
         # self.cookie = r.cookies
         return r.json()
@@ -65,7 +65,7 @@ class HRTiAPI:
                    'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'}
         self._auth = None
         # r = requests.post(url, json=payload, headers=headers, cookies=self.cookie)
-        r = self.__session.post(url, json=payload, headers=headers)
+        r = self.session.post(url, json=payload, headers=headers)
         xbmc.log("hrti status code: " + str(r.status_code), level=xbmc.LOGDEBUG)
         if r.status_code == 200:
             # self._auth = r.json()
