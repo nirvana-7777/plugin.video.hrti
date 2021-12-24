@@ -37,6 +37,11 @@ class HRTiAPI:
         return r.json()
 
     def grant_access(self):
+        for cookie in self.session.cookies:
+            print('cookie domain = ' + cookie.domain)
+            print('cookie name = ' + cookie.name)
+            print('cookie value = ' + cookie.value)
+            print('*************************************')
         url = "https://hrti.hrt.hr/api/api/ott/GrantAccess"
         payload = {'Username': self.__username, 'Password': self.__password, 'OperatorReferenceId': 'hrt'}
         xbmc.log("hrti payload: " + str(payload), level=xbmc.LOGDEBUG)
