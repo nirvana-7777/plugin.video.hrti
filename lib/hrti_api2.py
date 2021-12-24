@@ -43,9 +43,9 @@ class HRTiAPI:
             print('cookie name = ' + cookie.name)
             print('cookie value = ' + cookie.value)
             print('*************************************')
-            if cookie.domain == ".hrti.hrt.hr"
+            if cookie.domain == '.hrti.hrt.hr':
                 cookie_header = cookie.name+"="+cookie.value
-                print(cookie_header)
+        print(cookie_header)
         url = "https://hrti.hrt.hr/api/api/ott/GrantAccess"
         payload = {'Username': self.__username, 'Password': self.__password, 'OperatorReferenceId': 'hrt'}
         xbmc.log("hrti payload: " + str(payload), level=xbmc.LOGDEBUG)
