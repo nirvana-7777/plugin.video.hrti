@@ -75,7 +75,7 @@ class HRTiAPI:
         self._auth = None
         # r = requests.post(url, json=payload, headers=headers, cookies=self.cookie)
         print(headers)
-        print(payload)
+        print(json.dumps(payload))
         print(url)
         r = self.session.post(url, data=payload, headers=headers)
         xbmc.log("hrti status code: " + str(r.status_code), level=xbmc.LOGDEBUG)
