@@ -49,12 +49,12 @@ class HRTiAPI:
         url = "https://hrti.hrt.hr/api/api/ott/GrantAccess"
         payload = {"Username": self.__username, "Password": self.__password, "OperatorReferenceId": "hrt"}
         xbmc.log("hrti payload: " + str(payload), level=xbmc.LOGDEBUG)
-        headers = {'Authorization': 'Client lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8kmqwKNSUc8Gw',
-                   'Content-Type': 'application/json',
-                   'Accept': 'application/json, text/plain, */*',
+        headers = {'content-type': 'application/json',
+                   'accept': 'application/json, text/plain, */*',
+                   'authorization': 'Client lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8kmqwKNSUc8Gw',
                    'Connection': 'keep-alive',
                    'content-length': '88',
-                   'DeviceId': 'a8dc5ca6-8932-4932-88b6-6aee5d843624',
+                   'deviceid': 'a8dc5ca6-8932-4932-88b6-6aee5d843624',
                    'DeviceTypeId': '6',
                    'Host': 'hrti.hrt.hr',
                    'IPAddress': str(self.__ip),
@@ -66,6 +66,7 @@ class HRTiAPI:
                    'sec-ch-ua-platform': '"Linux"',
                    'accept-encoding': 'gzip, deflate, br',
                    'accept-language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
+                   'User-Agent': user_agent,
                    # 'sec-fetch-site': 'same-origin',
                    # 'sec-fetch-mode': 'cors',
                    # 'sec - fetch - dest': 'empty',
