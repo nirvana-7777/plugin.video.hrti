@@ -66,7 +66,7 @@ class HRTiAPI:
                    'sec-ch-ua-platform': '"Linux"',
                    'accept-encoding': 'gzip, deflate, br',
                    'accept-language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
-                   'User-Agent': user_agent,
+                   'User-Agent': self.user_agent,
                    # 'sec-fetch-site': 'same-origin',
                    # 'sec-fetch-mode': 'cors',
                    # 'sec - fetch - dest': 'empty',
