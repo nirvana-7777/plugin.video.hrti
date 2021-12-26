@@ -12,6 +12,7 @@ import xbmc
 
 class HRTiAPI:
     user_agent = "kodi plugin for hrti.hrt.hr (python)"
+    baseUrl = "https://hrti.hrt.hr"
     session = requests.Session()
 
     def __init__(self, username, password):
@@ -30,10 +31,12 @@ class HRTiAPI:
 
     @staticmethod
     def get_ip(self):
-        url = "https://hrti.hrt.hr/api/api/ott/getIPAddress"
+        url = self.baseUrl+"/api/api/ott/getIPAddress"
         r = self.session.get(url)
         # r = requests.get(url)
         # self.cookie = r.cookies
+        print(r.headers)
+        print(r.json())
         return r.json()
 
     def grant_access(self):
