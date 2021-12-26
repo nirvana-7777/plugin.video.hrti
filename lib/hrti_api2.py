@@ -53,13 +53,13 @@ class HRTiAPI:
         payload = {"Username": self.__username, "Password": self.__password, "OperatorReferenceId": "hrt"}
         xbmc.log("hrti payload: " + str(payload), level=xbmc.LOGDEBUG)
         headers = {'content-type': 'application/json',
-                   # 'accept': 'application/json, text/plain, */*',
+                   'accept': 'application/json, text/plain, */*',
                    # 'authorization': 'Client lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8kmqwKNSUc8Gw',
                    # 'Connection': 'keep-alive',
-                   # 'content-length': '88',
+                   'content-length': '107',
                    # 'deviceid': 'a8dc5ca6-8932-4932-88b6-6aee5d843624',
                    # 'DeviceTypeId': '6',
-                   # 'Host': 'hrti.hrt.hr',
+                   'Host': 'hrti.hrt.hr',
                    'IPAddress': str(self.__ip),
                    'OperatorReferenceId': 'hrt',
                    # 'sec-ch-ua-mobile': '?0',
@@ -69,7 +69,7 @@ class HRTiAPI:
                    # 'sec-ch-ua-platform': '"Linux"',
                    # 'accept-encoding': 'gzip, deflate, br',
                    # 'accept-language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
-                   # 'User-Agent': self.user_agent,
+                   'User-Agent': self.user_agent,
                    # 'sec-fetch-site': 'same-origin',
                    # 'sec-fetch-mode': 'cors',
                    # 'sec - fetch - dest': 'empty',
@@ -81,14 +81,14 @@ class HRTiAPI:
         print(json.dumps(headers))
         print(json.dumps(payload))
         print(url)
-        self.session.headers.update({'user-agent': self.user_agent})
-        self.session.headers.update({'content-type': 'application/json'})
-        self.session.headers.update({'content-length': '107'})
-        self.session.headers.update({'deviceid': 'a8dc5ca6-8932-4932-88b6-6aee5d843624'})
-        self.session.headers.update({'host': 'hrti.hrt.hr'})
-        self.session.headers.update({'cookie': cookie_header})
-        print(self.session.headers)
-        r = self.session.post(url, json=json.dumps(payload), verify=False)
+        # self.session.headers.update({'user-agent': self.user_agent})
+        # self.session.headers.update({'content-type': 'application/json'})
+        # self.session.headers.update({'content-length': '107'})
+        # self.session.headers.update({'deviceid': 'a8dc5ca6-8932-4932-88b6-6aee5d843624'})
+        # self.session.headers.update({'host': 'hrti.hrt.hr'})
+        # self.session.headers.update({'cookie': cookie_header})
+        # print(self.session.headers)
+        r = self.session.post(url, json=json.dumps(payload), headers=headers)
         xbmc.log("hrti status code: " + str(r.status_code), level=xbmc.LOGDEBUG)
         if r.status_code == 200:
             # self._auth = r.json()
