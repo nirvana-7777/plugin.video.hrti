@@ -80,6 +80,7 @@ class HRTiAPI:
         print(url)
         self.session.headers.update({'user-agent': self.user_agent})
         self.session.headers.update({'content-type': 'application/json'})
+        self.session.headers.update({'content-length': '88'})
         self.session.headers.update({'host': 'hrti.hrt.hr'})
         r = self.session.post(url, json=json.dumps(payload))
         xbmc.log("hrti status code: " + str(r.status_code), level=xbmc.LOGDEBUG)
