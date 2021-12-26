@@ -119,8 +119,10 @@ class HRTiAPI:
             self.logged_in = True
             # result = r.get('Result')
             # token = result.get()
-            json_data = json.loads(response.text)
-            print(json_data)
+            print(response.json().get("Customer"))
+            print(response.json().get("Token"))
+            print(response.json().get("ValidFrom"))
+            print(response.json().get("ValidTo"))
             # print(json.dumps(parsed_json, indent=4, sort_keys=True))
             print(response.json())
             # xbmc.log("hrti grant access: " + str(r.json()), level=xbmc.LOGDEBUG)
