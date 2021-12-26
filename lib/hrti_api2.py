@@ -78,7 +78,10 @@ class HRTiAPI:
         print(json.dumps(headers))
         print(json.dumps(payload))
         print(url)
-        r = self.session.post(url, json=json.dumps(payload), headers=headers)
+        self.session.headers.update({'user-agent': self.user_agent})
+        self.session.headers.update({'content-type': 'application/json'})
+        self.session.headers.update({'host': 'hrti.hrt.hr'})
+        r = self.session.post(url, json=json.dumps(payload))
         xbmc.log("hrti status code: " + str(r.status_code), level=xbmc.LOGDEBUG)
         if r.status_code == 200:
             # self._auth = r.json()
