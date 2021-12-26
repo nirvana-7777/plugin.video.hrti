@@ -83,7 +83,7 @@ class HRTiAPI:
         print(url)
         self.session.headers.update({'user-agent': self.user_agent})
         self.session.headers.update({'content-type': 'application/json'})
-        self.session.headers.update({'content-length': '88'})
+        self.session.headers.update({'content-length': '107'})
         self.session.headers.update({'deviceid': 'a8dc5ca6-8932-4932-88b6-6aee5d843624'})
         self.session.headers.update({'host': 'hrti.hrt.hr'})
         self.session.headers.update({'cookie': cookie_header})
