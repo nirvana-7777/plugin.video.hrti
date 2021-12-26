@@ -85,7 +85,7 @@ class HRTiAPI:
         self.session.headers.update({'host': 'hrti.hrt.hr'})
         self.session.headers.update({'cookie': cookie_header})
         print(self.session.headers)
-        r = self.session.post(url, json=json.dumps(payload))
+        r = self.session.post(url, json=json.dumps(payload), verify=False)
         xbmc.log("hrti status code: " + str(r.status_code), level=xbmc.LOGDEBUG)
         if r.status_code == 200:
             # self._auth = r.json()
