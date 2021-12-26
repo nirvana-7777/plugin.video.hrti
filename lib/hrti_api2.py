@@ -98,19 +98,19 @@ class HRTiAPI:
         url = "https://hrti.hrt.hr/api/api/ott/GrantAccess"
 
         payload = json.dumps({
-            "Username": "S.Zechlin@gmx.de",
-            "Password": "PAan8!ch87Tkx3B",
+            "Username": self.__username,
+            "Password": self.__password,
             "OperatorReferenceId": "hrt"
         })
         headers = {
             'content-type': 'application/json',
-            'Cookie': 'TS0177c9b9=014e882881682ea562d7d2885f9d00d99df1ce26e26ca771c2a2738c44f00c3ce3aeacae6e27ba2ef23c5c8f99180e888bd48f0e3a'
+            'Cookie': cookie_header
         }
 
         response = requests.request("POST", url, headers=headers, data=payload)
 
         print(response.text)
-        xbmc.log("hrti status code: " + str(r.status_code), level=xbmc.LOGDEBUG)
+        xbmc.log("hrti status code: " + str(response.status_code), level=xbmc.LOGDEBUG)
         if r.status_code == 200:
             # self._auth = r.json()
             self.logged_in = True
