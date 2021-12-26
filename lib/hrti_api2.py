@@ -104,6 +104,9 @@ class HRTiAPI:
         })
         headers = {
             'content-type': 'application/json',
+            'User-Agent': self.user_agent,
+            'IPAddress': str(self.__ip),
+            'OperatorReferenceId': 'hrt',
             'Cookie': cookie_header
         }
 
@@ -120,6 +123,6 @@ class HRTiAPI:
             # print(json.dumps(parsed_json, indent=4, sort_keys=True))
             print(response.json())
             # xbmc.log("hrti grant access: " + str(r.json()), level=xbmc.LOGDEBUG)
-            xbmc.log("hrti grant access: " + r.text, level=xbmc.LOGDEBUG)
+            xbmc.log("hrti grant access: " + response.text, level=xbmc.LOGDEBUG)
             # self._auth["expires"] = time.time() + self._auth["expires_in"]
-        return r.status_code
+        return response.status_code
