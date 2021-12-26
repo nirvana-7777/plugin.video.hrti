@@ -95,7 +95,7 @@ class HRTiAPI:
         # self.session.headers.update({'cookie': cookie_header})
         # print(self.session.headers)
         #r = self.session.post(url, json=json.dumps(payload), headers=headers)
-        url = "https://hrti.hrt.hr/api/api/ott/GrantAccess"
+        url = self.baseUrl+"/api/api/ott/GrantAccess"
 
         payload = json.dumps({
             "Username": self.__username,
@@ -107,17 +107,18 @@ class HRTiAPI:
             'Cookie': cookie_header
         }
 
-        response = requests.request("POST", url, headers=headers, data=payload)
+        response = self.session.post(url, headers=headers, data=payload)
 
         print(response.text)
         xbmc.log("hrti status code: " + str(response.status_code), level=xbmc.LOGDEBUG)
-        if r.status_code == 200:
+        if response.status_code == 200:
             # self._auth = r.json()
             self.logged_in = True
             # result = r.get('Result')
             # token = result.get()
             # json_data = json.loads(r.text)
             # print(json.dumps(parsed_json, indent=4, sort_keys=True))
+            print(response.json())
             # xbmc.log("hrti grant access: " + str(r.json()), level=xbmc.LOGDEBUG)
             xbmc.log("hrti grant access: " + r.text, level=xbmc.LOGDEBUG)
             # self._auth["expires"] = time.time() + self._auth["expires_in"]
