@@ -119,7 +119,7 @@ class HRTiAPI:
             self.logged_in = True
             # result = r.get('Result')
             # token = result.get()
-            result = response.json().get("Result")
+            result = json.loads(response.json().get("Result"))
             print(result)
             print(result.json().get("Customer"))
             print(result.json().get("Token"))
