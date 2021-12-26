@@ -50,32 +50,38 @@ class HRTiAPI:
                 cookie_header = cookie.name+"="+cookie.value
         print(cookie_header)
         url = "https://hrti.hrt.hr/api/api/ott/GrantAccess"
-        payload = {"Username": self.__username, "Password": self.__password, "OperatorReferenceId": "hrt"}
+        payload = {
+            "Username": self.__username,
+            "Password": self.__password,
+            "OperatorReferenceId": "hrt"
+        }
         xbmc.log("hrti payload: " + str(payload), level=xbmc.LOGDEBUG)
-        headers = {'content-type': 'application/json',
-                   'accept': 'application/json, text/plain, */*',
-                   # 'authorization': 'Client lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8kmqwKNSUc8Gw',
-                   # 'Connection': 'keep-alive',
-                   'content-length': '107',
-                   # 'deviceid': 'a8dc5ca6-8932-4932-88b6-6aee5d843624',
-                   # 'DeviceTypeId': '6',
-                   'Host': 'hrti.hrt.hr',
-                   'IPAddress': str(self.__ip),
-                   'OperatorReferenceId': 'hrt',
-                   # 'sec-ch-ua-mobile': '?0',
-                   # 'Origin': 'https://hrti.hrt.hr',
-                   # 'Referer': 'https://hrti.hrt.hr/signin',
-                   # 'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
-                   # 'sec-ch-ua-platform': '"Linux"',
-                   # 'accept-encoding': 'gzip, deflate, br',
-                   # 'accept-language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
-                   'User-Agent': self.user_agent,
-                   # 'sec-fetch-site': 'same-origin',
-                   # 'sec-fetch-mode': 'cors',
-                   # 'sec - fetch - dest': 'empty',
-                   'Cookie': cookie_header}
-                   # 'Cookie': 'G_ENABLED_IDPS=google; __gfp_64b=dvp3hBZb2fPYy3qzSZtVq.Ry9tKP.Qk5fq.vGYYpDin.27|1638888286; g_state={"i_p":1640256389790,"i_l":3,"i_t":1640340704876}; ',
-                   # 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'}
+        headers = {
+            'content-type': 'application/json',
+            'accept': 'application/json, text/plain, */*',
+            # 'authorization': 'Client lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8kmqwKNSUc8Gw',
+            # 'Connection': 'keep-alive',
+            'content-length': '107',
+            # 'deviceid': 'a8dc5ca6-8932-4932-88b6-6aee5d843624',
+            # 'DeviceTypeId': '6',
+            'Host': 'hrti.hrt.hr',
+            'IPAddress': str(self.__ip),
+            'OperatorReferenceId': 'hrt',
+            # 'sec-ch-ua-mobile': '?0',
+            # 'Origin': 'https://hrti.hrt.hr',
+            # 'Referer': 'https://hrti.hrt.hr/signin',
+            # 'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
+            # 'sec-ch-ua-platform': '"Linux"',
+            # 'accept-encoding': 'gzip, deflate, br',
+            # 'accept-language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
+            'User-Agent': self.user_agent,
+            # 'sec-fetch-site': 'same-origin',
+            # 'sec-fetch-mode': 'cors',
+            # 'sec - fetch - dest': 'empty',
+            'Cookie': cookie_header
+            # 'Cookie': 'G_ENABLED_IDPS=google; __gfp_64b=dvp3hBZb2fPYy3qzSZtVq.Ry9tKP.Qk5fq.vGYYpDin.27|1638888286; g_state={"i_p":1640256389790,"i_l":3,"i_t":1640340704876}; ',
+            # 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'
+        }
         self._auth = None
         # r = requests.post(url, json=payload, headers=headers, cookies=self.cookie)
         print(json.dumps(headers))
