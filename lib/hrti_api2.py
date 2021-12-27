@@ -122,7 +122,11 @@ class HRTiAPI:
             result = response.json().get("Result")
             print(result)
             token = result['Token']
+            validfrom = result['ValidFrom']
+            validto = result['ValidTo']
             print(token)
+            print(validfrom)
+            print(validto)
             # print(result.json().get("ValidFrom"))
             # print(result.json().get("ValidTo"))
             # print(json.dumps(parsed_json, indent=4, sort_keys=True))
