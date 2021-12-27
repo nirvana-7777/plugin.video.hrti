@@ -12,7 +12,8 @@ import xbmc
 
 class HRTiAPI:
     user_agent = "kodi plugin for hrti.hrt.hr (python)"
-    baseUrl = "https://hrti.hrt.hr"
+    hrtiBaseUrl = "https://hrti.hrt.hr"
+    hsapiBaseUrl = "https://hsapi.aviion.tv"
     session = requests.Session()
 
     def __init__(self, username, password):
@@ -22,6 +23,7 @@ class HRTiAPI:
         self.__username = username
         self.__password = password
         self.__ip = self.get_ip(self)
+        self.__token = None
         # self.__device_id = "a8dc5ca6-8932-4932-88b6-6aee5d843624"
         xbmc.log("hrti init with IP: " + str(self.__ip), level=xbmc.LOGDEBUG)
         xbmc.log("hrti init with User: " + username, level=xbmc.LOGDEBUG)
@@ -31,7 +33,7 @@ class HRTiAPI:
 
     @staticmethod
     def get_ip(self):
-        url = self.baseUrl+"/api/api/ott/getIPAddress"
+        url = self.hrtiBaseUrl+"/api/api/ott/getIPAddress"
         r = self.session.get(url)
         # r = requests.get(url)
         # self.cookie = r.cookies
@@ -94,8 +96,8 @@ class HRTiAPI:
         # self.session.headers.update({'host': 'hrti.hrt.hr'})
         # self.session.headers.update({'cookie': cookie_header})
         # print(self.session.headers)
-        #r = self.session.post(url, json=json.dumps(payload), headers=headers)
-        url = self.baseUrl+"/api/api/ott/GrantAccess"
+        # r = self.session.post(url, json=json.dumps(payload), headers=headers)
+        url = self.hrtiBaseUrl+"/api/api/ott/GrantAccess"
 
         payload = json.dumps({
             "Username": self.__username,
@@ -121,12 +123,12 @@ class HRTiAPI:
             # token = result.get()
             result = response.json().get("Result")
             print(result)
-            token = result['Token']
+            self.__token = result['Token']
             validfrom = result['ValidFrom']
             validto = result['ValidTo']
             customerid = result['Customer']['CustomerId']
             email = result['Customer']['Email']
-            print(token)
+            print(self.__token)
             print(validfrom)
             print(validto)
             print(customerid)
@@ -138,4 +140,44 @@ class HRTiAPI:
             # xbmc.log("hrti grant access: " + str(r.json()), level=xbmc.LOGDEBUG)
             xbmc.log("hrti grant access: " + response.text, level=xbmc.LOGDEBUG)
             # self._auth["expires"] = time.time() + self._auth["expires_in"]
+        return response.status_code
+
+    def register_device(self):
+
+        url = self.hsapiBaseUrl+"/client.svc/json/RegisterDevice"
+
+        payload = json.dumps({
+            "DeviceSerial": "a8dc5ca6-8932-4932-88b6-6aee5d843624",
+            "DeviceReferenceId": "6",
+            "IpAddress": str(self.__ip),
+            "ConnectionType": "LAN/WiFi",
+            "ApplicationVersion": "5.62.5",
+            "DrmId": "a8dc5ca6-8932-4932-88b6-6aee5d843624",
+            "OsVersion": "Linux",
+            "ClientType": "Chrome 96"
+        })
+
+        headers = {
+            'host': 'hsapi.aviion.tv',
+            'connection': 'keep-alive',
+            'content-length': '257',
+            'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
+            'accept': 'application/json, text/plain, */*',
+            'content-type': 'application/json',
+            'authorization': 'Client '+self.__token,
+            'sec-ch-ua-mobile': '?0',
+            'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36',
+            'sec-ch-ua-platform': '"Linux"',
+            'origin': 'https://hrti.hrt.hr',
+            'sec-fetch-site': 'cross-site',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-dest': 'empty',
+            'referer': 'https://hrti.hrt.hr/',
+            'accept-encoding': 'gzip, deflate, br',
+            'accept-language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
+        }
+
+        response = self.session.post(url, headers=headers, data=payload)
+
+        print(response.text)
         return response.status_code
