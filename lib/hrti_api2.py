@@ -184,3 +184,36 @@ class HRTiAPI:
         print(response.headers.get('content-type'))
         print(response.text)
         return response.status_code
+
+    def get_content_rating(self):
+
+        url = self.hsapiBaseUrl + "/client.svc/json/ContentRatingsGet"
+
+        payload = json.dumps({})
+
+        headers = {
+            'host': 'hsapi.aviion.tv',
+            'connection': 'keep-alive',
+            'content-length': '2',
+            'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
+            'accept': 'application/json, text/plain, */*',
+            'content-type': 'application/json',
+            'authorization': 'Client '+self.__token,
+            'sec-ch-ua-mobile': '?0',
+            'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36',
+            'sec-ch-ua-platform': '"Linux"',
+            'origin': 'https://hrti.hrt.hr',
+            'sec-fetch-site': 'cross-site',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-dest': 'empty',
+            'referer': 'https://hrti.hrt.hr/',
+            'accept-encoding': 'gzip, deflate, br',
+            'accept-language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
+            'x-postman-captr': '4178146'
+        }
+
+        response = self.session.post(url, headers=headers, data=payload)
+
+        print(response.headers.get('content-type'))
+        print(response.text)
+        return response.status_code
