@@ -124,9 +124,13 @@ class HRTiAPI:
             token = result['Token']
             validfrom = result['ValidFrom']
             validto = result['ValidTo']
+            customerid = result['Customer']['CustomerId']
+            email = result['Customer']['Email']
             print(token)
             print(validfrom)
             print(validto)
+            print(customerid)
+            print(email)
             # print(result.json().get("ValidFrom"))
             # print(result.json().get("ValidTo"))
             # print(json.dumps(parsed_json, indent=4, sort_keys=True))
