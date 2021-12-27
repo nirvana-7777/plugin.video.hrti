@@ -30,6 +30,7 @@ class HRTiAPI:
         xbmc.log("hrti init with PW: " + password, level=xbmc.LOGDEBUG)
         xbmc.log("hrti init with Cookie: " + str(self.session.cookies), level=xbmc.LOGDEBUG)
         self.grant_access()
+        self.register_device()
 
     @staticmethod
     def get_ip(self):
