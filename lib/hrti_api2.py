@@ -118,6 +118,7 @@ class HRTiAPI:
         print(response.text)
         xbmc.log("hrti status code: " + str(response.status_code), level=xbmc.LOGDEBUG)
         if response.status_code == 200:
+            print(response.headers.get('content-type'))
             # self._auth = r.json()
             self.logged_in = True
             # result = r.get('Result')
@@ -180,5 +181,6 @@ class HRTiAPI:
 
         response = self.session.post(url, headers=headers, data=payload)
 
+        print(response.headers.get('content-type'))
         print(response.text)
         return response.status_code
