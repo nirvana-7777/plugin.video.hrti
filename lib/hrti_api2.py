@@ -148,7 +148,7 @@ class HRTiAPI:
         url = self.hsapiBaseUrl+"/client.svc/json/RegisterDevice"
 
         payload = json.dumps({
-            "DeviceSerial": "a8dc5ca6-8932-4932-88b6-6aee5d843624",
+            "DeviceSerial": "b6a50484-93a0-4afb-a01c-8d17e059feda",
             "DeviceReferenceId": "6",
             "IpAddress": str(self.__ip),
             "ConnectionType": "LAN/WiFi",
