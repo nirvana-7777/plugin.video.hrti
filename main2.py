@@ -18,6 +18,7 @@ username = xbmcplugin.getSetting(_HANDLE, "username")
 password = xbmcplugin.getSetting(_HANDLE, "password")
 api = HRTiAPI(username, password)
 
+CATEGORIES = ['TV Channels', 'Radio Channels']
 # Free sample videos are provided by www.vidsplay.com
 # Here we use a fixed set of properties simply for demonstrating purposes
 # In a "real life" plugin you will need to get info and links to video files/streams
@@ -84,7 +85,7 @@ def get_categories():
     :return: The list of video categories
     :rtype: types.GeneratorType
     """
-    return VIDEOS.keys()
+    return CATEGORIES
 
 
 def get_videos(category):
