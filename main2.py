@@ -115,6 +115,7 @@ def list_categories():
     xbmcplugin.setContent(_HANDLE, 'videos')
     # Get video categories
     categories = get_categories()
+    print(categories)
     # Iterate through categories
     for category in categories:
         # Create a list item with a text label and a thumbnail image.
