@@ -103,6 +103,15 @@ def get_videos(category):
     return VIDEOS[category]
 
 
+def get_channels(category):
+    channels = api.get_channels()
+    print(channels)
+    if category == 'TV Channels':
+        print(1)
+    if category == 'Radio Channels':
+        print(2)
+    return None
+
 def list_categories():
     """
     Create the list of video categories in the Kodi interface.
@@ -163,7 +172,8 @@ def list_videos(category):
     # for this type of content.
     xbmcplugin.setContent(_HANDLE, 'videos')
     # Get the list of videos in the category.
-    videos = get_videos(category)
+    # videos = get_videos(category)
+    videos = get_channels(category)
     # Iterate through videos.
     for video in videos:
         # Create a list item with a text label and a thumbnail image.

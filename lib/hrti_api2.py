@@ -33,7 +33,6 @@ class HRTiAPI:
         self.register_device()
         self.get_content_rating()
         self.get_profiles()
-        self.get_channels()
 
     @staticmethod
     def get_ip(self):
@@ -291,4 +290,5 @@ class HRTiAPI:
 
         print(response.headers.get('content-type'))
         print(response.text)
-        return response.status_code
+        result = response.json().get("Result")
+        return result
