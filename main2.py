@@ -106,6 +106,8 @@ def get_videos(category):
 def get_channels(category):
     channels = api.get_channels()
     print(channels)
+    for data in channels:
+        print(data['Name'])
     if category == 'TV Channels':
         print(1)
     if category == 'Radio Channels':
