@@ -191,11 +191,20 @@ def list_videos(category):
         # Set additional info for the list item.
         # 'mediatype' is needed for skin to display info for this ListItem correctly.
             if channel['Radio']:
-                metadata = {'title': 'test', 'mediatype': 'audio'}
+                metadata = {'mediatype': 'audio'}
                 list_item.setInfo('music', metadata)
             else:
-                metadata = {'title': 'test', 'mediatype': 'video'}
+                metadata = {'mediatype': 'video'}
                 list_item.setInfo('video', metadata)
+
+            list_item.setMimeType('application/xml+dash')
+            list_item.setProperty(is_helper.inputstream_addon + ".license_type", "com.widevine.alpha")
+            list_item.setProperty(is_helper.inputstream_addon + ".manifest_type", "mpd")
+            list_item.setProperty('inputstreamaddon', is_helper.inputstream_addon)
+
+            license_str = w.getLicense()
+            list_item.setProperty(is_helper.inputstream_addon + '.license_key',
+                                 "https://lic.drmtoday.com/license-proxy-widevine/cenc/|User-Agent=" + user_agent + "&Content-Type=text%2Fxml&x-dt-custom-data=" + license_str + "|R{SSM}|JBlicense")
 
 #        list_item.setInfo('video', {'title': video['name'],
 #                                    'genre': video['genre'],

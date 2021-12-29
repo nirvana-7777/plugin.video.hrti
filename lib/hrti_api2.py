@@ -292,3 +292,14 @@ class HRTiAPI:
         print(response.text)
         result = response.json().get("Result")
         return result
+
+
+    def getLicense(self):
+        # Prepare for drm keys
+        license = {'merchant': 'exaring', 'sessionId': 'default', 'userId': 'userHandle'}
+        try:
+            license_str = base64.b64encode(json.dumps(license))
+            return license_str
+        except Exception as e:
+            license_str = base64.b64encode(json.dumps(license).encode("utf-8"))
+            return str(license_str, "utf-8")
