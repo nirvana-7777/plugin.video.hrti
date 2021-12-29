@@ -191,9 +191,11 @@ def list_videos(category):
         # Set additional info for the list item.
         # 'mediatype' is needed for skin to display info for this ListItem correctly.
             if channel['Radio']:
-                list_item.setInfo('music')
+                metadata = {'title': 'test', 'mediatype': 'audio'}
+                list_item.setInfo('music', metadata)
             else:
-                list_item.setInfo('video')
+                metadata = {'title': 'test', 'mediatype': 'video'}
+                list_item.setInfo('video', metadata)
 
 #        list_item.setInfo('video', {'title': video['name'],
 #                                    'genre': video['genre'],
