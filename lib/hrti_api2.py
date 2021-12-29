@@ -293,7 +293,6 @@ class HRTiAPI:
         result = response.json().get("Result")
         return result
 
-
     def getLicense(self):
         # Prepare for drm keys
         license = {'merchant': 'exaring', 'sessionId': 'default', 'userId': 'userHandle'}
