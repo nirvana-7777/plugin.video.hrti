@@ -190,6 +190,11 @@ def list_videos(category):
         # list_item = xbmcgui.ListItem(label=video['name']
         # Set additional info for the list item.
         # 'mediatype' is needed for skin to display info for this ListItem correctly.
+            if channel['Radio']:
+                list_item.setInfo('music')
+            else:
+                list_item.setInfo('video')
+
 #        list_item.setInfo('video', {'title': video['name'],
 #                                    'genre': video['genre'],
 #                                    'mediatype': 'video'})
