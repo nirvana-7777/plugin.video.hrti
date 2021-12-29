@@ -220,6 +220,7 @@ def play_video(path):
     :param path: Fully-qualified video URL
     :type path: str
     """
+    print("play "+path)
     # Create a playable item with a path to play.
     play_item = xbmcgui.ListItem(path=path)
     # Pass the item to the Kodi player.
