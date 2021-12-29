@@ -114,6 +114,7 @@ def get_channels(category):
         print(2)
     return None
 
+
 def list_categories():
     """
     Create the list of video categories in the Kodi interface.
@@ -179,13 +180,14 @@ def list_videos(category):
     # Iterate through videos.
     channels = api.get_channels()
     for channel in channels:
-        list_item = xbmcgui.ListItem(label=channel['Name'])
-        list_item.setArt({'thumb': channel['Icon'], 'icon': channel['Icon'], 'fanart': channel['Icon']})
-        list_item.setProperty('IsPlayable', 'true')
+        if (channel['Radio'] and category == 'Radio Channels') or (not channel['Radio'] and category == 'TV Channels'):
+            list_item = xbmcgui.ListItem(label=channel['Name'])
+            list_item.setArt({'thumb': channel['Icon'], 'icon': channel['Icon'], 'fanart': channel['Icon']})
+            list_item.setProperty('IsPlayable', 'true')
 
     # for video in videos:
         # Create a list item with a text label and a thumbnail image.
-        #list_item = xbmcgui.ListItem(label=video['name']
+        # list_item = xbmcgui.ListItem(label=video['name']
         # Set additional info for the list item.
         # 'mediatype' is needed for skin to display info for this ListItem correctly.
 #        list_item.setInfo('video', {'title': video['name'],
@@ -200,12 +202,12 @@ def list_videos(category):
         # list_item.setProperty('IsPlayable', 'true')
         # Create a URL for a plugin recursive call.
         # Example: plugin://plugin.video.example/?action=play&video=http://www.vidsplay.com/wp-content/uploads/2017/04/crab.mp4
-        url = get_url(action='play', video=channel['StreamingURL'])
+            url = get_url(action='play', video=channel['StreamingURL'])
         # Add the list item to a virtual Kodi folder.
         # is_folder = False means that this item won't open any sub-list.
-        is_folder = False
+            is_folder = False
         # Add our item to the Kodi virtual folder listing.
-        xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
+            xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     # Add a sort method for the virtual folder items (alphabetically, ignore articles)
     xbmcplugin.addSortMethod(_HANDLE, xbmcplugin.SORT_METHOD_LABEL_IGNORE_THE)
     # Finish creating a virtual folder.
