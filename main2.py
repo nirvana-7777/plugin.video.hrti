@@ -175,26 +175,32 @@ def list_videos(category):
     xbmcplugin.setContent(_HANDLE, 'videos')
     # Get the list of videos in the category.
     # videos = get_videos(category)
-    videos = get_channels(category)
+    # videos = get_channels(category)
     # Iterate through videos.
-    for video in videos:
+    channels = api.get_channels()
+    for channel in channels:
+        list_item = xbmcgui.ListItem(label=channel['Name'])
+        list_item.setArt({'thumb': channel['Icon'], 'icon': channel['Icon'], 'fanart': channel['Icon']})
+        list_item.setProperty('IsPlayable', 'true')
+
+    # for video in videos:
         # Create a list item with a text label and a thumbnail image.
-        list_item = xbmcgui.ListItem(label=video['name'])
+        #list_item = xbmcgui.ListItem(label=video['name']
         # Set additional info for the list item.
         # 'mediatype' is needed for skin to display info for this ListItem correctly.
-        list_item.setInfo('video', {'title': video['name'],
-                                    'genre': video['genre'],
-                                    'mediatype': 'video'})
+#        list_item.setInfo('video', {'title': video['name'],
+#                                    'genre': video['genre'],
+#                                    'mediatype': 'video'})
         # Set graphics (thumbnail, fanart, banner, poster, landscape etc.) for the list item.
         # Here we use the same image for all items for simplicity's sake.
         # In a real-life plugin you need to set each image accordingly.
-        list_item.setArt({'thumb': video['thumb'], 'icon': video['thumb'], 'fanart': video['thumb']})
+        # list_item.setArt({'thumb': video['thumb'], 'icon': video['thumb'], 'fanart': video['thumb']})
         # Set 'IsPlayable' property to 'true'.
         # This is mandatory for playable items!
-        list_item.setProperty('IsPlayable', 'true')
+        # list_item.setProperty('IsPlayable', 'true')
         # Create a URL for a plugin recursive call.
         # Example: plugin://plugin.video.example/?action=play&video=http://www.vidsplay.com/wp-content/uploads/2017/04/crab.mp4
-        url = get_url(action='play', video=video['video'])
+        url = get_url(action='play', video=channel['StreamingURL'])
         # Add the list item to a virtual Kodi folder.
         # is_folder = False means that this item won't open any sub-list.
         is_folder = False
