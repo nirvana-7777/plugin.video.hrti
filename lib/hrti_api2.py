@@ -296,7 +296,7 @@ class HRTiAPI:
 
     def getLicense(self):
         # Prepare for drm keys
-        {"userId": "8140543", "sessionId": "xpk8juE5T3-HKqAxM6WAKLjqeC4EmxcvRScuF0n3X2o.", "merchant": "aviion2"}
+        # {"userId": "8140543", "sessionId": "xpk8juE5T3-HKqAxM6WAKLjqeC4EmxcvRScuF0n3X2o.", "merchant": "aviion2"}
         # license = {'merchant': 'exaring', 'sessionId': 'default', 'userId': 'userHandle'}
         license = {'userId': self.__userid, 'sessionId': 'default', 'merchant': 'aviion2'}
         try:
