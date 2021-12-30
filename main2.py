@@ -238,7 +238,7 @@ def play_video(path):
     list_item.setMimeType('application/xml+dash')
     list_item.setContentLookup(False)
 
-    list_item.setProperty('inputstreamaddon', 'inputstream.adaptive')
+    list_item.setProperty('inputstream', 'inputstream.adaptive')
     list_item.setProperty('inputstream.adaptive.manifest_type', 'mpd')
     list_item.setProperty('inputstream.adaptive.license_type', 'com.widevine.alpha')
     list_item.setProperty('inputstream.adaptive.license_key',
