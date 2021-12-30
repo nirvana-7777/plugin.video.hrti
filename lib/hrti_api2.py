@@ -20,6 +20,7 @@ class HRTiAPI:
         #        self.plugin = plugin
         self._auth = None
         self.logged_in = False
+        self.__userid = None
         self.__username = username
         self.__password = password
         self.__ip = self.get_ip(self)
@@ -130,12 +131,12 @@ class HRTiAPI:
             self.__token = result['Token']
             validfrom = result['ValidFrom']
             validto = result['ValidTo']
-            customerid = result['Customer']['CustomerId']
+            self.__userid = result['Customer']['CustomerId']
             email = result['Customer']['Email']
             print(self.__token)
             print(validfrom)
             print(validto)
-            print(customerid)
+            print(self.__userid)
             print(email)
             # print(result.json().get("ValidFrom"))
             # print(result.json().get("ValidTo"))
@@ -295,10 +296,13 @@ class HRTiAPI:
 
     def getLicense(self):
         # Prepare for drm keys
-        license = {'merchant': 'exaring', 'sessionId': 'default', 'userId': 'userHandle'}
+        {"userId": "8140543", "sessionId": "xpk8juE5T3-HKqAxM6WAKLjqeC4EmxcvRScuF0n3X2o.", "merchant": "aviion2"}
+        # license = {'merchant': 'exaring', 'sessionId': 'default', 'userId': 'userHandle'}
+        license = {'userId': self.__userid, 'sessionId': 'default', 'merchant': 'aviion2'}
         try:
             license_str = base64.b64encode(json.dumps(license))
             return license_str
         except Exception as e:
             license_str = base64.b64encode(json.dumps(license).encode("utf-8"))
             return str(license_str, "utf-8")
+
