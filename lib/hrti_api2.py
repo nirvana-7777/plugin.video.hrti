@@ -294,11 +294,59 @@ class HRTiAPI:
         result = response.json().get("Result")
         return result
 
+
+    def get_programme(self, channelIDs, starttime, endtime):
+
+        url = self.hrtiBaseUrl + "/api/api/ott/Programme"
+
+        cookie_header = None
+        for cookie in self.session.cookies:
+            if cookie.domain == '.hrti.hrt.hr':
+                cookie_header = cookie.name + "=" + cookie.value
+
+        payload = json.dumps({
+            "ChannelReferenceIds": channelIDs,
+            "StartTime": starttime,
+            "EndTime": endtime
+        })
+        headers = {
+            'host': 'hrti.hrt.hr',
+            'connection': 'keep-alive',
+            'content-length': '2',
+            'deviceid': 'b6a50484-93a0-4afb-a01c-8d17e059feda',
+            'operatorreferenceid': 'hrt',
+            'sec-ch-ua-mobile': '?0',
+            'authorization': 'Client '+self.__token,
+            'ipaddress': str(self.__ip),
+            'content-type': 'application/json',
+            'accept': 'application/json, text/plain, */*',
+            'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36',
+            'devicetypeid': '6',
+            'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
+            'sec-ch-ua-platform': '"Linux"',
+            'origin': 'https://hrti.hrt.hr',
+            'sec-fetch-site': 'same-origin',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-dest': 'empty',
+            'referer': 'https://hrti.hrt.hr/signin',
+            'accept-encoding': 'gzip, deflate, br',
+            'accept-language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
+            'Cookie': cookie_header
+        }
+
+        response = self.session.post(url, headers=headers, data=payload)
+
+        print(response.headers.get('content-type'))
+        print(response.text)
+        result = response.json().get("Result")
+        return result
+
+
     def getLicense(self):
         # Prepare for drm keys
         # {"userId": "8140543", "sessionId": "xpk8juE5T3-HKqAxM6WAKLjqeC4EmxcvRScuF0n3X2o.", "merchant": "aviion2"}
         # license = {'merchant': 'exaring', 'sessionId': 'default', 'userId': 'userHandle'}
-        license = {'userId': self.__userid, 'sessionId': 'default', 'merchant': 'aviion2'}
+        license = {'userId': self.__userid, 'sessionId': '6:hrt:8140543:b8903781-df14-4ac5-8832-4b0e9e71dd2f', 'merchant': 'aviion2'}
         # license = {"userId": self.__userid, "sessionId": "default", "merchant": "aviion2"}
         try:
             license_str = base64.b64encode(json.dumps(license))

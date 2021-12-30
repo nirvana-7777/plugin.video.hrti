@@ -231,6 +231,9 @@ def play_video(path):
     print("play "+path)
     # Create a playable item with a path to play.
     #play_item = xbmcgui.ListItem(path=path)
+    # channel = get_channelbypath(path)
+    # current_programme = api.get_programme(channel[""],now,now)
+    # result = api.authorize_session()
 
     license_str = api.getLicense()
     list_item = xbmcgui.ListItem(path=path)
