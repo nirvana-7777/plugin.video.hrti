@@ -9,7 +9,7 @@ import sys
 from urllib.parse import urlencode, parse_qsl
 import xbmcgui
 import xbmcplugin
-import inputstreamhelper
+# import inputstreamhelper
 from lib.hrti_api2 import HRTiAPI
 
 _HANDLE = int(sys.argv[1])
@@ -199,7 +199,7 @@ def list_videos(category):
                 list_item.setInfo('video', metadata)
 
             license_str = api.getLicense()
-            list_item = xbmcgui.ListItem(path=mpdURL)
+            list_item = xbmcgui.ListItem(path=channel['StreamingURL'])
 
             list_item.setMimeType('application/xml+dash')
             list_item.setContentLookup(False)
@@ -215,7 +215,7 @@ def list_videos(category):
 
             xbmcplugin.setResolvedUrl(_HANDLE, True, listitem=list_item)
 
-            user_agent = "kodi plugin for hrti (python)"
+            # user_agent = "kodi plugin for hrti (python)"
 
 
             # license_str = api.getLicense()
