@@ -198,30 +198,6 @@ def list_videos(category):
                 metadata = {'mediatype': 'video'}
                 list_item.setInfo('video', metadata)
 
-            license_str = api.getLicense()
-            list_item = xbmcgui.ListItem(path=channel['StreamingURL'])
-
-            list_item.setMimeType('application/xml+dash')
-            list_item.setContentLookup(False)
-
-            list_item.setProperty('inputstreamaddon', 'inputstream.adaptive')
-            list_item.setProperty('inputstream.adaptive.manifest_type', 'mpd')
-            list_item.setProperty('inputstream.adaptive.license_type', 'com.widevine.alpha')
-            list_item.setProperty('inputstream.adaptive.license_key',
-                                  "https://lic.drmtoday.com/license-proxy-widevine/cenc/"+
-                                  "|dt-custom-data=" + license_str + "|R{SSM}|JBlicense")
-
-            list_item.setProperty('inputstream.adaptive.manifest_update_parameter', 'full')
-
-            xbmcplugin.setResolvedUrl(_HANDLE, True, listitem=list_item)
-
-            # user_agent = "kodi plugin for hrti (python)"
-
-
-            # license_str = api.getLicense()
-            # list_item.setProperty(is_helper.inputstream_addon + '.license_key',
-            #                     "https://lic.drmtoday.com/license-proxy-widevine/cenc/|User-Agent=" + user_agent + "&Content-Type=text%2Fxml&x-dt-custom-data=" + license_str + "|R{SSM}|JBlicense")
-
 #        list_item.setInfo('video', {'title': video['name'],
 #                                    'genre': video['genre'],
 #                                    'mediatype': 'video'})
@@ -254,9 +230,33 @@ def play_video(path):
     """
     print("play "+path)
     # Create a playable item with a path to play.
-    play_item = xbmcgui.ListItem(path=path)
+    #play_item = xbmcgui.ListItem(path=path)
+
+    license_str = api.getLicense()
+    list_item = xbmcgui.ListItem(path=path)
+
+    list_item.setMimeType('application/xml+dash')
+    list_item.setContentLookup(False)
+
+    list_item.setProperty('inputstreamaddon', 'inputstream.adaptive')
+    list_item.setProperty('inputstream.adaptive.manifest_type', 'mpd')
+    list_item.setProperty('inputstream.adaptive.license_type', 'com.widevine.alpha')
+    list_item.setProperty('inputstream.adaptive.license_key',
+                          "https://lic.drmtoday.com/license-proxy-widevine/cenc/" +
+                          "|dt-custom-data=" + license_str + "|R{SSM}|JBlicense")
+
+    list_item.setProperty('inputstream.adaptive.manifest_update_parameter', 'full')
+
+    xbmcplugin.setResolvedUrl(_HANDLE, True, listitem=list_item)
+
+    # user_agent = "kodi plugin for hrti (python)"
+
+    # license_str = api.getLicense()
+    # list_item.setProperty(is_helper.inputstream_addon + '.license_key',
+    #                     "https://lic.drmtoday.com/license-proxy-widevine/cenc/|User-Agent=" + user_agent + "&Content-Type=text%2Fxml&x-dt-custom-data=" + license_str + "|R{SSM}|JBlicense")
+
     # Pass the item to the Kodi player.
-    xbmcplugin.setResolvedUrl(_HANDLE, True, listitem=play_item)
+    # xbmcplugin.setResolvedUrl(_HANDLE, True, listitem=play_item)
 
 
 def router(paramstring):
