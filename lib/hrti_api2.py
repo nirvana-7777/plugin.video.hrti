@@ -342,7 +342,7 @@ class HRTiAPI:
         return result
 
 
-    def authorize_session(self, channelID, referenceID):
+    def authorize_session(self, channelID):
 
         url = self.hrtiBaseUrl + "/api/api/ott/AuthorizeSession"
 

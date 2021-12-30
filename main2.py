@@ -233,7 +233,7 @@ def play_video(path):
     #play_item = xbmcgui.ListItem(path=path)
     # channel = get_channelbypath(path)
     # current_programme = api.get_programme(channel[""],now,now)
-    result = api.authorize_session()
+    result = api.authorize_session(40013)
     print(result)
 
     license_str = api.getLicense()
