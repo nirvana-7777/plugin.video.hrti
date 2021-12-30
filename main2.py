@@ -9,6 +9,7 @@ import sys
 from urllib.parse import urlencode, parse_qsl
 import xbmcgui
 import xbmcplugin
+import inputstreamhelper
 from lib.hrti_api2 import HRTiAPI
 
 _HANDLE = int(sys.argv[1])
@@ -196,6 +197,12 @@ def list_videos(category):
             else:
                 metadata = {'mediatype': 'video'}
                 list_item.setInfo('video', metadata)
+
+            is_helper = inputstreamhelper.Helper('mpd', drm='widevine')
+            if not is_helper.check_inputstream():
+                return False
+
+            user_agent = "kodi plugin for hrti (python)"
 
             list_item.setMimeType('application/xml+dash')
             list_item.setProperty(is_helper.inputstream_addon + ".license_type", "com.widevine.alpha")
