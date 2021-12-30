@@ -202,7 +202,7 @@ def list_videos(category):
             list_item.setProperty(is_helper.inputstream_addon + ".manifest_type", "mpd")
             list_item.setProperty('inputstreamaddon', is_helper.inputstream_addon)
 
-            license_str = w.getLicense()
+            license_str = api.getLicense()
             list_item.setProperty(is_helper.inputstream_addon + '.license_key',
                                  "https://lic.drmtoday.com/license-proxy-widevine/cenc/|User-Agent=" + user_agent + "&Content-Type=text%2Fxml&x-dt-custom-data=" + license_str + "|R{SSM}|JBlicense")
 
