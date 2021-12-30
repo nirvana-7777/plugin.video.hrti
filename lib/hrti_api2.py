@@ -346,7 +346,7 @@ class HRTiAPI:
         # Prepare for drm keys
         # {"userId": "8140543", "sessionId": "xpk8juE5T3-HKqAxM6WAKLjqeC4EmxcvRScuF0n3X2o.", "merchant": "aviion2"}
         # license = {'merchant': 'exaring', 'sessionId': 'default', 'userId': 'userHandle'}
-        license = {'userId': self.__userid, 'sessionId': '6:hrt:8140543:b8903781-df14-4ac5-8832-4b0e9e71dd2f', 'merchant': 'aviion2'}
+        license = {'userId': self.__userid, 'sessionId': '6:hrt:8140543:b6a50484-93a0-4afb-a01c-8d17e059feda', 'merchant': 'aviion2'}
         # license = {"userId": self.__userid, "sessionId": "default", "merchant": "aviion2"}
         try:
             license_str = base64.b64encode(json.dumps(license))
