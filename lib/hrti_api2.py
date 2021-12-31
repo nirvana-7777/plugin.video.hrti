@@ -352,13 +352,13 @@ class HRTiAPI:
                 cookie_header = cookie.name + "=" + cookie.value
 
         payload = json.dumps({
-            "ChannelReferenceId": "40013",
-            "ContentDrmId": "hrtliveorigin_hrt1.smil",
-            "ContentReferenceId": "40013",
             "ContentType": "tlive",
-            "EndTime": "null",
-            "StartTime": "null",
-            "VideostoreReferenceIds": "null",
+            "ContentReferenceId": "40013",
+            "ContentDrmId": "hrtliveorigin_hrt1.smil",
+            "VideostoreReferenceIds": None,
+            "ChannelReferenceId": "40013",
+            "StartTime": None,
+            "EndTime": None
         })
         headers = {
             'host': 'hrti.hrt.hr',
