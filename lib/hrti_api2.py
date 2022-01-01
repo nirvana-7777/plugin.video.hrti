@@ -69,8 +69,6 @@ class HRTiAPI:
             # 'authorization': 'Client lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8kmqwKNSUc8Gw',
             # 'Connection': 'keep-alive',
             'content-length': '107',
-            # 'deviceid': 'a8dc5ca6-8932-4932-88b6-6aee5d843624',
-            # 'DeviceTypeId': '6',
             'Host': 'hrti.hrt.hr',
             'IPAddress': str(self.__ip),
             'OperatorReferenceId': 'hrt',
@@ -86,8 +84,6 @@ class HRTiAPI:
             # 'sec-fetch-mode': 'cors',
             # 'sec - fetch - dest': 'empty',
             'Cookie': cookie_header
-            # 'Cookie': 'G_ENABLED_IDPS=google; __gfp_64b=dvp3hBZb2fPYy3qzSZtVq.Ry9tKP.Qk5fq.vGYYpDin.27|1638888286; g_state={"i_p":1640256389790,"i_l":3,"i_t":1640340704876}; ',
-            # 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'
         }
         self._auth = None
         # r = requests.post(url, json=payload, headers=headers, cookies=self.cookie)
@@ -295,7 +291,6 @@ class HRTiAPI:
         result = response.json().get("Result")
         return result
 
-
     def get_programme(self, channelids, starttime, endtime):
 
         url = self.hrtiBaseUrl + "/api/api/ott/GetProgramme"
@@ -341,7 +336,6 @@ class HRTiAPI:
         print(response.text)
         result = response.json().get("Result")
         return result
-
 
     def authorize_session(self, channelid):
 
@@ -393,7 +387,6 @@ class HRTiAPI:
         self.__drmid = result['DrmId']
         return result
 
-
     def report_session_event(self, sessionid, channelid):
 
         url = self.hrtiBaseUrl + "/api/api/ott/ReportSessionEvent"
@@ -439,7 +432,6 @@ class HRTiAPI:
         result = response.json().get("Result")
         return result
 
-
     def get_license(self):
         # Prepare for drm keys
         drm_license = {'userId': self.__userid, 'sessionId': self.__drmid, 'merchant': 'aviion2'}
@@ -449,4 +441,5 @@ class HRTiAPI:
         except Exception as e:
             license_str = base64.b64encode(json.dumps(drm_license).encode("utf-8"))
             return str(license_str, "utf-8")
+
 
