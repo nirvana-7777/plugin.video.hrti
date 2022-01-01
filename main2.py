@@ -235,10 +235,12 @@ def play_video(path):
     # current_programme = api.get_programme(channel[""],now,now)
     result = api.authorize_session(40013)
     print(result)
-    result2 = api.report_session_event(result['SessionId'])
-    print(result2)
+    sessionid = api.report_session_event(result['SessionId'],40013)
+    drmid = result['DrmId']
+    print(sessionid)
+    print(drmid)
 
-    license_str = api.getLicense()
+    license_str = api.get_license()
     list_item = xbmcgui.ListItem(path=path)
 
     list_item.setMimeType('application/xml+dash')

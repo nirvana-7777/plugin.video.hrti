@@ -25,7 +25,8 @@ class HRTiAPI:
         self.__password = password
         self.__ip = self.get_ip(self)
         self.__token = None
-        # self.__device_id = "a8dc5ca6-8932-4932-88b6-6aee5d843624"
+        self.__drmid = None
+        self.__deviceid = 'b6a50484-93a0-4afb-a01c-8d17e059feda'
         xbmc.log("hrti init with IP: " + str(self.__ip), level=xbmc.LOGDEBUG)
         xbmc.log("hrti init with User: " + username, level=xbmc.LOGDEBUG)
         xbmc.log("hrti init with PW: " + password, level=xbmc.LOGDEBUG)
@@ -295,7 +296,7 @@ class HRTiAPI:
         return result
 
 
-    def get_programme(self, channelIDs, starttime, endtime):
+    def get_programme(self, channelids, starttime, endtime):
 
         url = self.hrtiBaseUrl + "/api/api/ott/GetProgramme"
 
@@ -305,7 +306,7 @@ class HRTiAPI:
                 cookie_header = cookie.name + "=" + cookie.value
 
         payload = json.dumps({
-            "ChannelReferenceIds": channelIDs,
+            "ChannelReferenceIds": channelids,
             "StartTime": starttime,
             "EndTime": endtime
         })
@@ -342,7 +343,7 @@ class HRTiAPI:
         return result
 
 
-    def authorize_session(self, channelID):
+    def authorize_session(self, channelid):
 
         url = self.hrtiBaseUrl + "/api/api/ott/AuthorizeSession"
 
@@ -353,11 +354,10 @@ class HRTiAPI:
 
         payload = json.dumps({
             "ContentType": "tlive",
-            "ContentReferenceId": "40013",
+            "ContentReferenceId": channelid,
             "ContentDrmId": "hrtliveorigin_hrt1.smil",
             "VideostoreReferenceIds": None,
-            "ChannelReferenceId": "40013",
-            "StartTime": None,
+            "ChannelReferenceId": channelid
             "EndTime": None
         })
         headers = {
@@ -379,7 +379,7 @@ class HRTiAPI:
             'sec-fetch-site': 'same-origin',
             'sec-fetch-mode': 'cors',
             'sec-fetch-dest': 'empty',
-            'referer': 'https://hrti.hrt.hr/live/tv?channel=40013',
+            'referer': 'https://hrti.hrt.hr/live/tv?channel='+channelid,
             'accept-encoding': 'gzip, deflate, br',
             'accept-language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
             'Cookie': cookie_header
@@ -390,10 +390,11 @@ class HRTiAPI:
         print(response.headers.get('content-type'))
         print(response.text)
         result = response.json().get("Result")
+        self.__drmid = result['DrmId']
         return result
 
 
-    def report_session_event(self, sessionID):
+    def report_session_event(self, sessionid, channelid):
 
         url = self.hrtiBaseUrl + "/api/api/ott/ReportSessionEvent"
 
@@ -404,13 +405,13 @@ class HRTiAPI:
 
         payload = json.dumps({
             "SessionEventId": 1,
-            "SessionId": sessionID
+            "SessionId": sessionid
         })
         headers = {
             'host': 'hrti.hrt.hr',
             'connection': 'keep-alive',
             'content-length': '2',
-            'deviceid': 'b6a50484-93a0-4afb-a01c-8d17e059feda',
+            'deviceid': self.__deviceid,
             'operatorreferenceid': 'hrt',
             'sec-ch-ua-mobile': '?0',
             'authorization': 'Client '+self.__token,
@@ -425,7 +426,7 @@ class HRTiAPI:
             'sec-fetch-site': 'same-origin',
             'sec-fetch-mode': 'cors',
             'sec-fetch-dest': 'empty',
-            'referer': 'https://hrti.hrt.hr/live/tv?channel=40013',
+            'referer': 'https://hrti.hrt.hr/live/tv?channel='+channelid,
             'accept-encoding': 'gzip, deflate, br',
             'accept-language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
             'Cookie': cookie_header
@@ -439,16 +440,13 @@ class HRTiAPI:
         return result
 
 
-    def getLicense(self):
+    def get_license(self):
         # Prepare for drm keys
-        # {"userId": "8140543", "sessionId": "xpk8juE5T3-HKqAxM6WAKLjqeC4EmxcvRScuF0n3X2o.", "merchant": "aviion2"}
-        # license = {'merchant': 'exaring', 'sessionId': 'default', 'userId': 'userHandle'}
-        license = {'userId': self.__userid, 'sessionId': '6:hrt:8140543:b6a50484-93a0-4afb-a01c-8d17e059feda', 'merchant': 'aviion2'}
-        # license = {"userId": self.__userid, "sessionId": "default", "merchant": "aviion2"}
+        drm_license = {'userId': self.__userid, 'sessionId': self.__drmid, 'merchant': 'aviion2'}
         try:
-            license_str = base64.b64encode(json.dumps(license))
+            license_str = base64.b64encode(json.dumps(drm_license))
             return license_str
         except Exception as e:
-            license_str = base64.b64encode(json.dumps(license).encode("utf-8"))
+            license_str = base64.b64encode(json.dumps(drm_license).encode("utf-8"))
             return str(license_str, "utf-8")
 
