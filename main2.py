@@ -9,7 +9,6 @@ import sys
 from urllib.parse import urlencode, parse_qsl
 import xbmcgui
 import xbmcplugin
-# import inputstreamhelper
 from lib.hrti_api2 import HRTiAPI
 
 _HANDLE = int(sys.argv[1])
@@ -18,51 +17,9 @@ _URL = sys.argv[0]
 username = xbmcplugin.getSetting(_HANDLE, "username")
 password = xbmcplugin.getSetting(_HANDLE, "password")
 api = HRTiAPI(username, password)
+_channels = None
 
 CATEGORIES = ['TV Channels', 'Radio Channels']
-# Free sample videos are provided by www.vidsplay.com
-# Here we use a fixed set of properties simply for demonstrating purposes
-# In a "real life" plugin you will need to get info and links to video files/streams
-# from some web-site or online service.
-VIDEOS = {'Animals': [{'name': 'Crab',
-                       'thumb': 'http://www.vidsplay.com/wp-content/uploads/2017/04/crab-screenshot.jpg',
-                       'video': 'http://www.vidsplay.com/wp-content/uploads/2017/04/crab.mp4',
-                       'genre': 'Animals'},
-                      {'name': 'Alligator',
-                       'thumb': 'http://www.vidsplay.com/wp-content/uploads/2017/04/alligator-screenshot.jpg',
-                       'video': 'http://www.vidsplay.com/wp-content/uploads/2017/04/alligator.mp4',
-                       'genre': 'Animals'},
-                      {'name': 'Turtle',
-                       'thumb': 'http://www.vidsplay.com/wp-content/uploads/2017/04/turtle-screenshot.jpg',
-                       'video': 'http://www.vidsplay.com/wp-content/uploads/2017/04/turtle.mp4',
-                       'genre': 'Animals'}
-                      ],
-            'Cars': [{'name': 'Postal Truck',
-                      'thumb': 'http://www.vidsplay.com/wp-content/uploads/2017/05/us_postal-screenshot.jpg',
-                      'video': 'http://www.vidsplay.com/wp-content/uploads/2017/05/us_postal.mp4',
-                      'genre': 'Cars'},
-                     {'name': 'Traffic',
-                      'thumb': 'http://www.vidsplay.com/wp-content/uploads/2017/05/traffic1-screenshot.jpg',
-                      'video': 'http://www.vidsplay.com/wp-content/uploads/2017/05/traffic1.mp4',
-                      'genre': 'Cars'},
-                     {'name': 'Traffic Arrows',
-                      'thumb': 'http://www.vidsplay.com/wp-content/uploads/2017/05/traffic_arrows-screenshot.jpg',
-                      'video': 'http://www.vidsplay.com/wp-content/uploads/2017/05/traffic_arrows.mp4',
-                      'genre': 'Cars'}
-                     ],
-            'Food': [{'name': 'Chicken',
-                      'thumb': 'http://www.vidsplay.com/wp-content/uploads/2017/05/bbq_chicken-screenshot.jpg',
-                      'video': 'http://www.vidsplay.com/wp-content/uploads/2017/05/bbqchicken.mp4',
-                      'genre': 'Food'},
-                     {'name': 'Hamburger',
-                      'thumb': 'http://www.vidsplay.com/wp-content/uploads/2017/05/hamburger-screenshot.jpg',
-                      'video': 'http://www.vidsplay.com/wp-content/uploads/2017/05/hamburger.mp4',
-                      'genre': 'Food'},
-                     {'name': 'Pizza',
-                      'thumb': 'http://www.vidsplay.com/wp-content/uploads/2017/05/pizza-screenshot.jpg',
-                      'video': 'http://www.vidsplay.com/wp-content/uploads/2017/05/pizza.mp4',
-                      'genre': 'Food'}
-                     ]}
 
 
 def get_url(**kwargs):
@@ -87,33 +44,6 @@ def get_categories():
     :rtype: types.GeneratorType
     """
     return CATEGORIES
-
-
-def get_videos(category):
-    """
-    Get the list of videofiles/streams.
-    Here you can insert some parsing code that retrieves
-    the list of video streams in the given category from some site or API.
-    .. note:: Consider using `generators functions <https://wiki.python.org/moin/Generators>`_
-        instead of returning lists.
-    :param category: Category name
-    :type category: str
-    :return: the list of videos in the category
-    :rtype: list
-    """
-    return VIDEOS[category]
-
-
-def get_channels(category):
-    channels = api.get_channels()
-    print(channels)
-    for data in channels:
-        print(data['Name'])
-    if category == 'TV Channels':
-        print(1)
-    if category == 'Radio Channels':
-        print(2)
-    return None
 
 
 def list_categories():
@@ -179,8 +109,9 @@ def list_videos(category):
     # videos = get_videos(category)
     # videos = get_channels(category)
     # Iterate through videos.
-    channels = api.get_channels()
-    for channel in channels:
+    global _channels
+    _channels = api.get_channels()
+    for channel in _channels:
         if (channel['Radio'] and category == 'Radio Channels') or (not channel['Radio'] and category == 'TV Channels'):
             list_item = xbmcgui.ListItem(label=channel['Name'])
             list_item.setArt({'thumb': channel['Icon'], 'icon': channel['Icon'], 'fanart': channel['Icon']})
@@ -198,18 +129,6 @@ def list_videos(category):
                 metadata = {'mediatype': 'video'}
                 list_item.setInfo('video', metadata)
 
-#        list_item.setInfo('video', {'title': video['name'],
-#                                    'genre': video['genre'],
-#                                    'mediatype': 'video'})
-        # Set graphics (thumbnail, fanart, banner, poster, landscape etc.) for the list item.
-        # Here we use the same image for all items for simplicity's sake.
-        # In a real-life plugin you need to set each image accordingly.
-        # list_item.setArt({'thumb': video['thumb'], 'icon': video['thumb'], 'fanart': video['thumb']})
-        # Set 'IsPlayable' property to 'true'.
-        # This is mandatory for playable items!
-        # list_item.setProperty('IsPlayable', 'true')
-        # Create a URL for a plugin recursive call.
-        # Example: plugin://plugin.video.example/?action=play&video=http://www.vidsplay.com/wp-content/uploads/2017/04/crab.mp4
             url = get_url(action='play', video=channel['StreamingURL'])
         # Add the list item to a virtual Kodi folder.
         # is_folder = False means that this item won't open any sub-list.
@@ -230,12 +149,12 @@ def play_video(path):
     """
     print("play "+path)
     # Create a playable item with a path to play.
-    #play_item = xbmcgui.ListItem(path=path)
+    # play_item = xbmcgui.ListItem(path=path)
     # channel = get_channelbypath(path)
     # current_programme = api.get_programme(channel[""],now,now)
     result = api.authorize_session(40013)
     print(result)
-    sessionid = api.report_session_event(result['SessionId'],40013)
+    sessionid = api.report_session_event(result['SessionId'], 40013)
     drmid = result['DrmId']
     print(sessionid)
     print(drmid)
@@ -262,15 +181,6 @@ def play_video(path):
     list_item.setProperty('inputstream.adaptive.manifest_update_parameter', 'full')
 
     xbmcplugin.setResolvedUrl(_HANDLE, True, listitem=list_item)
-
-    # user_agent = "kodi plugin for hrti (python)"
-
-    # license_str = api.getLicense()
-    # list_item.setProperty(is_helper.inputstream_addon + '.license_key',
-    #                     "https://lic.drmtoday.com/license-proxy-widevine/cenc/|User-Agent=" + user_agent + "&Content-Type=text%2Fxml&x-dt-custom-data=" + license_str + "|R{SSM}|JBlicense")
-
-    # Pass the item to the Kodi player.
-    # xbmcplugin.setResolvedUrl(_HANDLE, True, listitem=play_item)
 
 
 def router(paramstring):
