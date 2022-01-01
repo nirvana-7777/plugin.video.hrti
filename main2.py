@@ -17,7 +17,6 @@ _URL = sys.argv[0]
 username = xbmcplugin.getSetting(_HANDLE, "username")
 password = xbmcplugin.getSetting(_HANDLE, "password")
 api = HRTiAPI(username, password)
-_channels = None
 
 CATEGORIES = ['TV Channels', 'Radio Channels']
 
@@ -109,19 +108,18 @@ def list_videos(category):
     # videos = get_videos(category)
     # videos = get_channels(category)
     # Iterate through videos.
-    global _channels
-    _channels = api.get_channels()
-    for channel in _channels:
+    channels = api.get_channels()
+    for channel in channels:
         if (channel['Radio'] and category == 'Radio Channels') or (not channel['Radio'] and category == 'TV Channels'):
             list_item = xbmcgui.ListItem(label=channel['Name'])
             list_item.setArt({'thumb': channel['Icon'], 'icon': channel['Icon'], 'fanart': channel['Icon']})
             list_item.setProperty('IsPlayable', 'true')
 
-    # for video in videos:
-        # Create a list item with a text label and a thumbnail image.
-        # list_item = xbmcgui.ListItem(label=video['name']
-        # Set additional info for the list item.
-        # 'mediatype' is needed for skin to display info for this ListItem correctly.
+            # for video in videos:
+            # Create a list item with a text label and a thumbnail image.
+            # list_item = xbmcgui.ListItem(label=video['name']
+            # Set additional info for the list item.
+            # 'mediatype' is needed for skin to display info for this ListItem correctly.
             if channel['Radio']:
                 metadata = {'mediatype': 'audio'}
                 list_item.setInfo('music', metadata)
@@ -130,10 +128,10 @@ def list_videos(category):
                 list_item.setInfo('video', metadata)
 
             url = get_url(action='play', video=channel['StreamingURL'])
-        # Add the list item to a virtual Kodi folder.
-        # is_folder = False means that this item won't open any sub-list.
+            # Add the list item to a virtual Kodi folder.
+            # is_folder = False means that this item won't open any sub-list.
             is_folder = False
-        # Add our item to the Kodi virtual folder listing.
+            # Add our item to the Kodi virtual folder listing.
             xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     # Add a sort method for the virtual folder items (alphabetically, ignore articles)
     xbmcplugin.addSortMethod(_HANDLE, xbmcplugin.SORT_METHOD_LABEL_IGNORE_THE)
@@ -147,40 +145,42 @@ def play_video(path):
     :param path: Fully-qualified video URL
     :type path: str
     """
-    print("play "+path)
+    print("play " + path)
     # Create a playable item with a path to play.
-    # play_item = xbmcgui.ListItem(path=path)
-    # channel = get_channelbypath(path)
-    # current_programme = api.get_programme(channel[""],now,now)
-    result = api.authorize_session(40013)
-    print(result)
-    sessionid = api.report_session_event(result['SessionId'], 40013)
-    drmid = result['DrmId']
-    print(sessionid)
-    print(drmid)
+    channels = api.get_channels()
+    for channel in channels:
+        if path == channel['StreamingUrl']:
+            refid = channel['ReferenceId']
+            print(refid)
+            result = api.authorize_session(refid)
+            print(result)
+            result2 = api.report_session_event(result['SessionId'], refid)
+            drmid = result['DrmId']
+            print(result2)
+            print(drmid)
 
-    user_agent = "kodi plugin for hrti.hrt.hr (python)"
+            user_agent = "kodi plugin for hrti.hrt.hr (python)"
 
-    license_str = api.get_license()
-    list_item = xbmcgui.ListItem(path=path)
+            license_str = api.get_license()
+            list_item = xbmcgui.ListItem(path=path)
 
-    list_item.setMimeType('application/xml+dash')
-    list_item.setContentLookup(False)
+            list_item.setMimeType('application/xml+dash')
+            list_item.setContentLookup(False)
 
-    list_item.setProperty('inputstream', 'inputstream.adaptive')
-    list_item.setProperty('inputstream.adaptive.manifest_type', 'mpd')
-    list_item.setProperty('inputstream.adaptive.license_type', 'com.widevine.alpha')
-    list_item.setProperty('inputstream.adaptive.license_key',
-                          "https://lic.drmtoday.com/license-proxy-widevine/cenc/" +
-                          "|User-Agent=" + user_agent +
-                          "&Content-Type=text%2Fplain" +
-                          "&origin=https://hrti.hrt.hr" +
-                          "&referer=https://hrti.hrt.hr" +
-                          "&dt-custom-data=" + license_str + "|R{SSM}|JBlicense")
+            list_item.setProperty('inputstream', 'inputstream.adaptive')
+            list_item.setProperty('inputstream.adaptive.manifest_type', 'mpd')
+            list_item.setProperty('inputstream.adaptive.license_type', 'com.widevine.alpha')
+            list_item.setProperty('inputstream.adaptive.license_key',
+                                  "https://lic.drmtoday.com/license-proxy-widevine/cenc/" +
+                                  "|User-Agent=" + user_agent +
+                                  "&Content-Type=text%2Fplain" +
+                                  "&origin=https://hrti.hrt.hr" +
+                                  "&referer=https://hrti.hrt.hr" +
+                                  "&dt-custom-data=" + license_str + "|R{SSM}|JBlicense")
 
-    list_item.setProperty('inputstream.adaptive.manifest_update_parameter', 'full')
+            list_item.setProperty('inputstream.adaptive.manifest_update_parameter', 'full')
 
-    xbmcplugin.setResolvedUrl(_HANDLE, True, listitem=list_item)
+            xbmcplugin.setResolvedUrl(_HANDLE, True, listitem=list_item)
 
 
 def router(paramstring):
