@@ -357,7 +357,7 @@ class HRTiAPI:
             "ContentReferenceId": channelid,
             "ContentDrmId": "hrtliveorigin_hrt1.smil",
             "VideostoreReferenceIds": None,
-            "ChannelReferenceId": channelid
+            "ChannelReferenceId": channelid,
             "EndTime": None
         })
         headers = {
