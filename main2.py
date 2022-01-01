@@ -149,8 +149,8 @@ def play_video(path):
     # Create a playable item with a path to play.
     channels = api.get_channels()
     for channel in channels:
-        if path == channel['StreamingUrl']:
-            refid = channel['ReferenceId']
+        if path == channel['StreamingURL']:
+            refid = channel['ReferenceID']
             print(refid)
             result = api.authorize_session(refid)
             print(result)
