@@ -379,7 +379,7 @@ class HRTiAPI:
             'sec-fetch-site': 'same-origin',
             'sec-fetch-mode': 'cors',
             'sec-fetch-dest': 'empty',
-            'referer': 'https://hrti.hrt.hr/live/tv?channel='+channelid,
+            'referer': 'https://hrti.hrt.hr/live/tv?channel='+str(channelid),
             'accept-encoding': 'gzip, deflate, br',
             'accept-language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
             'Cookie': cookie_header
@@ -426,7 +426,7 @@ class HRTiAPI:
             'sec-fetch-site': 'same-origin',
             'sec-fetch-mode': 'cors',
             'sec-fetch-dest': 'empty',
-            'referer': 'https://hrti.hrt.hr/live/tv?channel='+channelid,
+            'referer': 'https://hrti.hrt.hr/live/tv?channel='+str(channelid),
             'accept-encoding': 'gzip, deflate, br',
             'accept-language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
             'Cookie': cookie_header
