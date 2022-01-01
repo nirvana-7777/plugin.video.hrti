@@ -11,7 +11,6 @@ import xbmc
 
 
 class HRTiAPI:
-    user_agent = "kodi plugin for hrti.hrt.hr (python)"
     hrtiBaseUrl = "https://hrti.hrt.hr"
     hsapiBaseUrl = "https://hsapi.aviion.tv"
     session = requests.Session()
@@ -27,6 +26,7 @@ class HRTiAPI:
         self.__token = None
         self.__drmid = None
         self.__deviceid = 'b6a50484-93a0-4afb-a01c-8d17e059feda'
+        self.__user_agent = 'kodi plugin for hrti.hrt.hr (python)'
         xbmc.log("hrti init with IP: " + str(self.__ip), level=xbmc.LOGDEBUG)
         xbmc.log("hrti init with User: " + username, level=xbmc.LOGDEBUG)
         xbmc.log("hrti init with PW: " + password, level=xbmc.LOGDEBUG)
@@ -81,7 +81,7 @@ class HRTiAPI:
             # 'sec-ch-ua-platform': '"Linux"',
             # 'accept-encoding': 'gzip, deflate, br',
             # 'accept-language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
-            'User-Agent': self.user_agent,
+            'User-Agent': self.__user_agent,
             # 'sec-fetch-site': 'same-origin',
             # 'sec-fetch-mode': 'cors',
             # 'sec - fetch - dest': 'empty',
@@ -111,7 +111,7 @@ class HRTiAPI:
         })
         headers = {
             'content-type': 'application/json',
-            'User-Agent': self.user_agent,
+            'User-Agent':  self.__user_agent,
             'IPAddress': str(self.__ip),
             'OperatorReferenceId': 'hrt',
             'Cookie': cookie_header
@@ -153,12 +153,12 @@ class HRTiAPI:
         url = self.hsapiBaseUrl+"/client.svc/json/RegisterDevice"
 
         payload = json.dumps({
-            "DeviceSerial": "b6a50484-93a0-4afb-a01c-8d17e059feda",
+            "DeviceSerial": self.__deviceid,
             "DeviceReferenceId": "6",
             "IpAddress": str(self.__ip),
             "ConnectionType": "LAN/WiFi",
             "ApplicationVersion": "5.62.5",
-            "DrmId": "b6a50484-93a0-4afb-a01c-8d17e059feda",
+            "DrmId":  self.__deviceid,
             "OsVersion": "Linux",
             "ClientType": "Chrome 96"
         })
@@ -172,7 +172,7 @@ class HRTiAPI:
             'content-type': 'application/json',
             'authorization': 'Client '+self.__token,
             'sec-ch-ua-mobile': '?0',
-            'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36',
+            'user-agent': self.__user_agent,
             'sec-ch-ua-platform': '"Linux"',
             'origin': 'https://hrti.hrt.hr',
             'sec-fetch-site': 'cross-site',
@@ -204,7 +204,7 @@ class HRTiAPI:
             'content-type': 'application/json',
             'authorization': 'Client '+self.__token,
             'sec-ch-ua-mobile': '?0',
-            'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36',
+            'user-agent':  self.__user_agent,
             'sec-ch-ua-platform': '"Linux"',
             'origin': 'https://hrti.hrt.hr',
             'sec-fetch-site': 'cross-site',
@@ -236,7 +236,7 @@ class HRTiAPI:
             'content-type': 'application/json',
             'authorization': 'Client '+self.__token,
             'sec-ch-ua-mobile': '?0',
-            'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36',
+            'user-agent': self.__user_agent,
             'sec-ch-ua-platform': '"Linux"',
             'origin': 'https://hrti.hrt.hr',
             'sec-fetch-site': 'cross-site',
@@ -267,14 +267,14 @@ class HRTiAPI:
             'host': 'hrti.hrt.hr',
             'connection': 'keep-alive',
             'content-length': '2',
-            'deviceid': 'b6a50484-93a0-4afb-a01c-8d17e059feda',
+            'deviceid': self.__deviceid,
             'operatorreferenceid': 'hrt',
             'sec-ch-ua-mobile': '?0',
             'authorization': 'Client '+self.__token,
             'ipaddress': str(self.__ip),
             'content-type': 'application/json',
             'accept': 'application/json, text/plain, */*',
-            'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36',
+            'user-agent': self.__user_agent,
             'devicetypeid': '6',
             'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
             'sec-ch-ua-platform': '"Linux"',
@@ -314,14 +314,14 @@ class HRTiAPI:
             'host': 'hrti.hrt.hr',
             'connection': 'keep-alive',
             'content-length': '2',
-            'deviceid': 'b6a50484-93a0-4afb-a01c-8d17e059feda',
+            'deviceid': self.__deviceid,
             'operatorreferenceid': 'hrt',
             'sec-ch-ua-mobile': '?0',
             'authorization': 'Client '+self.__token,
             'ipaddress': str(self.__ip),
             'content-type': 'application/json',
             'accept': 'application/json, text/plain, */*',
-            'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36',
+            'user-agent': self.__user_agent,
             'devicetypeid': '6',
             'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
             'sec-ch-ua-platform': '"Linux"',
@@ -364,14 +364,14 @@ class HRTiAPI:
             'host': 'hrti.hrt.hr',
             'connection': 'keep-alive',
             'content-length': '2',
-            'deviceid': 'b6a50484-93a0-4afb-a01c-8d17e059feda',
+            'deviceid': self.__deviceid,
             'operatorreferenceid': 'hrt',
             'sec-ch-ua-mobile': '?0',
             'authorization': 'Client '+self.__token,
             'ipaddress': str(self.__ip),
             'content-type': 'application/json',
             'accept': 'application/json, text/plain, */*',
-            'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36',
+            'user-agent': self.__user_agent,
             'devicetypeid': '6',
             'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
             'sec-ch-ua-platform': '"Linux"',
@@ -418,7 +418,7 @@ class HRTiAPI:
             'ipaddress': str(self.__ip),
             'content-type': 'application/json',
             'accept': 'application/json, text/plain, */*',
-            'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36',
+            'user-agent': self.__user_agent,
             'devicetypeid': '6',
             'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
             'sec-ch-ua-platform': '"Linux"',

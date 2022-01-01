@@ -240,7 +240,7 @@ def play_video(path):
     print(sessionid)
     print(drmid)
 
-    user_agent = "kodi plugin for hrti (python)"
+    user_agent = "kodi plugin for hrti.hrt.hr (python)"
 
     license_str = api.get_license()
     list_item = xbmcgui.ListItem(path=path)
