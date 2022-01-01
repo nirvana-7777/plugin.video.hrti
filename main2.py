@@ -240,6 +240,8 @@ def play_video(path):
     print(sessionid)
     print(drmid)
 
+    user_agent = "kodi plugin for hrti (python)"
+
     license_str = api.get_license()
     list_item = xbmcgui.ListItem(path=path)
 
@@ -251,7 +253,11 @@ def play_video(path):
     list_item.setProperty('inputstream.adaptive.license_type', 'com.widevine.alpha')
     list_item.setProperty('inputstream.adaptive.license_key',
                           "https://lic.drmtoday.com/license-proxy-widevine/cenc/" +
-                          "|dt-custom-data=" + license_str + "|R{SSM}|JBlicense")
+                          "|User-Agent=" + user_agent +
+                          "&Content-Type=text%2Fplain" +
+                          "&origin=https://hrti.hrt.hr" +
+                          "&referer=https://hrti.hrt.hr" +
+                          "&dt-custom-data=" + license_str + "|R{SSM}|JBlicense")
 
     list_item.setProperty('inputstream.adaptive.manifest_update_parameter', 'full')
 
