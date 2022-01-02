@@ -14,8 +14,9 @@ class HRTiAPI:
     hsapiBaseUrl = "https://hsapi.aviion.tv"
     session = requests.Session()
 
-    def __init__(self, username, password):
-        #        self.plugin = plugin
+    def __init__(self, plugin, username, password):
+        self.plugin = plugin
+
         self._auth = None
         self.logged_in = False
         self.__userid = None
@@ -24,8 +25,10 @@ class HRTiAPI:
         self.__ip = self.get_ip(self)
         self.__token = 'lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8kmqwKNSUc8Gw'
         self.__drmid = None
-        self.__deviceid = 'b6a50484-93a0-4afb-a01c-8d17e059feda'
+        # self.__deviceid = 'b6a50484-93a0-4afb-a01c-8d17e059feda'
         self.__user_agent = 'kodi plugin for hrti.hrt.hr (python)'
+        self.DEVICE_ID = self.plugin.get_setting('device_id')
+        self.TOKEN = self.plugin.get_setting('token')
         xbmc.log("hrti init with IP: " + str(self.__ip), level=xbmc.LOGDEBUG)
         xbmc.log("hrti init with User: " + username, level=xbmc.LOGDEBUG)
         xbmc.log("hrti init with PW: " + password, level=xbmc.LOGDEBUG)
@@ -148,12 +151,12 @@ class HRTiAPI:
         url = self.hsapiBaseUrl+"/client.svc/json/RegisterDevice"
 
         payload = json.dumps({
-            "DeviceSerial": self.__deviceid,
+            "DeviceSerial": self.DEVICE_ID,
             "DeviceReferenceId": "6",
             "IpAddress": str(self.__ip),
             "ConnectionType": "LAN/WiFi",
             "ApplicationVersion": "5.62.5",
-            "DrmId":  self.__deviceid,
+            "DrmId":  self.DEVICE_ID,
             "OsVersion": "Linux",
             "ClientType": "Chrome 96"
         })
@@ -262,7 +265,7 @@ class HRTiAPI:
             'host': 'hrti.hrt.hr',
             'connection': 'keep-alive',
             'content-length': '2',
-            'deviceid': self.__deviceid,
+            'deviceid': self.DEVICE_ID,
             'operatorreferenceid': 'hrt',
             'sec-ch-ua-mobile': '?0',
             'authorization': 'Client '+self.__token,
@@ -308,7 +311,7 @@ class HRTiAPI:
             'host': 'hrti.hrt.hr',
             'connection': 'keep-alive',
             'content-length': '2',
-            'deviceid': self.__deviceid,
+            'deviceid': self.DEVICE_ID,
             'operatorreferenceid': 'hrt',
             'sec-ch-ua-mobile': '?0',
             'authorization': 'Client '+self.__token,
@@ -357,7 +360,7 @@ class HRTiAPI:
             'host': 'hrti.hrt.hr',
             'connection': 'keep-alive',
             'content-length': '2',
-            'deviceid': self.__deviceid,
+            'deviceid': self.DEVICE_ID,
             'operatorreferenceid': 'hrt',
             'sec-ch-ua-mobile': '?0',
             'authorization': 'Client '+self.__token,
@@ -403,7 +406,7 @@ class HRTiAPI:
             'host': 'hrti.hrt.hr',
             'connection': 'keep-alive',
             'content-length': '2',
-            'deviceid': self.__deviceid,
+            'deviceid': self.DEVICE_ID,
             'operatorreferenceid': 'hrt',
             'sec-ch-ua-mobile': '?0',
             'authorization': 'Client '+self.__token,

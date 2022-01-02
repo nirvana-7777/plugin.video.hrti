@@ -18,13 +18,15 @@ _URL = sys.argv[0]
 
 username = xbmcplugin.getSetting(_HANDLE, "username")
 password = xbmcplugin.getSetting(_HANDLE, "password")
-api = HRTiAPI(username, password)
-channels = api.get_channels()
+
 plugin = Common(
     addon=xbmcaddon.Addon(),
     addon_handle=_HANDLE,
     addon_url=_URL
 )
+
+api = HRTiAPI(plugin, username, password)
+channels = api.get_channels()
 
 CATEGORIES = ['TV Channels', 'Radio Channels']
 
@@ -203,6 +205,7 @@ def router(paramstring):
     # Parse a URL-encoded paramstring to the dictionary of
     # {<parameter>: <value>} elements
     deviceid = plugin.uniq_id()
+    api.DEVICE_ID = deviceid
     xbmc.log("DeviceID: "+str(deviceid),  level=xbmc.LOGDEBUG)
 
     params = dict(parse_qsl(paramstring))
