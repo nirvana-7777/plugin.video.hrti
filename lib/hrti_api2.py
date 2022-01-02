@@ -1,7 +1,7 @@
 import requests
-import time
 import base64
 import json
+from common import uuid
 
 try:
     import http.cookiejar
@@ -25,6 +25,8 @@ class HRTiAPI:
         self.__ip = self.get_ip(self)
         self.__token = 'lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8kmqwKNSUc8Gw'
         self.__drmid = None
+        deviceid = uuid()
+        print(deviceid)
         self.__deviceid = 'b6a50484-93a0-4afb-a01c-8d17e059feda'
         self.__user_agent = 'kodi plugin for hrti.hrt.hr (python)'
         xbmc.log("hrti init with IP: " + str(self.__ip), level=xbmc.LOGDEBUG)
