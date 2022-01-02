@@ -9,6 +9,7 @@ import sys
 from urllib.parse import urlencode, urlparse, parse_qsl
 import xbmcgui
 import xbmcplugin
+import xbmcaddon
 from lib.hrti_api2 import HRTiAPI
 from lib.common import Common
 
