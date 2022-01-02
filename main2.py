@@ -10,6 +10,7 @@ from urllib.parse import urlencode, urlparse, parse_qsl
 import xbmcgui
 import xbmcplugin
 from lib.hrti_api2 import HRTiAPI
+from lib.common import Common
 
 _HANDLE = int(sys.argv[1])
 _URL = sys.argv[0]
@@ -18,6 +19,11 @@ username = xbmcplugin.getSetting(_HANDLE, "username")
 password = xbmcplugin.getSetting(_HANDLE, "password")
 api = HRTiAPI(username, password)
 channels = api.get_channels()
+plugin = Common(
+    addon=xbmcaddon.Addon(),
+    addon_handle=_HANDLE,
+    addon_url=_URL
+)
 
 CATEGORIES = ['TV Channels', 'Radio Channels']
 
@@ -195,7 +201,9 @@ def router(paramstring):
     """
     # Parse a URL-encoded paramstring to the dictionary of
     # {<parameter>: <value>} elements
-    xbmc.log("hrti 1: ", level=xbmc.LOGDEBUG)
+    deviceid = plugin.uniq_id()
+    xbmc.log("DeviceID: "+str(deviceid),  level=xbmc.LOGDEBUG)
+
     params = dict(parse_qsl(paramstring))
     # Check the parameters passed to the plugin
     if params:
