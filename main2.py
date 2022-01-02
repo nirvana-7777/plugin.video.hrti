@@ -153,10 +153,8 @@ def play_video(path):
             print(refid)
             parts = urlparse(path)
             directories = parts.path.strip('/').split('/')
-            print("hier")
-            print(directories[0])
-            print(directories[1])
-            contentid = "hrtliveorigin_hrt1.smil"
+            contentid = directories[0] + "_" + directories[1]
+            print(contentid)
             result = api.authorize_session(refid, contentid)
             print(result)
             result2 = api.report_session_event(result['SessionId'], refid)
