@@ -151,6 +151,10 @@ def play_video(path):
         if path == channel['StreamingURL']:
             refid = channel['ReferenceID']
             print(refid)
+            parts = urlparse(path)
+            directories = parts.path.strip('/').split('/')
+            print(directories[0])
+            print(directories[1])
             contentid = "hrtliveorigin_hrt1.smil"
             result = api.authorize_session(refid, contentid)
             print(result)
