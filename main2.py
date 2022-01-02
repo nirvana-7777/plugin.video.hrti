@@ -6,7 +6,7 @@
 Example video plugin that is compatible with Kodi 19.x "Matrix" and above
 """
 import sys
-from urllib.parse import urlencode, parse_qsl
+from urllib.parse import urlencode, urlparse, parse_qsl
 import xbmcgui
 import xbmcplugin
 from lib.hrti_api2 import HRTiAPI
