@@ -1,7 +1,7 @@
 import requests
 import base64
 import json
-from common import uuid
+from lib.common import uuid
 
 try:
     import http.cookiejar
