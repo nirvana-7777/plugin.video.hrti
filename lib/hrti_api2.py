@@ -23,7 +23,7 @@ class HRTiAPI:
         self.__username = username
         self.__password = password
         self.__ip = self.get_ip(self)
-        self.__token = None
+        self.__token = 'lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8kmqwKNSUc8Gw'
         self.__drmid = None
         self.__deviceid = 'b6a50484-93a0-4afb-a01c-8d17e059feda'
         self.__user_agent = 'kodi plugin for hrti.hrt.hr (python)'
@@ -337,7 +337,7 @@ class HRTiAPI:
         result = response.json().get("Result")
         return result
 
-    def authorize_session(self, channelid):
+    def authorize_session(self, channelid, contentid):
 
         url = self.hrtiBaseUrl + "/api/api/ott/AuthorizeSession"
 
@@ -349,7 +349,7 @@ class HRTiAPI:
         payload = json.dumps({
             "ContentType": "tlive",
             "ContentReferenceId": channelid,
-            "ContentDrmId": "hrtliveorigin_hrt1.smil",
+            "ContentDrmId": contentid,
             "VideostoreReferenceIds": None,
             "ChannelReferenceId": channelid,
             "EndTime": None
@@ -441,5 +441,3 @@ class HRTiAPI:
         except Exception as e:
             license_str = base64.b64encode(json.dumps(drm_license).encode("utf-8"))
             return str(license_str, "utf-8")
-
-

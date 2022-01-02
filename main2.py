@@ -17,6 +17,7 @@ _URL = sys.argv[0]
 username = xbmcplugin.getSetting(_HANDLE, "username")
 password = xbmcplugin.getSetting(_HANDLE, "password")
 api = HRTiAPI(username, password)
+channels = api.get_channels()
 
 CATEGORIES = ['TV Channels', 'Radio Channels']
 
@@ -108,7 +109,6 @@ def list_videos(category):
     # videos = get_videos(category)
     # videos = get_channels(category)
     # Iterate through videos.
-    channels = api.get_channels()
     for channel in channels:
         if (channel['Radio'] and category == 'Radio Channels') or (not channel['Radio'] and category == 'TV Channels'):
             list_item = xbmcgui.ListItem(label=channel['Name'])
@@ -147,12 +147,12 @@ def play_video(path):
     """
     print("play " + path)
     # Create a playable item with a path to play.
-    channels = api.get_channels()
     for channel in channels:
         if path == channel['StreamingURL']:
             refid = channel['ReferenceID']
             print(refid)
-            result = api.authorize_session(refid)
+            contentid = "hrtliveorigin_hrt1.smil"
+            result = api.authorize_session(refid, contentid)
             print(result)
             result2 = api.report_session_event(result['SessionId'], refid)
             drmid = result['DrmId']
