@@ -7,10 +7,10 @@
         <setting label="30002" type="action" id="logout" action="RunPlugin(plugin://plugin.video.dazn/?mode=logout)" option="close"/>
         <setting label="country" type="text" id="country" default="" visible="false"/>
         <setting label="language" type="text" id="language" default="en" visible="false"/>
-        <setting label="device_id" type="text" id="device_id" default="" visible="false"/>
+        <setting label="device_id" type="text" id="device_id" default="" visible="true"/>
         <setting label="viewer_id" type="text" id="viewer_id" default="" visible="false"/>
         <setting label="portability" type="text" id="portability" default="" visible="false"/>
-        <setting label="token" type="text" id="token" default="" visible="false"/>
+        <setting label="token" type="text" id="token" default="" visible="true"/>
         <setting label="mpx" type="text" id="mpx" default="" visible="false"/>
         <setting label="api_endpoint_rail" type="text" id="api_endpoint_rail" default="" visible="false"/>
         <setting label="api_endpoint_rails" type="text" id="api_endpoint_rails" default="" visible="false"/>
