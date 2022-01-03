@@ -20,10 +20,10 @@ class HRTiAPI:
         self._auth = None
         self.logged_in = False
         self.__userid = None
-        username = plugin.get_setting("username")
+        username = self.plugin.get_setting("username")
         if username == '':
             username = 'anonymoushrt'
-        password = plugin.get_setting("password")
+        password = self.plugin.get_setting("password")
         if password == '':
             password = 'an0nPasshrt'
         self.__username = username
@@ -150,7 +150,7 @@ class HRTiAPI:
                 xbmc.log("hrti grant access: " + response.text, level=xbmc.LOGDEBUG)
             # self._auth["expires"] = time.time() + self._auth["expires_in"]
             else:
-                plugin.dialog_ok(response.json().get("ErrorDescription"))
+                self.plugin.dialog_ok(response.json().get("ErrorDescription"))
         return response.status_code
 
     def register_device(self):
