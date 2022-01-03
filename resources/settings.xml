@@ -4,7 +4,7 @@
         <setting label="Username" type="text" id="username" default=""/>
         <setting label="Password" type="text" id="password" option="hidden"  default=""/>
         <setting label="30001" type="bool" id="save_login" default="false"/>
-        <setting label="30002" type="action" id="logout" action="RunPlugin(plugin://plugin.video.hrti/?mode=logout)" option="close"/>
+        <setting label="30002" type="action" id="logout" action="RunPlugin(plugin://plugin.video.hrti/?action=logout)" option="close"/>
         <setting label="country" type="text" id="country" default="" visible="false"/>
         <setting label="language" type="text" id="language" default="en" visible="false"/>
         <setting label="device_id" type="text" id="device_id" default="" visible="true"/>
