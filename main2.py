@@ -16,14 +16,18 @@ from lib.common import Common
 _HANDLE = int(sys.argv[1])
 _URL = sys.argv[0]
 
-username = xbmcplugin.getSetting(_HANDLE, "username")
-password = xbmcplugin.getSetting(_HANDLE, "password")
-
 plugin = Common(
     addon=xbmcaddon.Addon(),
     addon_handle=_HANDLE,
     addon_url=_URL
 )
+
+username = plugin.get_setting("username")
+if username == '':
+    username = 'anonymoushrt'
+password = plugin.get_setting("password")
+if password == '':
+    password = 'an0nPasshrt'
 
 api = HRTiAPI(plugin, username, password)
 channels = api.get_channels()

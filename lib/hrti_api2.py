@@ -433,6 +433,40 @@ class HRTiAPI:
         result = response.json().get("Result")
         return result
 
+    def logout(self):
+
+        url = self.hsapiBaseUrl + "/client.svc/json/DeviceInstanceDelete"
+
+        payload = json.dumps({
+            "Serial": self.DEVICE_ID,
+        })
+
+        headers = {
+            'host': 'hsapi.aviion.tv',
+            'connection': 'keep-alive',
+            'content-length': '257',
+            'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
+            'accept': 'application/json, text/plain, */*',
+            'content-type': 'application/json',
+            'authorization': 'Client ' + self.TOKEN,
+            'sec-ch-ua-mobile': '?0',
+            'user-agent': self.__user_agent,
+            'sec-ch-ua-platform': '"Linux"',
+            'origin': 'https://hrti.hrt.hr',
+            'sec-fetch-site': 'cross-site',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-dest': 'empty',
+            'referer': 'https://hrti.hrt.hr/',
+            'accept-encoding': 'gzip, deflate, br',
+            'accept-language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
+        }
+
+        response = self.session.post(url, headers=headers, data=payload)
+
+        print(response.headers.get('content-type'))
+        print(response.text)
+        return response.status_code
+
     def get_license(self):
         # Prepare for drm keys
         drm_license = {'userId': self.__userid, 'sessionId': self.__drmid, 'merchant': 'aviion2'}
