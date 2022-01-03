@@ -22,14 +22,7 @@ plugin = Common(
     addon_url=_URL
 )
 
-username = plugin.get_setting("username")
-if username == '':
-    username = 'anonymoushrt'
-password = plugin.get_setting("password")
-if password == '':
-    password = 'an0nPasshrt'
-
-api = HRTiAPI(plugin, username, password)
+api = HRTiAPI(plugin)
 channels = api.get_channels()
 
 CATEGORIES = ['TV Channels', 'Radio Channels']

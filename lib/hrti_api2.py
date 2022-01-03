@@ -14,12 +14,18 @@ class HRTiAPI:
     hsapiBaseUrl = "https://hsapi.aviion.tv"
     session = requests.Session()
 
-    def __init__(self, plugin, username, password):
+    def __init__(self, plugin):
         self.plugin = plugin
 
         self._auth = None
         self.logged_in = False
         self.__userid = None
+        username = plugin.get_setting("username")
+        if username == '':
+            username = 'anonymoushrt'
+        password = plugin.get_setting("password")
+        if password == '':
+            password = 'an0nPasshrt'
         self.__username = username
         self.__password = password
         self.__ip = self.get_ip(self)
@@ -121,28 +127,30 @@ class HRTiAPI:
         xbmc.log("hrti status code: " + str(response.status_code), level=xbmc.LOGDEBUG)
         if response.status_code == 200:
             print(response.headers.get('content-type'))
-            # self._auth = r.json()
             self.logged_in = True
             result = response.json().get("Result")
             print(result)
-            self.TOKEN = result['Token']
-            self.plugin.set_setting('token', self.TOKEN)
-            validfrom = result['ValidFrom']
-            validto = result['ValidTo']
-            self.__userid = result['Customer']['CustomerId']
-            email = result['Customer']['Email']
-            print(self.TOKEN)
-            print(validfrom)
-            print(validto)
-            print(self.__userid)
-            print(email)
+            if not (result is None):
+                self.TOKEN = result['Token']
+                self.plugin.set_setting('token', self.TOKEN)
+                validfrom = result['ValidFrom']
+                validto = result['ValidTo']
+                self.__userid = result['Customer']['CustomerId']
+                email = result['Customer']['Email']
+                print(self.TOKEN)
+                print(validfrom)
+                print(validto)
+                print(self.__userid)
+                print(email)
             # print(result.json().get("ValidFrom"))
             # print(result.json().get("ValidTo"))
             # print(json.dumps(parsed_json, indent=4, sort_keys=True))
-            print(response.json())
+                print(response.json())
             # xbmc.log("hrti grant access: " + str(r.json()), level=xbmc.LOGDEBUG)
-            xbmc.log("hrti grant access: " + response.text, level=xbmc.LOGDEBUG)
+                xbmc.log("hrti grant access: " + response.text, level=xbmc.LOGDEBUG)
             # self._auth["expires"] = time.time() + self._auth["expires_in"]
+            else:
+                plugin.dialog_ok(response.json().get("ErrorDescription")
         return response.status_code
 
     def register_device(self):
