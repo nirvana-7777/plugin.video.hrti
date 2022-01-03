@@ -150,7 +150,7 @@ class HRTiAPI:
                 xbmc.log("hrti grant access: " + response.text, level=xbmc.LOGDEBUG)
             # self._auth["expires"] = time.time() + self._auth["expires_in"]
             else:
-                plugin.dialog_ok(response.json().get("ErrorDescription")
+                plugin.dialog_ok(response.json().get("ErrorDescription"))
         return response.status_code
 
     def register_device(self):
