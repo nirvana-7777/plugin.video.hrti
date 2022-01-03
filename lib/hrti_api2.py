@@ -23,12 +23,12 @@ class HRTiAPI:
         self.__username = username
         self.__password = password
         self.__ip = self.get_ip(self)
-        self.__token = 'lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8kmqwKNSUc8Gw'
         self.__drmid = None
-        # self.__deviceid = 'b6a50484-93a0-4afb-a01c-8d17e059feda'
         self.__user_agent = 'kodi plugin for hrti.hrt.hr (python)'
         self.DEVICE_ID = self.plugin.get_setting('device_id')
         self.TOKEN = self.plugin.get_setting('token')
+        if self.TOKEN == '':
+            self.TOKEN = 'lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8kmqwKNSUc8Gw'
         xbmc.log("hrti init with IP: " + str(self.__ip), level=xbmc.LOGDEBUG)
         xbmc.log("hrti init with User: " + username, level=xbmc.LOGDEBUG)
         xbmc.log("hrti init with PW: " + password, level=xbmc.LOGDEBUG)
@@ -123,16 +123,15 @@ class HRTiAPI:
             print(response.headers.get('content-type'))
             # self._auth = r.json()
             self.logged_in = True
-            # result = r.get('Result')
-            # token = result.get()
             result = response.json().get("Result")
             print(result)
-            self.__token = result['Token']
+            self.TOKEN = result['Token']
+            self.plugin.set_setting('token', self.TOKEN)
             validfrom = result['ValidFrom']
             validto = result['ValidTo']
             self.__userid = result['Customer']['CustomerId']
             email = result['Customer']['Email']
-            print(self.__token)
+            print(self.TOKEN)
             print(validfrom)
             print(validto)
             print(self.__userid)
@@ -168,7 +167,7 @@ class HRTiAPI:
             'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
             'accept': 'application/json, text/plain, */*',
             'content-type': 'application/json',
-            'authorization': 'Client '+self.__token,
+            'authorization': 'Client '+self.TOKEN,
             'sec-ch-ua-mobile': '?0',
             'user-agent': self.__user_agent,
             'sec-ch-ua-platform': '"Linux"',
@@ -200,7 +199,7 @@ class HRTiAPI:
             'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
             'accept': 'application/json, text/plain, */*',
             'content-type': 'application/json',
-            'authorization': 'Client '+self.__token,
+            'authorization': 'Client '+self.TOKEN,
             'sec-ch-ua-mobile': '?0',
             'user-agent':  self.__user_agent,
             'sec-ch-ua-platform': '"Linux"',
@@ -232,7 +231,7 @@ class HRTiAPI:
             'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
             'accept': 'application/json, text/plain, */*',
             'content-type': 'application/json',
-            'authorization': 'Client '+self.__token,
+            'authorization': 'Client '+self.TOKEN,
             'sec-ch-ua-mobile': '?0',
             'user-agent': self.__user_agent,
             'sec-ch-ua-platform': '"Linux"',
@@ -268,7 +267,7 @@ class HRTiAPI:
             'deviceid': self.DEVICE_ID,
             'operatorreferenceid': 'hrt',
             'sec-ch-ua-mobile': '?0',
-            'authorization': 'Client '+self.__token,
+            'authorization': 'Client '+self.TOKEN,
             'ipaddress': str(self.__ip),
             'content-type': 'application/json',
             'accept': 'application/json, text/plain, */*',
@@ -314,7 +313,7 @@ class HRTiAPI:
             'deviceid': self.DEVICE_ID,
             'operatorreferenceid': 'hrt',
             'sec-ch-ua-mobile': '?0',
-            'authorization': 'Client '+self.__token,
+            'authorization': 'Client '+self.TOKEN,
             'ipaddress': str(self.__ip),
             'content-type': 'application/json',
             'accept': 'application/json, text/plain, */*',
@@ -363,7 +362,7 @@ class HRTiAPI:
             'deviceid': self.DEVICE_ID,
             'operatorreferenceid': 'hrt',
             'sec-ch-ua-mobile': '?0',
-            'authorization': 'Client '+self.__token,
+            'authorization': 'Client '+self.TOKEN,
             'ipaddress': str(self.__ip),
             'content-type': 'application/json',
             'accept': 'application/json, text/plain, */*',
@@ -409,7 +408,7 @@ class HRTiAPI:
             'deviceid': self.DEVICE_ID,
             'operatorreferenceid': 'hrt',
             'sec-ch-ua-mobile': '?0',
-            'authorization': 'Client '+self.__token,
+            'authorization': 'Client '+self.TOKEN,
             'ipaddress': str(self.__ip),
             'content-type': 'application/json',
             'accept': 'application/json, text/plain, */*',
