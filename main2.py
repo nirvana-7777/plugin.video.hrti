@@ -58,6 +58,7 @@ def list_subcategories():
         print(child['Name'])
     print('fert')
 
+
 def list_categories():
     """
     Create the list of video categories in the Kodi interface.
