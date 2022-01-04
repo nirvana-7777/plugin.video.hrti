@@ -55,14 +55,17 @@ def get_categories():
 def list_subcategories():
     catalog_structure = api.get_catalog_structure()
     for child in catalog_structure:
-        print(child['Name'])
         if child['Name'] == 'Videoteka':
-            print('Videoteka found')
             videothek = child['Children']
-            print(videothek)
             for subcategory in videothek:
-                print(subcategory['Name'])
-    print('fert')
+                list_item = xbmcgui.ListItem(label=subcategory['Name'])
+                list_item.setInfo('video', {'title': subcategory['Name'],
+                                            'genre': subcategory['Name'],
+                                            'mediatype': 'video'})
+                url = get_url(action='listing', category=subcategory['Name'])
+                is_folder = True
+                xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
+    xbmcplugin.endOfDirectory(_HANDLE)
 
 
 def list_categories():
