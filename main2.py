@@ -25,7 +25,7 @@ plugin = Common(
 api = HRTiAPI(plugin)
 channels = api.get_channels()
 
-CATEGORIES = ['TV Channels', 'Radio Channels']
+CATEGORIES = ['TV Channels', 'Radio Channels', 'Videothek']
 
 
 def get_url(**kwargs):
@@ -50,6 +50,12 @@ def get_categories():
     :rtype: types.GeneratorType
     """
     return CATEGORIES
+
+
+def list_subcategories():
+    catalog_structure = api.get_catalog_structure()
+    for child in catalog_structure:
+        print(child['Name'])
 
 
 def list_categories():
@@ -94,7 +100,7 @@ def list_categories():
         # Add our item to the Kodi virtual folder listing.
         xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     # Add a sort method for the virtual folder items (alphabetically, ignore articles)
-    xbmcplugin.addSortMethod(_HANDLE, xbmcplugin.SORT_METHOD_LABEL_IGNORE_THE)
+    # xbmcplugin.addSortMethod(_HANDLE, xbmcplugin.SORT_METHOD_LABEL_IGNORE_THE)
     # Finish creating a virtual folder.
     xbmcplugin.endOfDirectory(_HANDLE)
 
@@ -112,35 +118,36 @@ def list_videos(category):
     # for this type of content.
     xbmcplugin.setContent(_HANDLE, 'videos')
     # Get the list of videos in the category.
-    # videos = get_videos(category)
-    # videos = get_channels(category)
-    # Iterate through videos.
-    for channel in channels:
-        if (channel['Radio'] and category == 'Radio Channels') or (not channel['Radio'] and category == 'TV Channels'):
-            list_item = xbmcgui.ListItem(label=channel['Name'])
-            list_item.setArt({'thumb': channel['Icon'], 'icon': channel['Icon'], 'fanart': channel['Icon']})
-            list_item.setProperty('IsPlayable', 'true')
+    if category == 'Videothek':
+        print('hier')
+    else:
+        # Iterate through videos.
+        for channel in channels:
+            if (channel['Radio'] and category == 'Radio Channels') or (not channel['Radio'] and category == 'TV Channels'):
+                list_item = xbmcgui.ListItem(label=channel['Name'])
+                list_item.setArt({'thumb': channel['Icon'], 'icon': channel['Icon'], 'fanart': channel['Icon']})
+                list_item.setProperty('IsPlayable', 'true')
 
-            # for video in videos:
-            # Create a list item with a text label and a thumbnail image.
-            # list_item = xbmcgui.ListItem(label=video['name']
-            # Set additional info for the list item.
-            # 'mediatype' is needed for skin to display info for this ListItem correctly.
-            if channel['Radio']:
-                metadata = {'mediatype': 'audio'}
-                list_item.setInfo('music', metadata)
-            else:
-                metadata = {'mediatype': 'video'}
-                list_item.setInfo('video', metadata)
+                # for video in videos:
+                # Create a list item with a text label and a thumbnail image.
+                # list_item = xbmcgui.ListItem(label=video['name']
+                # Set additional info for the list item.
+                # 'mediatype' is needed for skin to display info for this ListItem correctly.
+                if channel['Radio']:
+                    metadata = {'mediatype': 'audio'}
+                    list_item.setInfo('music', metadata)
+                else:
+                    metadata = {'mediatype': 'video'}
+                    list_item.setInfo('video', metadata)
 
-            url = get_url(action='play', video=channel['StreamingURL'])
-            # Add the list item to a virtual Kodi folder.
-            # is_folder = False means that this item won't open any sub-list.
-            is_folder = False
-            # Add our item to the Kodi virtual folder listing.
-            xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
-    # Add a sort method for the virtual folder items (alphabetically, ignore articles)
-    xbmcplugin.addSortMethod(_HANDLE, xbmcplugin.SORT_METHOD_LABEL_IGNORE_THE)
+                url = get_url(action='play', video=channel['StreamingURL'])
+                # Add the list item to a virtual Kodi folder.
+                # is_folder = False means that this item won't open any sub-list.
+                is_folder = False
+                # Add our item to the Kodi virtual folder listing.
+                xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
+                # Add a sort method for the virtual folder items (alphabetically, ignore articles)
+                # xbmcplugin.addSortMethod(_HANDLE, xbmcplugin.SORT_METHOD_LABEL_IGNORE_THE)
     # Finish creating a virtual folder.
     xbmcplugin.endOfDirectory(_HANDLE)
 
@@ -210,7 +217,10 @@ def router(paramstring):
     if params:
         if params['action'] == 'listing':
             # Display the list of videos in a provided category.
-            list_videos(params['category'])
+            if params['category'] == 'Videothek':
+                list_subcategories()
+            else:
+                list_videos(params['category'])
         elif params['action'] == 'play':
             # Play a video from a provided URL.
             play_video(params['video'])
