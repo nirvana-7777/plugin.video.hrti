@@ -64,6 +64,7 @@ def list_subcategories(parent_category):
             is_folder = True
             xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     else:
+        print(parent_category)
         for child in catalog_structure:
             if child['ParentReferenceId'] == parent_category:
                 videothek = child['Children']
@@ -72,6 +73,7 @@ def list_subcategories(parent_category):
                     print(catalog)
                 else:
                     for subcategory in videothek:
+                        print(subcategory['ReferenceId'])
                         list_item = xbmcgui.ListItem(label=subcategory['Name'])
                         list_item.setInfo('video', {'title': subcategory['Name'],
                                                     'genre': subcategory['Name'],
