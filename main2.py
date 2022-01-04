@@ -64,17 +64,17 @@ def list_subcategories(parent_category):
             is_folder = True
             xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     else:
-    for child in catalog_structure:
-        if child['Name'] == parent_category:
-            videothek = child['Children']
-            for subcategory in videothek:
-                list_item = xbmcgui.ListItem(label=subcategory['Name'])
-                list_item.setInfo('video', {'title': subcategory['Name'],
-                                            'genre': subcategory['Name'],
-                                            'mediatype': 'video'})
-                url = get_url(action='listing', category=subcategory['Name'])
-                is_folder = True
-                xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
+        for child in catalog_structure:
+            if child['Name'] == parent_category:
+                videothek = child['Children']
+                for subcategory in videothek:
+                    list_item = xbmcgui.ListItem(label=subcategory['Name'])
+                    list_item.setInfo('video', {'title': subcategory['Name'],
+                                                'genre': subcategory['Name'],
+                                                'mediatype': 'video'})
+                    url = get_url(action='listing', category=subcategory['Name'])
+                    is_folder = True
+                    xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     xbmcplugin.endOfDirectory(_HANDLE)
 
 
@@ -235,10 +235,10 @@ def router(paramstring):
     if params:
         if params['action'] == 'listing':
             # Display the list of videos in a provided category.
-            if params['category'] == 'Videothek':
-                list_subcategories()
-            else:
+            if params['category'] == 'TV Channels' or params['category'] == 'Radio Channels':
                 list_videos(params['category'])
+            else:
+                list_subcategories(params['category'])
         elif params['action'] == 'play':
             # Play a video from a provided URL.
             play_video(params['video'])
