@@ -237,7 +237,7 @@ def router(paramstring):
 
     params = dict(parse_qsl(paramstring))
     # Check the parameters passed to the plugin
-    print(params)
+    print("Params" + str(params))
     if params:
         if params['action'] == 'listing':
             # Display the list of videos in a provided category.
