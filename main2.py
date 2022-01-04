@@ -62,7 +62,7 @@ def get_children(node, wanted_subcategory):
 
 
 def list_subcategories(path):
-    parent_category = None
+    parent_category = ""
     node = catalog_structure
     if path is None:
         current_node = node
@@ -78,7 +78,8 @@ def list_subcategories(path):
             url = get_url(action='listing', category=path+"/"+child['ReferenceId'])
             is_folder = True
             xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
-    xbmcplugin.endOfDirectory(_HANDLE)
+    if path is not None:
+        xbmcplugin.endOfDirectory(_HANDLE)
 
 
 def list_categories():
