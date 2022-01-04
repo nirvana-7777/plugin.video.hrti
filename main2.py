@@ -75,16 +75,15 @@ def get_children(node, wanted_subcategory):
 
 
 def list_subcategories(path):
-    node = catalog_structure
-    if path is None:
-        parent_category = ""
-        current_node = node
-    else:
+    current_node = catalog_structure
+    parent_category = ""
+    if path is not None:
         sections = path_parse("/"+path)
-        print(sections)
-
-        parent_category = path
-        current_node = get_children(node, path)
+        i = 0
+        while sections[i] is not None:
+            current_node = get_children(current_node, sections[i])
+            parent_category = sections[i]
+            i = i+1
     for child in current_node:
         if child['ParentReferenceId'] == parent_category:
             print(child['ReferenceId'])
