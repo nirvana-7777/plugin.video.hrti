@@ -70,20 +70,14 @@ def list_subcategories(path):
         current_node = get_children(node, path)
     for child in current_node:
         if child['ParentReferenceId'] == parent_category:
-            videothek = child['Children']
-            if videothek is None:
-                catalog = api.get_catalog(child['ReferenceId'])
-                print(catalog)
-            else:
-                for subcategory in videothek:
-                    print(subcategory['ReferenceId'])
-                    list_item = xbmcgui.ListItem(label=subcategory['Name'])
-                    list_item.setInfo('video', {'title': subcategory['Name'],
-                                                'genre': subcategory['Name'],
-                                                'mediatype': 'video'})
-                    url = get_url(action='listing', category=path+"/"+subcategory['ReferenceId'])
-                    is_folder = True
-                    xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
+            print(child['ReferenceId'])
+            list_item = xbmcgui.ListItem(label=child['Name'])
+            list_item.setInfo('video', {'title': child['Name'],
+                                        'genre': child['Name'],
+                                        'mediatype': 'video'})
+            url = get_url(action='listing', category=path+"/"+child['ReferenceId'])
+            is_folder = True
+            xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     xbmcplugin.endOfDirectory(_HANDLE)
 
 
