@@ -80,6 +80,7 @@ def list_subcategories(path):
                 url = get_url(action='listing', category=child['ReferenceId'])
             else:
                 url = get_url(action='listing', category=path+"/"+child['ReferenceId'])
+            print(url)
             is_folder = True
             xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     if path is not None:
