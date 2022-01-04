@@ -24,8 +24,9 @@ plugin = Common(
 
 api = HRTiAPI(plugin)
 channels = api.get_channels()
+catalog_structure = api.get_catalog_structure()
 
-CATEGORIES = ['TV Channels', 'Radio Channels', 'Videothek']
+CATEGORIES = ['TV Channels', 'Radio Channels']
 
 
 def get_url(**kwargs):
@@ -52,35 +53,33 @@ def get_categories():
     return CATEGORIES
 
 
-def list_subcategories(parent_category):
-    catalog_structure = api.get_catalog_structure()
-    if parent_category is None:
-        for child in catalog_structure:
-            list_item = xbmcgui.ListItem(label=child['Name'])
-            list_item.setInfo('video', {'title': child['Name'],
-                                        'genre': child['Name'],
-                                        'mediatype': 'video'})
-            url = get_url(action='listing', category=child['ReferenceId'])
-            is_folder = True
-            xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
-    else:
-        print(parent_category)
-        for child in catalog_structure:
-            if child['ParentReferenceId'] == parent_category:
-                videothek = child['Children']
-                if videothek is None:
-                    catalog = api.get_catalog(child['ReferenceId'])
-                    print(catalog)
-                else:
-                    for subcategory in videothek:
-                        print(subcategory['ReferenceId'])
-                        list_item = xbmcgui.ListItem(label=subcategory['Name'])
-                        list_item.setInfo('video', {'title': subcategory['Name'],
-                                                    'genre': subcategory['Name'],
-                                                    'mediatype': 'video'})
-                        url = get_url(action='listing', category=subcategory['ReferenceId'])
-                        is_folder = True
-                        xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
+def get_children(node, wanted_subcategory)
+    children = None
+    for child in node:
+        if child['ParentReferenceId'] == node['ReferenceId'] and child['ReferenceId'] == wanted_subcategory
+            children = child['Children']
+    return children
+
+def list_subcategories(path):
+    parent_category = None
+
+    current_node = get_children(parent_category, path)
+    for child in current_node:
+        if child['ParentReferenceId'] == parent_category:
+            videothek = child['Children']
+            if videothek is None:
+                catalog = api.get_catalog(child['ReferenceId'])
+                print(catalog)
+            else:
+                for subcategory in videothek:
+                    print(subcategory['ReferenceId'])
+                    list_item = xbmcgui.ListItem(label=subcategory['Name'])
+                    list_item.setInfo('video', {'title': subcategory['Name'],
+                                                'genre': subcategory['Name'],
+                                                'mediatype': 'video'})
+                    url = get_url(action='listing', category=path+"/"+subcategory['ReferenceId'])
+                    is_folder = True
+                    xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     xbmcplugin.endOfDirectory(_HANDLE)
 
 
