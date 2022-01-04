@@ -80,10 +80,10 @@ def list_subcategories(path):
     if path is not None:
         sections = path_parse("/"+path)
         i = 0
-        while sections[i] is not None:
+        while i < len(sections):
             current_node = get_children(current_node, sections[i])
             parent_category = sections[i]
-            i = i+1
+            i += 1
     for child in current_node:
         if child['ParentReferenceId'] == parent_category:
             print(child['ReferenceId'])
