@@ -62,6 +62,8 @@ def get_children(node, wanted_subcategory):
 
 
 def list_subcategories(path):
+    path_parsed = path_parse(path)
+    print(path_parsed)
     node = catalog_structure
     if path is None:
         parent_category = ""
