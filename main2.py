@@ -10,6 +10,7 @@ from urllib.parse import urlencode, urlparse, parse_qsl
 import xbmcgui
 import xbmcplugin
 import xbmcaddon
+import posixpath
 from lib.hrti_api2 import HRTiAPI
 from lib.common import Common
 
@@ -53,6 +54,18 @@ def get_categories():
     return CATEGORIES
 
 
+def path_parse(path_string, *, normalize=True, module=posixpath):
+    result = []
+    if normalize:
+        tmp = module.normpath(path_string)
+    else:
+        tmp = path_string
+    while tmp != "/":
+        (tmp, item) = module.split(tmp)
+        result.insert(0, item)
+    return result
+
+
 def get_children(node, wanted_subcategory):
     children = None
     for child in node:
@@ -67,8 +80,9 @@ def list_subcategories(path):
         parent_category = ""
         current_node = node
     else:
-        path_parsed = path_parse("/" + path)
-        print(path_parsed)
+        sections = path_parse(path)
+        print(sections)
+
         parent_category = path
         current_node = get_children(node, path)
     for child in current_node:
