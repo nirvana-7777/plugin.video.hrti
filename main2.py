@@ -53,17 +53,18 @@ def get_categories():
     return CATEGORIES
 
 
-def get_children(node, wanted_subcategory)
+def get_children(node, wanted_subcategory):
     children = None
     for child in node:
-        if child['ParentReferenceId'] == node['ReferenceId'] and child['ReferenceId'] == wanted_subcategory
+        if child['ParentReferenceId'] == node['ReferenceId'] and child['ReferenceId'] == wanted_subcategory:
             children = child['Children']
     return children
 
+
 def list_subcategories(path):
     parent_category = None
-
-    current_node = get_children(parent_category, path)
+    node = catalog_structure
+    current_node = get_children(node, path)
     for child in current_node:
         if child['ParentReferenceId'] == parent_category:
             videothek = child['Children']
