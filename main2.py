@@ -60,7 +60,7 @@ def list_subcategories(parent_category):
             list_item.setInfo('video', {'title': child['Name'],
                                         'genre': child['Name'],
                                         'mediatype': 'video'})
-            url = get_url(action='listing', category=child['Name'])
+            url = get_url(action='listing', category=child['ReferenceId'])
             is_folder = True
             xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     else:
