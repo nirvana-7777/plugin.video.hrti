@@ -80,7 +80,7 @@ def list_subcategories(path):
         parent_category = ""
         current_node = node
     else:
-        sections = path_parse(path)
+        sections = path_parse("/"+path)
         print(sections)
 
         parent_category = path
