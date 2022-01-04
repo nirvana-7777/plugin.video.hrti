@@ -64,7 +64,7 @@ def get_children(node, wanted_subcategory):
 def list_subcategories(path):
     parent_category = None
     node = catalog_structure
-    if path == None:
+    if path is None:
         current_node = node
     else:
         current_node = get_children(node, path)
