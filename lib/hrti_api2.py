@@ -341,7 +341,6 @@ class HRTiAPI:
         result = response.json().get("Result")
         return result
 
-
     def get_catalog(self, reference_id):
 
         url = self.hrtiBaseUrl + "/api/api/ott/GetCatalogue"
@@ -386,7 +385,6 @@ class HRTiAPI:
         print(response.text)
         result = response.json().get("Result")
         return result
-
 
     def get_programme(self, channelids, starttime, endtime):
 

@@ -67,7 +67,7 @@ def list_subcategories(parent_category):
         for child in catalog_structure:
             if child['Name'] == parent_category:
                 videothek = child['Children']
-                if videothek == None:
+                if videothek is None:
                     catalog = api.get_catalog(child['ReferenceId'])
                     print(catalog)
                 else:
