@@ -55,8 +55,11 @@ def get_categories():
 def list_subcategories():
     catalog_structure = api.get_catalog_structure()
     for child in catalog_structure:
+        print(child['Name'])
         if child['Name'] is 'Videoteka':
+            print('Videoteka found')
             videothek = child['Children']
+            print(videothek)
             for subcategory in videothek:
                 print(subcategory['Name'])
     print('fert')
