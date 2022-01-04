@@ -56,7 +56,7 @@ def get_categories():
 def get_children(node, wanted_subcategory):
     children = None
     for child in node:
-        if child['ParentReferenceId'] == node['ReferenceId'] and child['ReferenceId'] == wanted_subcategory:
+        if child['ReferenceId'] == wanted_subcategory:
             children = child['Children']
     return children
 
