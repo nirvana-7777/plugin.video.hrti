@@ -56,7 +56,7 @@ def list_subcategories():
     catalog_structure = api.get_catalog_structure()
     for child in catalog_structure:
         print(child['Name'])
-
+    print('fert')
 
 def list_categories():
     """
