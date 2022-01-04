@@ -75,7 +75,10 @@ def list_subcategories(path):
             list_item.setInfo('video', {'title': child['Name'],
                                         'genre': child['Name'],
                                         'mediatype': 'video'})
-            url = get_url(action='listing', category=path+"/"+child['ReferenceId'])
+            if path is None:
+                url = get_url(action='listing', category=child['ReferenceId'])
+            else:
+                url = get_url(action='listing', category=path+"/"+child['ReferenceId'])
             is_folder = True
             xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     if path is not None:
