@@ -67,14 +67,18 @@ def list_subcategories(parent_category):
         for child in catalog_structure:
             if child['Name'] == parent_category:
                 videothek = child['Children']
-                for subcategory in videothek:
-                    list_item = xbmcgui.ListItem(label=subcategory['Name'])
-                    list_item.setInfo('video', {'title': subcategory['Name'],
-                                                'genre': subcategory['Name'],
-                                                'mediatype': 'video'})
-                    url = get_url(action='listing', category=subcategory['Name'])
-                    is_folder = True
-                    xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
+                if videothek == None:
+                    catalog = api.get_catalog(child['ReferenceId'])
+                    print(catalog)
+                else:
+                    for subcategory in videothek:
+                        list_item = xbmcgui.ListItem(label=subcategory['Name'])
+                        list_item.setInfo('video', {'title': subcategory['Name'],
+                                                    'genre': subcategory['Name'],
+                                                    'mediatype': 'video'})
+                        url = get_url(action='listing', category=subcategory['Name'])
+                        is_folder = True
+                        xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     xbmcplugin.endOfDirectory(_HANDLE)
 
 
@@ -90,7 +94,6 @@ def list_categories():
     xbmcplugin.setContent(_HANDLE, 'videos')
     # Get video categories
     categories = get_categories()
-    print(categories)
     # Iterate through categories
     for category in categories:
         # Create a list item with a text label and a thumbnail image.
