@@ -429,10 +429,7 @@ class HRTiAPI:
             referer = "https://hrti.hrt.hr/videostore"
         else:
             referer = "https://hrti.hrt.hr/live/"
-            if contenttype == "tlive":
-                referer += "tv?channel=' + str(channelid)"
-            else:
-                referer += "radio"
+            referer += "tv?channel=' + str(channelid)"
         headers = self.get_headers(host, referer)
         response = self.session.post(url, headers=headers, data=payload)
         result = response.json().get("Result")
