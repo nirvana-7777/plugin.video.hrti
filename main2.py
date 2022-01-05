@@ -99,10 +99,23 @@ def list_subcategories(path):
             xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
             count += 1
     if count == 0:
-        # reference_id = current_node['ReferenceId']
-        print(parent_category)
         catalog = api.get_catalog(parent_category)
-        print(catalog)
+        for catalog_entry in catalog:
+            list_item = xbmcgui.ListItem(label=catalog_entry['Title'])
+            # duration = catalog_entry['VodData'] AvailableFrom, Duration, ProductionYear
+            list_item.setArt({'thumb': catalog_entry['PosterLandscape'],
+                              'icon': catalog_entry['PosterLandscape'],
+                              'fanart': catalog_entry['PosterPortrait']})
+            list_item.setProperty('IsPlayable', 'true')
+            metadata = {'mediatype': 'video'}
+            list_item.setInfo('video', metadata)
+            url = get_url(action='play', video=catalog_entry['ReferenceId'])
+            # Add the list item to a virtual Kodi folder.
+            # is_folder = False means that this item won't open any sub-list.
+            is_folder = False
+            # Add our item to the Kodi virtual folder listing.
+            xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
+
     if path is not None:
         xbmcplugin.endOfDirectory(_HANDLE)
 
