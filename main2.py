@@ -100,6 +100,7 @@ def list_subcategories(path):
             count += 1
     if count == 0:
         # reference_id = current_node['ReferenceId']
+        print(parent_category)
         catalog = api.get_catalog(parent_category)
         print(catalog)
     if path is not None:
