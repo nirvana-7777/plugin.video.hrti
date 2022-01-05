@@ -268,6 +268,11 @@ def play_video(path):
         video_store_ids = voddetails['SVODVideostores']
         if content_type != 'series':
             authorize_and_play(filename, content_type, path, video_store_ids, None)
+        else:
+            seasons = api.get_seasons(path)
+            print(seasons)
+            episodes = api.get_episodes(path, seasons['ReferenceId'])
+            print(episodes)
     else:
         # Create a playable item with a path to play.
         for channel in channels:

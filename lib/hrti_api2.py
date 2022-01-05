@@ -343,6 +343,35 @@ class HRTiAPI:
         result = response.json().get("Result")
         return result
 
+    def get_seasons(self, series_ref_id):
+
+        url = self.hrtiBaseUrl + "/api/api/ott/GetSeasons"
+
+        payload = json.dumps({
+            "SeriesReferenceId": series_ref_id
+        })
+        host = "hrti.hrt.hr"
+        referer = "https://hrti.hrt.hr/videostore"
+        headers = self.get_headers(host, referer)
+        response = self.session.post(url, headers=headers, data=payload)
+        result = response.json().get("Result")
+        return result
+
+    def get_episodes(self, series_ref_id, season_ref_id):
+
+        url = self.hrtiBaseUrl + "/api/api/ott/GetEpisodes"
+
+        payload = json.dumps({
+            "SeriesReferenceId": series_ref_id,
+            "SeasonReferenceId": season_ref_id
+        })
+        host = "hrti.hrt.hr"
+        referer = "https://hrti.hrt.hr/videostore"
+        headers = self.get_headers(host, referer)
+        response = self.session.post(url, headers=headers, data=payload)
+        result = response.json().get("Result")
+        return result
+
     def logout(self):
 
         url = self.hsapiBaseUrl + "/client.svc/json/DeviceInstanceDelete"
