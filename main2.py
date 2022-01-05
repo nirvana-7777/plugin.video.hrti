@@ -100,6 +100,7 @@ def list_subcategories(path):
             count += 1
     if count == 0:
         catalog = api.get_catalog(parent_category)
+        print(catalog)
         for catalog_entry in catalog:
             list_item = xbmcgui.ListItem(label=catalog_entry['Title'])
             # duration = catalog_entry['VodData'] AvailableFrom, Duration, ProductionYear
