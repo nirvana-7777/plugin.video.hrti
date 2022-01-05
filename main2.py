@@ -255,7 +255,7 @@ def play_video(path):
                 directories = parts.path.strip('/').split('/')
                 contentid = directories[0] + "_" + directories[1]
                 print(contentid)
-                result = api.authorize_session("tlive", refid, None, contentid, refid)
+                result = api.authorize_session("tlive", refid, contentid, None, refid)
                 print(result)
                 result2 = api.report_session_event(result['SessionId'], refid)
                 drmid = result['DrmId']
