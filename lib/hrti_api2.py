@@ -44,14 +44,36 @@ class HRTiAPI:
         self.get_content_rating()
         self.get_profiles()
 
+    def get_headers(self, host, referer):
+
+        cookie_header = None
+        for cookie in self.session.cookies:
+            if cookie.domain == '.hrti.hrt.hr':
+                cookie_header = cookie.name + "=" + cookie.value
+
+        headers = {
+            'host': host,
+            'connection': 'keep-alive',
+            'deviceid': self.DEVICE_ID,
+            'operatorreferenceid': 'hrt',
+            'authorization': 'Client ' + self.TOKEN,
+            'ipaddress': str(self.__ip),
+            'content-type': 'application/json',
+            'accept': 'application/json, text/plain, */*',
+            'user-agent': self.__user_agent,
+            'devicetypeid': '6',
+            'origin': 'https://hrti.hrt.hr',
+            'referer': referer,
+            'accept-encoding': 'gzip, deflate, br',
+            'accept-language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
+            'Cookie': cookie_header
+        }
+        return headers
+
     @staticmethod
     def get_ip(self):
         url = self.hrtiBaseUrl+"/api/api/ott/getIPAddress"
         r = self.session.get(url)
-        # r = requests.get(url)
-        # self.cookie = r.cookies
-        print(r.headers)
-        print(r.json())
         return r.json()
 
     def grant_access(self):
@@ -304,40 +326,11 @@ class HRTiAPI:
 
         url = self.hrtiBaseUrl + "/api/api/ott/GetCatalogueStructure"
 
-        cookie_header = None
-        for cookie in self.session.cookies:
-            if cookie.domain == '.hrti.hrt.hr':
-                cookie_header = cookie.name + "=" + cookie.value
-
         payload = json.dumps({})
-        headers = {
-            'host': 'hrti.hrt.hr',
-            'connection': 'keep-alive',
-            'content-length': '2',
-            'deviceid': self.DEVICE_ID,
-            'operatorreferenceid': 'hrt',
-            # 'sec-ch-ua-mobile': '?0',
-            'authorization': 'Client '+self.TOKEN,
-            'ipaddress': str(self.__ip),
-            'content-type': 'application/json',
-            'accept': 'application/json, text/plain, */*',
-            'user-agent': self.__user_agent,
-            'devicetypeid': '6',
-            # 'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
-            # 'sec-ch-ua-platform': '"Linux"',
-            'origin': 'https://hrti.hrt.hr',
-            # 'sec-fetch-site': 'same-origin',
-            # 'sec-fetch-mode': 'cors',
-            # 'sec-fetch-dest': 'empty',
-            'referer': 'https://hrti.hrt.hr/videostore',
-            'accept-encoding': 'gzip, deflate, br',
-            'accept-language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
-            'Cookie': cookie_header
-        }
-
+        host = "hrti.hrt.hr"
+        referer = "https://hrti.hrt.hr/videostore"
+        headers = self.get_headers(host, referer)
         response = self.session.post(url, headers=headers, data=payload)
-
-        print(response.text)
         result = response.json().get("Result")
         return result
 
@@ -345,43 +338,15 @@ class HRTiAPI:
 
         url = self.hrtiBaseUrl + "/api/api/ott/GetCatalogue"
 
-        cookie_header = None
-        for cookie in self.session.cookies:
-            if cookie.domain == '.hrti.hrt.hr':
-                cookie_header = cookie.name + "=" + cookie.value
-
         payload = json.dumps({
             "ReferenceId": reference_id,
             "ItemsPerPage": max_number,
             "PageNumber": page,
         })
-        headers = {
-            'host': 'hrti.hrt.hr',
-            'connection': 'keep-alive',
-            # 'content-length': '2',
-            'deviceid': self.DEVICE_ID,
-            'operatorreferenceid': 'hrt',
-            # 'sec-ch-ua-mobile': '?0',
-            'authorization': 'Client '+self.TOKEN,
-            'ipaddress': str(self.__ip),
-            'content-type': 'application/json',
-            'accept': 'application/json, text/plain, */*',
-            'user-agent': self.__user_agent,
-            'devicetypeid': '6',
-            # 'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
-            # 'sec-ch-ua-platform': '"Linux"',
-            'origin': 'https://hrti.hrt.hr',
-            # 'sec-fetch-site': 'same-origin',
-            # 'sec-fetch-mode': 'cors',
-            # 'sec-fetch-dest': 'empty',
-            'referer': 'https://hrti.hrt.hr/videostore',
-            'accept-encoding': 'gzip, deflate, br',
-            'accept-language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
-            'Cookie': cookie_header
-        }
-
+        host = "hrti.hrt.hr"
+        referer = "https://hrti.hrt.hr/videostore"
+        headers = self.get_headers(host, referer)
         response = self.session.post(url, headers=headers, data=payload)
-
         result = response.json().get("Result")
         return result
 
@@ -389,42 +354,14 @@ class HRTiAPI:
 
         url = self.hrtiBaseUrl + "/api/api/ott/GetVodDetails"
 
-        cookie_header = None
-        for cookie in self.session.cookies:
-            if cookie.domain == '.hrti.hrt.hr':
-                cookie_header = cookie.name + "=" + cookie.value
-
         payload = json.dumps({
             "ReferenceId": reference_id,
         })
-        headers = {
-            'host': 'hrti.hrt.hr',
-            'connection': 'keep-alive',
-            # 'content-length': '2',
-            'deviceid': self.DEVICE_ID,
-            'operatorreferenceid': 'hrt',
-            # 'sec-ch-ua-mobile': '?0',
-            'authorization': 'Client '+self.TOKEN,
-            'ipaddress': str(self.__ip),
-            'content-type': 'application/json',
-            'accept': 'application/json, text/plain, */*',
-            'user-agent': self.__user_agent,
-            'devicetypeid': '6',
-            # 'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
-            # 'sec-ch-ua-platform': '"Linux"',
-            'origin': 'https://hrti.hrt.hr',
-            # 'sec-fetch-site': 'same-origin',
-            # 'sec-fetch-mode': 'cors',
-            # 'sec-fetch-dest': 'empty',
-            'referer': 'https://hrti.hrt.hr/videostore',
-            'accept-encoding': 'gzip, deflate, br',
-            'accept-language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
-            'Cookie': cookie_header
-        }
-
+        host = "hrti.hrt.hr"
+        referer = "https://hrti.hrt.hr/videostore"
+        headers = self.get_headers(host, referer)
         response = self.session.post(url, headers=headers, data=payload)
 
-        print(response.text)
         result = response.json().get("Result")
         return result
 
@@ -432,41 +369,14 @@ class HRTiAPI:
 
         url = self.hrtiBaseUrl + "/api/api/ott/GetProgramme"
 
-        cookie_header = None
-        for cookie in self.session.cookies:
-            if cookie.domain == '.hrti.hrt.hr':
-                cookie_header = cookie.name + "=" + cookie.value
-
         payload = json.dumps({
             "ChannelReferenceIds": channelids,
             "StartTime": starttime,
             "EndTime": endtime
         })
-        headers = {
-            'host': 'hrti.hrt.hr',
-            'connection': 'keep-alive',
-            'content-length': '2',
-            'deviceid': self.DEVICE_ID,
-            'operatorreferenceid': 'hrt',
-            'sec-ch-ua-mobile': '?0',
-            'authorization': 'Client '+self.TOKEN,
-            'ipaddress': str(self.__ip),
-            'content-type': 'application/json',
-            'accept': 'application/json, text/plain, */*',
-            'user-agent': self.__user_agent,
-            'devicetypeid': '6',
-            'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
-            'sec-ch-ua-platform': '"Linux"',
-            'origin': 'https://hrti.hrt.hr',
-            'sec-fetch-site': 'same-origin',
-            'sec-fetch-mode': 'cors',
-            'sec-fetch-dest': 'empty',
-            'referer': 'https://hrti.hrt.hr/home',
-            'accept-encoding': 'gzip, deflate, br',
-            'accept-language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
-            'Cookie': cookie_header
-        }
-
+        host = "hrti.hrt.hr"
+        referer = "https://hrti.hrt.hr/home"
+        headers = self.get_headers(host, referer)
         response = self.session.post(url, headers=headers, data=payload)
 
         result = response.json().get("Result")
@@ -475,11 +385,6 @@ class HRTiAPI:
     def authorize_session(self, contenttype, contentrefid, contentdrmid, videostorerefids, channelid):
 
         url = self.hrtiBaseUrl + "/api/api/ott/AuthorizeSession"
-
-        cookie_header = None
-        for cookie in self.session.cookies:
-            if cookie.domain == '.hrti.hrt.hr':
-                cookie_header = cookie.name + "=" + cookie.value
 
         payload = json.dumps({
             "ContentType": contenttype,
@@ -490,31 +395,16 @@ class HRTiAPI:
             "Starttime": None,
             "EndTime": None
         })
-        headers = {
-            'host': 'hrti.hrt.hr',
-            'connection': 'keep-alive',
-            # 'content-length': '2',
-            'deviceid': self.DEVICE_ID,
-            'operatorreferenceid': 'hrt',
-            'sec-ch-ua-mobile': '?0',
-            'authorization': 'Client '+self.TOKEN,
-            'ipaddress': str(self.__ip),
-            'content-type': 'application/json',
-            'accept': 'application/json, text/plain, */*',
-            'user-agent': self.__user_agent,
-            'devicetypeid': '6',
-            'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
-            'sec-ch-ua-platform': '"Linux"',
-            'origin': 'https://hrti.hrt.hr',
-            'sec-fetch-site': 'same-origin',
-            'sec-fetch-mode': 'cors',
-            'sec-fetch-dest': 'empty',
-            'referer': 'https://hrti.hrt.hr/live/tv?channel='+str(channelid),
-            'accept-encoding': 'gzip, deflate, br',
-            'accept-language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
-            'Cookie': cookie_header
-        }
-
+        host = "hrti.hrt.hr"
+        if channelid is None:
+            referer = "https://hrti.hrt.hr/videostore"
+        else:
+            referer = "https://hrti.hrt.hr/live/"
+            if contenttype == "tlive":
+                referer += "tv?channel=' + str(channelid)"
+            else:
+                referer += "radio"
+        headers = self.get_headers(host, referer)
         response = self.session.post(url, headers=headers, data=payload)
 
         result = response.json().get("Result")
@@ -530,44 +420,21 @@ class HRTiAPI:
 
         url = self.hrtiBaseUrl + "/api/api/ott/ReportSessionEvent"
 
-        cookie_header = None
-        for cookie in self.session.cookies:
-            if cookie.domain == '.hrti.hrt.hr':
-                cookie_header = cookie.name + "=" + cookie.value
-
         payload = json.dumps({
             "SessionEventId": 1,
             "SessionId": sessionid
         })
-        headers = {
-            'host': 'hrti.hrt.hr',
-            'connection': 'keep-alive',
-            # 'content-length': '2',
-            'deviceid': self.DEVICE_ID,
-            'operatorreferenceid': 'hrt',
-            'sec-ch-ua-mobile': '?0',
-            'authorization': 'Client '+self.TOKEN,
-            'ipaddress': str(self.__ip),
-            'content-type': 'application/json',
-            'accept': 'application/json, text/plain, */*',
-            'user-agent': self.__user_agent,
-            'devicetypeid': '6',
-            'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
-            'sec-ch-ua-platform': '"Linux"',
-            'origin': 'https://hrti.hrt.hr',
-            'sec-fetch-site': 'same-origin',
-            'sec-fetch-mode': 'cors',
-            'sec-fetch-dest': 'empty',
-            'referer': 'https://hrti.hrt.hr/live/tv?channel='+str(channelid),
-            'accept-encoding': 'gzip, deflate, br',
-            'accept-language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
-            'Cookie': cookie_header
-        }
-
+        host = "hrti.hrt.hr"
+        if channelid is None:
+            referer = "https://hrti.hrt.hr/videostore"
+        else:
+            referer = "https://hrti.hrt.hr/live/"
+            if contenttype == "tlive":
+                referer += "tv?channel=' + str(channelid)"
+            else:
+                referer += "radio"
+        headers = self.get_headers(host, referer)
         response = self.session.post(url, headers=headers, data=payload)
-
-        print(response.headers.get('content-type'))
-        print(response.text)
         result = response.json().get("Result")
         return result
 
@@ -578,31 +445,10 @@ class HRTiAPI:
         payload = json.dumps({
             "Serial": self.DEVICE_ID,
         })
-
-        headers = {
-            'host': 'hsapi.aviion.tv',
-            'connection': 'keep-alive',
-            'content-length': '257',
-            'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
-            'accept': 'application/json, text/plain, */*',
-            'content-type': 'application/json',
-            'authorization': 'Client ' + self.TOKEN,
-            'sec-ch-ua-mobile': '?0',
-            'user-agent': self.__user_agent,
-            'sec-ch-ua-platform': '"Linux"',
-            'origin': 'https://hrti.hrt.hr',
-            'sec-fetch-site': 'cross-site',
-            'sec-fetch-mode': 'cors',
-            'sec-fetch-dest': 'empty',
-            'referer': 'https://hrti.hrt.hr/',
-            'accept-encoding': 'gzip, deflate, br',
-            'accept-language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
-        }
-
+        host = "hsapi.aviion.tv"
+        referer = "https://hrti.hrt.hr/"
+        headers = self.get_headers(host, referer)
         response = self.session.post(url, headers=headers, data=payload)
-
-        print(response.headers.get('content-type'))
-        print(response.text)
         return response.status_code
 
     def get_license(self):
