@@ -221,12 +221,12 @@ def list_videos(category):
     xbmcplugin.endOfDirectory(_HANDLE)
 
 
-def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids):
+def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids, channel_id):
     print("Filename: "+filename)
     parts = urlparse(filename)
     directories = parts.path.strip('/').split('/')
     contentdrmid = directories[0] + "_" + directories[1]
-    result = api.authorize_session(contenttype, content_ref_id, contentdrmid, video_store_ids, None)
+    result = api.authorize_session(contenttype, content_ref_id, contentdrmid, video_store_ids, channel_id)
     api.report_session_event(result['SessionId'], content_ref_id)
 
     user_agent = "kodi plugin for hrti.hrt.hr (python)"
@@ -267,13 +267,13 @@ def play_video(path):
         content_type = voddetails['Type']
         video_store_ids = voddetails['SVODVideostores']
         if content_type != 'series':
-            authorize_and_play(filename, content_type, path, video_store_ids)
+            authorize_and_play(filename, content_type, path, video_store_ids, None)
     else:
         # Create a playable item with a path to play.
         for channel in channels:
             if path == channel['StreamingURL']:
                 refid = channel['ReferenceID']
-                authorize_and_play(path, "tlive", refid, None)
+                authorize_and_play(path, "tlive", refid, None, refid)
                 # print(refid)
                 # parts = urlparse(path)
                 # directories = parts.path.strip('/').split('/')
