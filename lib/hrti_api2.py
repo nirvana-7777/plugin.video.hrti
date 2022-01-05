@@ -85,36 +85,14 @@ class HRTiAPI:
             print('*************************************')
             if cookie.domain == '.hrti.hrt.hr':
                 cookie_header = cookie.name+"="+cookie.value
-        print(cookie_header)
-        url = "https://hrti.hrt.hr/api/api/ott/GrantAccess"
+
         payload = {
             "Username": self.__username,
             "Password": self.__password,
             "OperatorReferenceId": "hrt"
         }
         xbmc.log("hrti payload: " + str(payload), level=xbmc.LOGDEBUG)
-        headers = {
-            'content-type': 'application/json',
-            'accept': 'application/json, text/plain, */*',
-            # 'authorization': 'Client lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8kmqwKNSUc8Gw',
-            # 'Connection': 'keep-alive',
-            'content-length': '107',
-            'Host': 'hrti.hrt.hr',
-            'IPAddress': str(self.__ip),
-            'OperatorReferenceId': 'hrt',
-            # 'sec-ch-ua-mobile': '?0',
-            # 'Origin': 'https://hrti.hrt.hr',
-            # 'Referer': 'https://hrti.hrt.hr/signin',
-            # 'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
-            # 'sec-ch-ua-platform': '"Linux"',
-            # 'accept-encoding': 'gzip, deflate, br',
-            # 'accept-language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
-            'User-Agent': self.__user_agent,
-            # 'sec-fetch-site': 'same-origin',
-            # 'sec-fetch-mode': 'cors',
-            # 'sec - fetch - dest': 'empty',
-            'Cookie': cookie_header
-        }
+
         self._auth = None
         url = self.hrtiBaseUrl+"/api/api/ott/GrantAccess"
 
