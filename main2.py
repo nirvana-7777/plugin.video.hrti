@@ -266,7 +266,6 @@ def play_video(path):
         filename = voddetails['FileName']
         content_type = voddetails['Type']
         video_store_ids = voddetails['SVODVideostores']
-        # result = api.authorize_session("svod", path, None, "hrtvodorigin_"+path+".smil", None)
         if content_type != 'series':
             authorize_and_play(filename, content_type, path, video_store_ids)
     else:
