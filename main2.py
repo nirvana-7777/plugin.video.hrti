@@ -222,13 +222,12 @@ def list_videos(category):
 
 
 def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids):
+    print("Filename: "+filename)
     parts = urlparse(filename)
     directories = parts.path.strip('/').split('/')
     contentdrmid = directories[0] + "_" + directories[1]
-    print(contentdrmid)
     result = api.authorize_session(contenttype, content_ref_id, contentdrmid, video_store_ids, None)
-    drmid = result['DrmId']
-    result2 = api.report_session_event(result['SessionId'], content_ref_id)
+    api.report_session_event(result['SessionId'], content_ref_id)
 
     user_agent = "kodi plugin for hrti.hrt.hr (python)"
 

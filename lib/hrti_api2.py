@@ -484,11 +484,6 @@ class HRTiAPI:
             if cookie.domain == '.hrti.hrt.hr':
                 cookie_header = cookie.name + "=" + cookie.value
 
-        print(contenttype)
-        print(contentrefid)
-        print(contentdrmid)
-        print(videostorerefids)
-        print(channelid)
         payload = json.dumps({
             "ContentType": contenttype,
             "ContentReferenceId": contentrefid,
@@ -525,8 +520,6 @@ class HRTiAPI:
 
         response = self.session.post(url, headers=headers, data=payload)
 
-        print(response.headers.get('content-type'))
-        print(response.text)
         result = response.json().get("Result")
         errorcode = response.json().get("ErrorCode")
         errordesc = response.json().get("ErrorDescription")
@@ -552,7 +545,7 @@ class HRTiAPI:
         headers = {
             'host': 'hrti.hrt.hr',
             'connection': 'keep-alive',
-            'content-length': '2',
+            # 'content-length': '2',
             'deviceid': self.DEVICE_ID,
             'operatorreferenceid': 'hrt',
             'sec-ch-ua-mobile': '?0',
