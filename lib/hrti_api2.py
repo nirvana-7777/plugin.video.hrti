@@ -116,18 +116,6 @@ class HRTiAPI:
             'Cookie': cookie_header
         }
         self._auth = None
-        # r = requests.post(url, json=payload, headers=headers, cookies=self.cookie)
-        print(json.dumps(headers))
-        print(json.dumps(payload))
-        print(url)
-        # self.session.headers.update({'user-agent': self.user_agent})
-        # self.session.headers.update({'content-type': 'application/json'})
-        # self.session.headers.update({'content-length': '107'})
-        # self.session.headers.update({'deviceid': 'a8dc5ca6-8932-4932-88b6-6aee5d843624'})
-        # self.session.headers.update({'host': 'hrti.hrt.hr'})
-        # self.session.headers.update({'cookie': cookie_header})
-        # print(self.session.headers)
-        # r = self.session.post(url, json=json.dumps(payload), headers=headers)
         url = self.hrtiBaseUrl+"/api/api/ott/GrantAccess"
 
         payload = json.dumps({
@@ -189,31 +177,10 @@ class HRTiAPI:
             "OsVersion": "Linux",
             "ClientType": "Chrome 96"
         })
-
-        headers = {
-            'host': 'hsapi.aviion.tv',
-            'connection': 'keep-alive',
-            'content-length': '257',
-            'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
-            'accept': 'application/json, text/plain, */*',
-            'content-type': 'application/json',
-            'authorization': 'Client '+self.TOKEN,
-            'sec-ch-ua-mobile': '?0',
-            'user-agent': self.__user_agent,
-            'sec-ch-ua-platform': '"Linux"',
-            'origin': 'https://hrti.hrt.hr',
-            'sec-fetch-site': 'cross-site',
-            'sec-fetch-mode': 'cors',
-            'sec-fetch-dest': 'empty',
-            'referer': 'https://hrti.hrt.hr/',
-            'accept-encoding': 'gzip, deflate, br',
-            'accept-language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
-        }
-
+        host = "hsapi.aviion.tv"
+        referer = "https://hrti.hrt.hr/"
+        headers = self.get_headers(host, referer)
         response = self.session.post(url, headers=headers, data=payload)
-
-        print(response.headers.get('content-type'))
-        print(response.text)
         return response.status_code
 
     def get_content_rating(self):
@@ -221,31 +188,10 @@ class HRTiAPI:
         url = self.hsapiBaseUrl + "/client.svc/json/ContentRatingsGet"
 
         payload = json.dumps({})
-
-        headers = {
-            'host': 'hsapi.aviion.tv',
-            'connection': 'keep-alive',
-            'content-length': '2',
-            'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
-            'accept': 'application/json, text/plain, */*',
-            'content-type': 'application/json',
-            'authorization': 'Client '+self.TOKEN,
-            'sec-ch-ua-mobile': '?0',
-            'user-agent':  self.__user_agent,
-            'sec-ch-ua-platform': '"Linux"',
-            'origin': 'https://hrti.hrt.hr',
-            'sec-fetch-site': 'cross-site',
-            'sec-fetch-mode': 'cors',
-            'sec-fetch-dest': 'empty',
-            'referer': 'https://hrti.hrt.hr/',
-            'accept-encoding': 'gzip, deflate, br',
-            'accept-language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
-        }
-
+        host = "hsapi.aviion.tv"
+        referer = "https://hrti.hrt.hr/"
+        headers = self.get_headers(host, referer)
         response = self.session.post(url, headers=headers, data=payload)
-
-        print(response.headers.get('content-type'))
-        print(response.text)
         return response.status_code
 
     def get_profiles(self):
@@ -253,72 +199,22 @@ class HRTiAPI:
         url = self.hsapiBaseUrl + "/client.svc/json/ProfilesGet"
 
         payload = json.dumps({})
-
-        headers = {
-            'host': 'hsapi.aviion.tv',
-            'connection': 'keep-alive',
-            'content-length': '2',
-            'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
-            'accept': 'application/json, text/plain, */*',
-            'content-type': 'application/json',
-            'authorization': 'Client '+self.TOKEN,
-            'sec-ch-ua-mobile': '?0',
-            'user-agent': self.__user_agent,
-            'sec-ch-ua-platform': '"Linux"',
-            'origin': 'https://hrti.hrt.hr',
-            'sec-fetch-site': 'cross-site',
-            'sec-fetch-mode': 'cors',
-            'sec-fetch-dest': 'empty',
-            'referer': 'https://hrti.hrt.hr/',
-            'accept-encoding': 'gzip, deflate, br',
-            'accept-language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
-        }
-
+        host = "hsapi.aviion.tv"
+        referer = "https://hrti.hrt.hr/"
+        headers = self.get_headers(host, referer)
         response = self.session.post(url, headers=headers, data=payload)
-
-        print(response.headers.get('content-type'))
-        print(response.text)
         return response.status_code
 
     def get_channels(self):
 
         url = self.hrtiBaseUrl + "/api/api/ott/GetChannels"
 
-        cookie_header = None
-        for cookie in self.session.cookies:
-            if cookie.domain == '.hrti.hrt.hr':
-                cookie_header = cookie.name + "=" + cookie.value
-
         payload = json.dumps({})
-        headers = {
-            'host': 'hrti.hrt.hr',
-            'connection': 'keep-alive',
-            'content-length': '2',
-            'deviceid': self.DEVICE_ID,
-            'operatorreferenceid': 'hrt',
-            'sec-ch-ua-mobile': '?0',
-            'authorization': 'Client '+self.TOKEN,
-            'ipaddress': str(self.__ip),
-            'content-type': 'application/json',
-            'accept': 'application/json, text/plain, */*',
-            'user-agent': self.__user_agent,
-            'devicetypeid': '6',
-            'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
-            'sec-ch-ua-platform': '"Linux"',
-            'origin': 'https://hrti.hrt.hr',
-            'sec-fetch-site': 'same-origin',
-            'sec-fetch-mode': 'cors',
-            'sec-fetch-dest': 'empty',
-            'referer': 'https://hrti.hrt.hr/signin',
-            'accept-encoding': 'gzip, deflate, br',
-            'accept-language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
-            'Cookie': cookie_header
-        }
-
+        host = "hrti.hrt.hr"
+        referer = "https://hrti.hrt.hr/signin"
+        headers = self.get_headers(host, referer)
         response = self.session.post(url, headers=headers, data=payload)
 
-        print(response.headers.get('content-type'))
-        print(response.text)
         result = response.json().get("Result")
         return result
 
