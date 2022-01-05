@@ -77,21 +77,6 @@ class HRTiAPI:
         return r.json()
 
     def grant_access(self):
-        cookie_header = None
-        for cookie in self.session.cookies:
-            print('cookie domain = ' + cookie.domain)
-            print('cookie name = ' + cookie.name)
-            print('cookie value = ' + cookie.value)
-            print('*************************************')
-            if cookie.domain == '.hrti.hrt.hr':
-                cookie_header = cookie.name+"="+cookie.value
-
-        payload = {
-            "Username": self.__username,
-            "Password": self.__password,
-            "OperatorReferenceId": "hrt"
-        }
-        xbmc.log("hrti payload: " + str(payload), level=xbmc.LOGDEBUG)
 
         self._auth = None
         url = self.hrtiBaseUrl+"/api/api/ott/GrantAccess"
@@ -101,17 +86,10 @@ class HRTiAPI:
             "Password": self.__password,
             "OperatorReferenceId": "hrt"
         })
-        headers = {
-            'content-type': 'application/json',
-            'User-Agent':  self.__user_agent,
-            'IPAddress': str(self.__ip),
-            'OperatorReferenceId': 'hrt',
-            'Cookie': cookie_header
-        }
-
+        host = "https://hrti.hrt.hr/"
+        referer = "https://hrti.hrt.hr/"
+        headers = self.get_headers(host, referer)
         response = self.session.post(url, headers=headers, data=payload)
-
-        print(response.text)
         xbmc.log("hrti status code: " + str(response.status_code), level=xbmc.LOGDEBUG)
         if response.status_code == 200:
             print(response.headers.get('content-type'))
