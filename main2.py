@@ -101,12 +101,18 @@ def list_subcategories(path):
             xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
             count += 1
     if count == 0:
-        catalog = api.get_catalog(parent_category)
-        number = catalog['NumberOfItems']
-        print(catalog)
+        catalog = api.get_catalog(parent_category, 250, 1)
+        # number = catalog['NumberOfItems']
+        # print(catalog)
         for catalog_entry in catalog['Items']:
             list_item = xbmcgui.ListItem(label=catalog_entry['Title'])
-            # duration = catalog_entry['VodData'] AvailableFrom, Duration, ProductionYear
+            # catalog_entry['VodData'] AvailableFrom, Duration, ProductionYear
+            # catalog_entry['SeriesData'] {'LastEpisodeNumber': 1,
+            # 'LastSeasonNumber': 1, 'SeriesName': '',
+            # 'SeriesReferenceId': '44425aa1-0a72-7f51-9371-046be46ed537'}
+            # catalog_entry['Type']
+            # catalog_entry['VodCategoryNames']
+            # catalog_entry['AvailableFrom']
             list_item.setArt({'thumb': catalog_entry['PosterLandscape'],
                               'icon': catalog_entry['PosterLandscape'],
                               'fanart': catalog_entry['PosterPortrait']})
@@ -222,44 +228,49 @@ def play_video(path):
     :type path: str
     """
     print("play " + path)
-    # Create a playable item with a path to play.
-    for channel in channels:
-        if path == channel['StreamingURL']:
-            refid = channel['ReferenceID']
-            print(refid)
-            parts = urlparse(path)
-            directories = parts.path.strip('/').split('/')
-            contentid = directories[0] + "_" + directories[1]
-            print(contentid)
-            result = api.authorize_session(refid, contentid)
-            print(result)
-            result2 = api.report_session_event(result['SessionId'], refid)
-            drmid = result['DrmId']
-            print(result2)
-            print(drmid)
+    parts = urlparse(path)
+    if parts.scheme == "":
+        voddetails = api.get_vod_details(path)
+        print(voddetails)
+    else:
+        # Create a playable item with a path to play.
+        for channel in channels:
+            if path == channel['StreamingURL']:
+                refid = channel['ReferenceID']
+                print(refid)
+                parts = urlparse(path)
+                directories = parts.path.strip('/').split('/')
+                contentid = directories[0] + "_" + directories[1]
+                print(contentid)
+                result = api.authorize_session(refid, contentid)
+                print(result)
+                result2 = api.report_session_event(result['SessionId'], refid)
+                drmid = result['DrmId']
+                print(result2)
+                print(drmid)
 
-            user_agent = "kodi plugin for hrti.hrt.hr (python)"
+                user_agent = "kodi plugin for hrti.hrt.hr (python)"
 
-            license_str = api.get_license()
-            list_item = xbmcgui.ListItem(path=path)
+                license_str = api.get_license()
+                list_item = xbmcgui.ListItem(path=path)
 
-            list_item.setMimeType('application/xml+dash')
-            list_item.setContentLookup(False)
+                list_item.setMimeType('application/xml+dash')
+                list_item.setContentLookup(False)
 
-            list_item.setProperty('inputstream', 'inputstream.adaptive')
-            list_item.setProperty('inputstream.adaptive.manifest_type', 'mpd')
-            list_item.setProperty('inputstream.adaptive.license_type', 'com.widevine.alpha')
-            list_item.setProperty('inputstream.adaptive.license_key',
-                                  "https://lic.drmtoday.com/license-proxy-widevine/cenc/" +
-                                  "|User-Agent=" + user_agent +
-                                  "&Content-Type=text%2Fplain" +
-                                  "&origin=https://hrti.hrt.hr" +
-                                  "&referer=https://hrti.hrt.hr" +
-                                  "&dt-custom-data=" + license_str + "|R{SSM}|JBlicense")
+                list_item.setProperty('inputstream', 'inputstream.adaptive')
+                list_item.setProperty('inputstream.adaptive.manifest_type', 'mpd')
+                list_item.setProperty('inputstream.adaptive.license_type', 'com.widevine.alpha')
+                list_item.setProperty('inputstream.adaptive.license_key',
+                                      "https://lic.drmtoday.com/license-proxy-widevine/cenc/" +
+                                      "|User-Agent=" + user_agent +
+                                      "&Content-Type=text%2Fplain" +
+                                      "&origin=https://hrti.hrt.hr" +
+                                      "&referer=https://hrti.hrt.hr" +
+                                      "&dt-custom-data=" + license_str + "|R{SSM}|JBlicense")
 
-            list_item.setProperty('inputstream.adaptive.manifest_update_parameter', 'full')
+                list_item.setProperty('inputstream.adaptive.manifest_update_parameter', 'full')
 
-            xbmcplugin.setResolvedUrl(_HANDLE, True, listitem=list_item)
+                xbmcplugin.setResolvedUrl(_HANDLE, True, listitem=list_item)
 
 
 def router(paramstring):

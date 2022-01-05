@@ -341,7 +341,7 @@ class HRTiAPI:
         result = response.json().get("Result")
         return result
 
-    def get_catalog(self, reference_id):
+    def get_catalog(self, reference_id, max_number, page):
 
         url = self.hrtiBaseUrl + "/api/api/ott/GetCatalogue"
 
@@ -352,8 +352,51 @@ class HRTiAPI:
 
         payload = json.dumps({
             "ReferenceId": reference_id,
-            "ItemsPerPage": "250",
-            "PageNumber": "1",
+            "ItemsPerPage": max_number,
+            "PageNumber": page,
+        })
+        headers = {
+            'host': 'hrti.hrt.hr',
+            'connection': 'keep-alive',
+            # 'content-length': '2',
+            'deviceid': self.DEVICE_ID,
+            'operatorreferenceid': 'hrt',
+            # 'sec-ch-ua-mobile': '?0',
+            'authorization': 'Client '+self.TOKEN,
+            'ipaddress': str(self.__ip),
+            'content-type': 'application/json',
+            'accept': 'application/json, text/plain, */*',
+            'user-agent': self.__user_agent,
+            'devicetypeid': '6',
+            # 'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
+            # 'sec-ch-ua-platform': '"Linux"',
+            'origin': 'https://hrti.hrt.hr',
+            # 'sec-fetch-site': 'same-origin',
+            # 'sec-fetch-mode': 'cors',
+            # 'sec-fetch-dest': 'empty',
+            'referer': 'https://hrti.hrt.hr/videostore',
+            'accept-encoding': 'gzip, deflate, br',
+            'accept-language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
+            'Cookie': cookie_header
+        }
+
+        response = self.session.post(url, headers=headers, data=payload)
+
+        print(response.text)
+        result = response.json().get("Result")
+        return result
+
+    def get_vod_details(self, reference_id):
+
+        url = self.hrtiBaseUrl + "/api/api/ott/GetVodDetails"
+
+        cookie_header = None
+        for cookie in self.session.cookies:
+            if cookie.domain == '.hrti.hrt.hr':
+                cookie_header = cookie.name + "=" + cookie.value
+
+        payload = json.dumps({
+            "ReferenceId": reference_id,
         })
         headers = {
             'host': 'hrti.hrt.hr',
