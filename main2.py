@@ -271,7 +271,8 @@ def play_video(path):
         else:
             seasons = api.get_seasons(path)
             print(seasons)
-            episodes = api.get_episodes(path, seasons['ReferenceId'])
+            seasons_ref_id = seasons[0]['ReferenceId']
+            episodes = api.get_episodes(path, seasons_ref_id)
             print(episodes)
     else:
         # Create a playable item with a path to play.
