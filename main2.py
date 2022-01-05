@@ -99,8 +99,8 @@ def list_subcategories(path):
             xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
             count += 1
     if count == 0:
-        reference_id = current_node['ReferenceId']
-        catalog = api.get_catalog(reference_id)
+        # reference_id = current_node['ReferenceId']
+        catalog = api.get_catalog(parent_category)
         print(catalog)
     if path is not None:
         xbmcplugin.endOfDirectory(_HANDLE)
