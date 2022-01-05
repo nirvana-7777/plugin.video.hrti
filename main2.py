@@ -84,9 +84,9 @@ def list_subcategories(path):
             current_node = get_children(current_node, sections[i])
             parent_category = sections[i]
             i += 1
+    count = 0
     for child in current_node:
         if child['ParentReferenceId'] == parent_category:
-            print(child['ReferenceId'])
             list_item = xbmcgui.ListItem(label=child['Name'])
             list_item.setInfo('video', {'title': child['Name'],
                                         'genre': child['Name'],
@@ -95,9 +95,12 @@ def list_subcategories(path):
                 url = get_url(action='listing', category=child['ReferenceId'])
             else:
                 url = get_url(action='listing', category=path+"/"+child['ReferenceId'])
-            print(url)
             is_folder = True
             xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
+            count += 1
+    if count == 0:
+        catalog = api.get_catalog(current_node['ReferenceId'])
+        print(catalog)
     if path is not None:
         xbmcplugin.endOfDirectory(_HANDLE)
 
