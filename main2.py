@@ -227,7 +227,31 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids):
     contentdrmid = directories[0] + "_" + directories[1]
     print(contentdrmid)
     result = api.authorize_session(contenttype, content_ref_id, contentdrmid, video_store_ids, None)
-    print(result)
+    drmid = result['DrmId']
+    result2 = api.report_session_event(result['SessionId'], content_ref_id)
+
+    user_agent = "kodi plugin for hrti.hrt.hr (python)"
+
+    license_str = api.get_license()
+    list_item = xbmcgui.ListItem(path=filename)
+
+    list_item.setMimeType('application/xml+dash')
+    list_item.setContentLookup(False)
+
+    list_item.setProperty('inputstream', 'inputstream.adaptive')
+    list_item.setProperty('inputstream.adaptive.manifest_type', 'mpd')
+    list_item.setProperty('inputstream.adaptive.license_type', 'com.widevine.alpha')
+    list_item.setProperty('inputstream.adaptive.license_key',
+                          "https://lic.drmtoday.com/license-proxy-widevine/cenc/" +
+                          "|User-Agent=" + user_agent +
+                          "&Content-Type=text%2Fplain" +
+                          "&origin=https://hrti.hrt.hr" +
+                          "&referer=https://hrti.hrt.hr" +
+                          "&dt-custom-data=" + license_str + "|R{SSM}|JBlicense")
+
+    list_item.setProperty('inputstream.adaptive.manifest_update_parameter', 'full')
+
+    xbmcplugin.setResolvedUrl(_HANDLE, True, listitem=list_item)
 
 
 def play_video(path):
@@ -236,16 +260,13 @@ def play_video(path):
     :param path: Fully-qualified video URL
     :type path: str
     """
-    print("play " + path)
     parts = urlparse(path)
     if parts.scheme == "":
         voddetails = api.get_vod_details(path)
-        print(voddetails)
         filename = voddetails['FileName']
         video_store_ids = voddetails['SVODVideostores']
         # result = api.authorize_session("svod", path, None, "hrtvodorigin_"+path+".smil", None)
         authorize_and_play(filename, "svod", path, video_store_ids)
-        print(result)
     else:
         # Create a playable item with a path to play.
         for channel in channels:
