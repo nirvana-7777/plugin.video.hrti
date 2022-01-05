@@ -88,6 +88,8 @@ def list_subcategories(path):
     for child in current_node:
         if child['ParentReferenceId'] == parent_category:
             list_item = xbmcgui.ListItem(label=child['Name'])
+            list_item.setArt({'thumb': child['PosterLandscape'],
+                              'fanart': child['PosterLandscape']})
             list_item.setInfo('video', {'title': child['Name'],
                                         'genre': child['Name'],
                                         'mediatype': 'video'})
