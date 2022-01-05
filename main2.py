@@ -273,40 +273,41 @@ def play_video(path):
         for channel in channels:
             if path == channel['StreamingURL']:
                 refid = channel['ReferenceID']
-                print(refid)
-                parts = urlparse(path)
-                directories = parts.path.strip('/').split('/')
-                contentid = directories[0] + "_" + directories[1]
-                print(contentid)
-                result = api.authorize_session("tlive", refid, contentid, None, refid)
-                print(result)
-                result2 = api.report_session_event(result['SessionId'], refid)
-                drmid = result['DrmId']
-                print(result2)
-                print(drmid)
+                authorize_and_play(path, "tlive", refid, None)
+                # print(refid)
+                # parts = urlparse(path)
+                # directories = parts.path.strip('/').split('/')
+                # contentid = directories[0] + "_" + directories[1]
+                # print(contentid)
+                # result = api.authorize_session("tlive", refid, contentid, None, refid)
+                # print(result)
+                # result2 = api.report_session_event(result['SessionId'], refid)
+                # drmid = result['DrmId']
+                # print(result2)
+                # print(drmid)
 
-                user_agent = "kodi plugin for hrti.hrt.hr (python)"
+                # user_agent = "kodi plugin for hrti.hrt.hr (python)"
 
-                license_str = api.get_license()
-                list_item = xbmcgui.ListItem(path=path)
+                # license_str = api.get_license()
+                # list_item = xbmcgui.ListItem(path=path)
 
-                list_item.setMimeType('application/xml+dash')
-                list_item.setContentLookup(False)
+                # list_item.setMimeType('application/xml+dash')
+                # list_item.setContentLookup(False)
 
-                list_item.setProperty('inputstream', 'inputstream.adaptive')
-                list_item.setProperty('inputstream.adaptive.manifest_type', 'mpd')
-                list_item.setProperty('inputstream.adaptive.license_type', 'com.widevine.alpha')
-                list_item.setProperty('inputstream.adaptive.license_key',
-                                      "https://lic.drmtoday.com/license-proxy-widevine/cenc/" +
-                                      "|User-Agent=" + user_agent +
-                                      "&Content-Type=text%2Fplain" +
-                                      "&origin=https://hrti.hrt.hr" +
-                                      "&referer=https://hrti.hrt.hr" +
-                                      "&dt-custom-data=" + license_str + "|R{SSM}|JBlicense")
+                # list_item.setProperty('inputstream', 'inputstream.adaptive')
+                # list_item.setProperty('inputstream.adaptive.manifest_type', 'mpd')
+                # list_item.setProperty('inputstream.adaptive.license_type', 'com.widevine.alpha')
+                # list_item.setProperty('inputstream.adaptive.license_key',
+                #                       "https://lic.drmtoday.com/license-proxy-widevine/cenc/" +
+                #                       "|User-Agent=" + user_agent +
+                #                       "&Content-Type=text%2Fplain" +
+                #                       "&origin=https://hrti.hrt.hr" +
+                #                       "&referer=https://hrti.hrt.hr" +
+                #                       "&dt-custom-data=" + license_str + "|R{SSM}|JBlicense")
 
-                list_item.setProperty('inputstream.adaptive.manifest_update_parameter', 'full')
+                # list_item.setProperty('inputstream.adaptive.manifest_update_parameter', 'full')
 
-                xbmcplugin.setResolvedUrl(_HANDLE, True, listitem=list_item)
+                # xbmcplugin.setResolvedUrl(_HANDLE, True, listitem=list_item)
 
 
 def router(paramstring):
