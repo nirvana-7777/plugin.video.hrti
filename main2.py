@@ -264,9 +264,11 @@ def play_video(path):
         voddetails = api.get_vod_details(path)
         print(voddetails)
         filename = voddetails['FileName']
+        content_type = voddetails['Type']
         video_store_ids = voddetails['SVODVideostores']
         # result = api.authorize_session("svod", path, None, "hrtvodorigin_"+path+".smil", None)
-        authorize_and_play(filename, "svod", path, video_store_ids)
+        if content_type != 'series':
+            authorize_and_play(filename, content_type, path, video_store_ids)
     else:
         # Create a playable item with a path to play.
         for channel in channels:
