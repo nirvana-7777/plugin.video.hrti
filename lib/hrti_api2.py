@@ -495,8 +495,8 @@ class HRTiAPI:
             "ContentDrmId": contentdrmid,
             "VideostoreReferenceIds": videostorerefids,
             "ChannelReferenceId": channelid,
-            "Starttime": None
-            "EndTime": None,
+            "Starttime": None,
+            "EndTime": None
         })
         headers = {
             'host': 'hrti.hrt.hr',
