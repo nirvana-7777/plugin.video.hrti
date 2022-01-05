@@ -232,6 +232,8 @@ def play_video(path):
     if parts.scheme == "":
         voddetails = api.get_vod_details(path)
         print(voddetails)
+        result = api.authorize_session("svod", path, None, "hrtvodorigin_"+path+".smil", None)
+        print(result)
     else:
         # Create a playable item with a path to play.
         for channel in channels:
@@ -242,7 +244,7 @@ def play_video(path):
                 directories = parts.path.strip('/').split('/')
                 contentid = directories[0] + "_" + directories[1]
                 print(contentid)
-                result = api.authorize_session(refid, contentid)
+                result = api.authorize_session("tlive", refid, None, contentid, refid)
                 print(result)
                 result2 = api.report_session_event(result['SessionId'], refid)
                 drmid = result['DrmId']

@@ -475,7 +475,7 @@ class HRTiAPI:
         result = response.json().get("Result")
         return result
 
-    def authorize_session(self, channelid, contentid):
+    def authorize_session(self, contenttype, contentrefid, contentdrmid, videostorerefids, channelid):
 
         url = self.hrtiBaseUrl + "/api/api/ott/AuthorizeSession"
 
@@ -485,12 +485,13 @@ class HRTiAPI:
                 cookie_header = cookie.name + "=" + cookie.value
 
         payload = json.dumps({
-            "ContentType": "tlive",
-            "ContentReferenceId": channelid,
-            "ContentDrmId": contentid,
-            "VideostoreReferenceIds": None,
+            "ContentType": contenttype,
+            "ContentReferenceId": contentrefid,
+            "ContentDrmId": contentdrmid,
+            "VideostoreReferenceIds": videostorerefids,
             "ChannelReferenceId": channelid,
-            "EndTime": None
+            "EndTime": None,
+            "Starttime": None
         })
         headers = {
             'host': 'hrti.hrt.hr',
