@@ -523,12 +523,11 @@ class HRTiAPI:
         print(response.headers.get('content-type'))
         print(response.text)
         result = response.json().get("Result")
-        if result['ErrorCode'] != 0:
-            self.plugin.dialog_ok(result['ErrorDescription'])
-            return None
+        if response.json().get["ErrorCode"] != 0:
+            self.plugin.dialog_ok(response.json().get["ErrorDescription"])
         else:
             self.__drmid = result['DrmId']
-            return result
+        return result
 
     def report_session_event(self, sessionid, channelid):
 
