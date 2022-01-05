@@ -484,19 +484,24 @@ class HRTiAPI:
             if cookie.domain == '.hrti.hrt.hr':
                 cookie_header = cookie.name + "=" + cookie.value
 
+        print(contenttype)
+        print(contentrefid)
+        print(contentdrmid)
+        print(videostorerefids)
+        print(channelid)
         payload = json.dumps({
             "ContentType": contenttype,
             "ContentReferenceId": contentrefid,
             "ContentDrmId": contentdrmid,
             "VideostoreReferenceIds": videostorerefids,
             "ChannelReferenceId": channelid,
-            "EndTime": None,
             "Starttime": None
+            "EndTime": None,
         })
         headers = {
             'host': 'hrti.hrt.hr',
             'connection': 'keep-alive',
-            'content-length': '2',
+            # 'content-length': '2',
             'deviceid': self.DEVICE_ID,
             'operatorreferenceid': 'hrt',
             'sec-ch-ua-mobile': '?0',
