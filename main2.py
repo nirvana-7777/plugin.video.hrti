@@ -221,12 +221,12 @@ def list_videos(category):
     xbmcplugin.endOfDirectory(_HANDLE)
 
 
-def authorize_and_play(filename, contenttype, content_ref_id):
+def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids):
     parts = urlparse(filename)
     directories = parts.path.strip('/').split('/')
     contentdrmid = directories[0] + "_" + directories[1]
     print(contentdrmid)
-    result = api.authorize_session(contenttype, content_ref_id, contentdrmid, None, None)
+    result = api.authorize_session(contenttype, content_ref_id, contentdrmid, video_store_ids, None)
     print(result)
 
 
@@ -242,8 +242,9 @@ def play_video(path):
         voddetails = api.get_vod_details(path)
         print(voddetails)
         filename = voddetails['FileName']
+        video_store_ids = voddetails['SVODVideostores']
         # result = api.authorize_session("svod", path, None, "hrtvodorigin_"+path+".smil", None)
-        authorize_and_play(filename, "svod", path)
+        authorize_and_play(filename, "svod", path, video_store_ids)
         print(result)
     else:
         # Create a playable item with a path to play.
