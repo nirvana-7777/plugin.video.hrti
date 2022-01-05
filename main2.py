@@ -100,8 +100,9 @@ def list_subcategories(path):
             count += 1
     if count == 0:
         catalog = api.get_catalog(parent_category)
+        number = catalog['NumberOfItems']
         print(catalog)
-        for catalog_entry in catalog:
+        for catalog_entry in catalog['Items']:
             list_item = xbmcgui.ListItem(label=catalog_entry['Title'])
             # duration = catalog_entry['VodData'] AvailableFrom, Duration, ProductionYear
             list_item.setArt({'thumb': catalog_entry['PosterLandscape'],
