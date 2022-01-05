@@ -382,7 +382,6 @@ class HRTiAPI:
 
         response = self.session.post(url, headers=headers, data=payload)
 
-        print(response.text)
         result = response.json().get("Result")
         return result
 
@@ -470,8 +469,6 @@ class HRTiAPI:
 
         response = self.session.post(url, headers=headers, data=payload)
 
-        print(response.headers.get('content-type'))
-        print(response.text)
         result = response.json().get("Result")
         return result
 

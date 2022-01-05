@@ -262,6 +262,7 @@ def play_video(path):
     parts = urlparse(path)
     if parts.scheme == "":
         voddetails = api.get_vod_details(path)
+        print(voddetails)
         filename = voddetails['FileName']
         video_store_ids = voddetails['SVODVideostores']
         # result = api.authorize_session("svod", path, None, "hrtvodorigin_"+path+".smil", None)
