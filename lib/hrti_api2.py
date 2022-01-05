@@ -523,8 +523,10 @@ class HRTiAPI:
         print(response.headers.get('content-type'))
         print(response.text)
         result = response.json().get("Result")
-        if response.json().get["ErrorCode"] != 0:
-            self.plugin.dialog_ok(response.json().get["ErrorDescription"])
+        errorcode = response.json().get("ErrorCode")
+        errordesc = response.json().get("ErrorDescription")
+        if errorcode != 0:
+            self.plugin.dialog_ok(errordesc)
         else:
             self.__drmid = result['DrmId']
         return result
