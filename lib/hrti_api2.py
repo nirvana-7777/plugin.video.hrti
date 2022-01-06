@@ -69,13 +69,16 @@ class HRTiAPI:
             'Cookie': cookie_header
         }
         response = self.session.post(url, headers=headers, data=payload)
-        errorcode = response.json().get("ErrorCode")
-        errordesc = response.json().get("ErrorDescription")
-        if errorcode != 0:
-            self.plugin.dialog_ok(errordesc)
-            result = None
-        else
-            result = response.json().get("Result")
+        result = None
+        if response.status_code == 200 and response.headers.get('content-type') == "application/json; charset=utf-8":
+            errorcode = response.json().get("ErrorCode")
+            errordesc = response.json().get("ErrorDescription")
+            if errorcode != 0:
+                self.plugin.dialog_ok(errordesc)
+            else:
+                result = response.json().get("Result")
+        else:
+            self.plugin.dialog_ok("API Call did not respond 200 ok but "+str(response.status_code))
         return result
 
     @staticmethod
@@ -323,9 +326,7 @@ class HRTiAPI:
         else:
             referer = "https://hrti.hrt.hr/live/"
             referer += "tv?channel=' + str(channelid)"
-        headers = self.get_headers(host, referer)
-        response = self.session.post(url, headers=headers, data=payload)
-        result = response.json().get("Result")
+        result = self.api_post(url, payload, host, referer)
         return result
 
     def get_seasons(self, series_ref_id):
@@ -337,9 +338,7 @@ class HRTiAPI:
         })
         host = "hrti.hrt.hr"
         referer = "https://hrti.hrt.hr/videostore"
-        headers = self.get_headers(host, referer)
-        response = self.session.post(url, headers=headers, data=payload)
-        result = response.json().get("Result")
+        result = self.api_post(url, payload, host, referer)
         return result
 
     def get_episodes(self, series_ref_id, season_ref_id):
@@ -352,9 +351,7 @@ class HRTiAPI:
         })
         host = "hrti.hrt.hr"
         referer = "https://hrti.hrt.hr/videostore"
-        headers = self.get_headers(host, referer)
-        response = self.session.post(url, headers=headers, data=payload)
-        result = response.json().get("Result")
+        result = self.api_post(url, payload, host, referer)
         return result
 
     def logout(self):
@@ -366,15 +363,18 @@ class HRTiAPI:
         })
         host = "hsapi.aviion.tv"
         referer = "https://hrti.hrt.hr/"
-        headers = self.get_headers(host, referer)
-        response = self.session.post(url, headers=headers, data=payload)
-        return response.status_code
+        result = self.api_post(url, payload, host, referer)
+        return result
 
     def get_license(self):
         # Prepare for drm keys
-        drm_license = {'userId': self.__userid, 'sessionId': self.__drmid, 'merchant': 'aviion2'}
+        drm_license = json.dumps({
+            "userId": self.__userid,
+            "sessionId": self.__drmid,
+            "merchant": "aviion2"
+        })
         try:
-            license_str = base64.b64encode(json.dumps(drm_license))
+            license_str = base64.b64encode(drm_license)
             return license_str
         except Exception as e:
             license_str = base64.b64encode(json.dumps(drm_license).encode("utf-8"))
