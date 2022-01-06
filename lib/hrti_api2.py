@@ -17,7 +17,7 @@ class HRTiAPI:
     def __init__(self, plugin):
         self.plugin = plugin
 
-        self._auth = None
+        # self._auth = None
         self.logged_in = False
         self.__userid = None
         username = self.plugin.get_setting("username")
@@ -78,7 +78,8 @@ class HRTiAPI:
             else:
                 result = response.json().get("Result")
         else:
-            self.plugin.dialog_ok("API Call did not respond 200 ok but "+str(response.status_code))
+            self.plugin.dialog_ok("HRTi API Call for " +
+                                  url + " did not respond 200 OK but "+str(response.status_code))
         return result
 
     @staticmethod
@@ -126,7 +127,7 @@ class HRTiAPI:
             # 'sec - fetch - dest': 'empty',
             'Cookie': cookie_header
         }
-        self._auth = None
+        # self._auth = None
         # r = requests.post(url, json=payload, headers=headers, cookies=self.cookie)
         print(json.dumps(headers))
         print(json.dumps(payload))

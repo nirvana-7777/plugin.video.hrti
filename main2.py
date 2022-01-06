@@ -7,6 +7,7 @@ Example video plugin that is compatible with Kodi 19.x "Matrix" and above
 """
 import sys
 from urllib.parse import urlencode, urlparse, parse_qsl
+import xbmc
 import xbmcgui
 import xbmcplugin
 import xbmcaddon
@@ -253,6 +254,23 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids, c
     xbmcplugin.setResolvedUrl(_HANDLE, True, listitem=list_item)
 
 
+def list_seasons(seasons):
+    i = 0
+    while i < len(seasons):
+        list_item = xbmcgui.ListItem(label=seasons[i]['Title'])
+        list_item.setArt({'thumb': seasons[i]['PosterLandscape'],
+                          'icon': seasons[i]['PosterLandscape'],
+                          'fanart': seasons[i]['PosterPortrait']})
+        list_item.setInfo('video', {'title': seasons[i]['Title'],
+                                    'genre': seasons[i]['Title'],
+                                    'mediatype': 'video'})
+        url = get_url(action='listing', category=seasons[i]['ReferenceId'])
+        is_folder = True
+        xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
+        i += 1
+    xbmcplugin.endOfDirectory(_HANDLE)
+
+
 def play_video(path):
     """
     Play a video by the provided path.
@@ -270,6 +288,7 @@ def play_video(path):
             authorize_and_play(filename, content_type, path, video_store_ids, None)
         else:
             seasons = api.get_seasons(path)
+            list_seasons(seasons)
             print(seasons)
             seasons_ref_id = seasons[0]['ReferenceId']
             episodes = api.get_episodes(path, seasons_ref_id)
