@@ -44,7 +44,7 @@ class HRTiAPI:
         self.get_content_rating()
         self.get_profiles()
 
-    def get_headers(self, host, referer):
+    def api_post(self, url, payload, host, referer):
 
         cookie_header = None
         for cookie in self.session.cookies:
@@ -68,7 +68,15 @@ class HRTiAPI:
             'accept-language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
             'Cookie': cookie_header
         }
-        return headers
+        response = self.session.post(url, headers=headers, data=payload)
+        errorcode = response.json().get("ErrorCode")
+        errordesc = response.json().get("ErrorDescription")
+        if errorcode != 0:
+            self.plugin.dialog_ok(errordesc)
+            result = None
+        else
+            result = response.json().get("Result")
+        return result
 
     @staticmethod
     def get_ip(self):
@@ -191,9 +199,8 @@ class HRTiAPI:
         })
         host = "hsapi.aviion.tv"
         referer = "https://hrti.hrt.hr/"
-        headers = self.get_headers(host, referer)
-        response = self.session.post(url, headers=headers, data=payload)
-        return response.status_code
+        result = self.api_post(url, payload, host, referer)
+        return result
 
     def get_content_rating(self):
 
@@ -202,9 +209,8 @@ class HRTiAPI:
         payload = json.dumps({})
         host = "hsapi.aviion.tv"
         referer = "https://hrti.hrt.hr/"
-        headers = self.get_headers(host, referer)
-        response = self.session.post(url, headers=headers, data=payload)
-        return response.status_code
+        result = self.api_post(url, payload, host, referer)
+        return result
 
     def get_profiles(self):
 
@@ -213,9 +219,8 @@ class HRTiAPI:
         payload = json.dumps({})
         host = "hsapi.aviion.tv"
         referer = "https://hrti.hrt.hr/"
-        headers = self.get_headers(host, referer)
-        response = self.session.post(url, headers=headers, data=payload)
-        return response.status_code
+        result = self.api_post(url, payload, host, referer)
+        return result
 
     def get_channels(self):
 
@@ -224,10 +229,7 @@ class HRTiAPI:
         payload = json.dumps({})
         host = "hrti.hrt.hr"
         referer = "https://hrti.hrt.hr/signin"
-        headers = self.get_headers(host, referer)
-        response = self.session.post(url, headers=headers, data=payload)
-
-        result = response.json().get("Result")
+        result = self.api_post(url, payload, host, referer)
         return result
 
     def get_catalog_structure(self):
@@ -237,9 +239,7 @@ class HRTiAPI:
         payload = json.dumps({})
         host = "hrti.hrt.hr"
         referer = "https://hrti.hrt.hr/videostore"
-        headers = self.get_headers(host, referer)
-        response = self.session.post(url, headers=headers, data=payload)
-        result = response.json().get("Result")
+        result = self.api_post(url, payload, host, referer)
         return result
 
     def get_catalog(self, reference_id, max_number, page):
@@ -253,9 +253,7 @@ class HRTiAPI:
         })
         host = "hrti.hrt.hr"
         referer = "https://hrti.hrt.hr/videostore"
-        headers = self.get_headers(host, referer)
-        response = self.session.post(url, headers=headers, data=payload)
-        result = response.json().get("Result")
+        result = self.api_post(url, payload, host, referer)
         return result
 
     def get_vod_details(self, reference_id):
@@ -267,10 +265,7 @@ class HRTiAPI:
         })
         host = "hrti.hrt.hr"
         referer = "https://hrti.hrt.hr/videostore"
-        headers = self.get_headers(host, referer)
-        response = self.session.post(url, headers=headers, data=payload)
-
-        result = response.json().get("Result")
+        result = self.api_post(url, payload, host, referer)
         return result
 
     def get_programme(self, channelids, starttime, endtime):
@@ -284,10 +279,7 @@ class HRTiAPI:
         })
         host = "hrti.hrt.hr"
         referer = "https://hrti.hrt.hr/home"
-        headers = self.get_headers(host, referer)
-        response = self.session.post(url, headers=headers, data=payload)
-
-        result = response.json().get("Result")
+        result = self.api_post(url, payload, host, referer)
         return result
 
     def authorize_session(self, contenttype, contentrefid, contentdrmid, videostorerefids, channelid):
@@ -312,15 +304,8 @@ class HRTiAPI:
                 referer += "tv?channel=' + str(channelid)"
             else:
                 referer += "radio"
-        headers = self.get_headers(host, referer)
-        response = self.session.post(url, headers=headers, data=payload)
-
-        result = response.json().get("Result")
-        errorcode = response.json().get("ErrorCode")
-        errordesc = response.json().get("ErrorDescription")
-        if errorcode != 0:
-            self.plugin.dialog_ok(errordesc)
-        else:
+        result = self.api_post(url, payload, host, referer)
+        if result is not None:
             self.__drmid = result['DrmId']
         return result
 
