@@ -368,13 +368,9 @@ class HRTiAPI:
 
     def get_license(self):
         # Prepare for drm keys
-        drm_license = json.dumps({
-            "userId": self.__userid,
-            "sessionId": self.__drmid,
-            "merchant": "aviion2"
-        })
+        drm_license = {'userId': self.__userid, 'sessionId': self.__drmid, 'merchant': 'aviion2'}
         try:
-            license_str = base64.b64encode(drm_license)
+            license_str = base64.b64encode(json.dumps(drm_license))
             return license_str
         except Exception as e:
             license_str = base64.b64encode(json.dumps(drm_license).encode("utf-8"))
