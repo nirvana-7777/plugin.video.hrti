@@ -284,15 +284,18 @@ def play_video(path):
         filename = voddetails['FileName']
         content_type = voddetails['Type']
         video_store_ids = voddetails['SVODVideostores']
-        if content_type != 'series':
-            authorize_and_play(filename, content_type, path, video_store_ids, None)
+        if content_type == 'series':
+            # RunPlugin(plugin://video/hrti)
+            url = get_url(action='series', category=path)
+            router(url)
         else:
-            seasons = api.get_seasons(path)
-            list_seasons(seasons)
-            print(seasons)
-            seasons_ref_id = seasons[0]['ReferenceId']
-            episodes = api.get_episodes(path, seasons_ref_id)
-            print(episodes)
+            authorize_and_play(filename, content_type, path, video_store_ids, None)
+            #seasons = api.get_seasons(path)
+            #list_seasons(seasons)
+            #print(seasons)
+            #seasons_ref_id = seasons[0]['ReferenceId']
+            #episodes = api.get_episodes(path, seasons_ref_id)
+            #print(episodes)
     else:
         # Create a playable item with a path to play.
         for channel in channels:
@@ -331,6 +334,9 @@ def router(paramstring):
         elif params['action'] == 'play':
             # Play a video from a provided URL.
             play_video(params['video'])
+        elif params['action'] == 'series':
+            # Play a video from a provided URL.
+            list_seasons(params['video'])
         elif params['action'] == 'logout':
             api.logout()
         else:
