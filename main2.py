@@ -294,19 +294,18 @@ def list_episodes(ref_id):
     season_id = sections[1]
     episodes = api.get_episodes(series_id, season_id)
     for episode in episodes:
-        item = api.get_vod_details(episode['ReferenceId'])
-        list_item = xbmcgui.ListItem(label=item['Title'])
-        list_item.setArt({'thumb': item['PosterLandscape'],
-                          'icon': item['PosterLandscape'],
-                          'fanart': item['PosterPortrait']})
-        list_item.setInfo('video', {'title': item['Title'],
-                                    'genre': item['Title'],
+        list_item = xbmcgui.ListItem(label=episode['Title'])
+        list_item.setArt({'thumb': episode['PosterLandscape'],
+                          'icon': episode['PosterLandscape'],
+                          'fanart': episode['PosterPortrait']})
+        list_item.setInfo('video', {'title': episode['Title'],
+                                    'genre': episode['Title'],
                                     'mediatype': 'video'})
         list_item.setProperty('IsPlayable', 'true')
         metadata = {'mediatype': 'video'}
         list_item.setInfo('video', metadata)
 
-        url = get_url(action='play', video=item['FileName'])
+        url = get_url(action='play', video=episode['ReferenceId'])
         is_folder = False
         xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     xbmcplugin.endOfDirectory(_HANDLE)
