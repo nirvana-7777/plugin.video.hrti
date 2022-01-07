@@ -273,19 +273,19 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids, c
 
 
 def list_seasons(seasons):
-    i = 0
-    while i < len(seasons):
-        list_item = xbmcgui.ListItem(label=seasons[i]['Title'])
-        list_item.setArt({'thumb': seasons[i]['PosterLandscape'],
-                          'icon': seasons[i]['PosterLandscape'],
-                          'fanart': seasons[i]['PosterPortrait']})
-        list_item.setInfo('video', {'title': seasons[i]['Title'],
-                                    'genre': seasons[i]['Title'],
+    # i = 0
+    for season in seasons:
+        list_item = xbmcgui.ListItem(label=season['Title'])
+        list_item.setArt({'thumb': season['PosterLandscape'],
+                          'icon': season['PosterLandscape'],
+                          'fanart': season['PosterPortrait']})
+        list_item.setInfo('video', {'title': season['Title'],
+                                    'genre': seasons['Title'],
                                     'mediatype': 'video'})
         url = get_url(action='listing', category=seasons[i]['ReferenceId'])
         is_folder = True
         xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
-        i += 1
+        # i += 1
     xbmcplugin.endOfDirectory(_HANDLE)
 
 
