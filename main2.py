@@ -108,10 +108,20 @@ def list_subcategories(path):
         for catalog_entry in catalog['Items']:
             list_item = xbmcgui.ListItem(label=catalog_entry['Title'])
             # catalog_entry['VodData'] AvailableFrom, Duration, ProductionYear
-            if catalog_entry['SeriesData'] is not None:
-                print("SeriesData: "+catalog_entry['SeriesData'])
-            elif catalog_entry['EpisodeData'] is not None:
-                print("EpisodeData: " + catalog_entry['EpisodeData'])
+            item_is_series = True
+            item_is_episode = True
+
+            try:
+                series_data = catalog_entry['SeriesData']
+                print("SeriesData: " + series_data)
+            except KeyError:
+                item_is_series = False
+            try:
+                episode_data = catalog_entry['EpisodeData']
+                print("EpisodeData: " + episode_data)
+            except KeyError:
+                item_is_episode = False
+
             # catalog_entry['SeriesData'] {'LastEpisodeNumber': 1,
             # 'LastSeasonNumber': 1, 'SeriesName': '',
             # 'SeriesReferenceId': '44425aa1-0a72-7f51-9371-046be46ed537'}
