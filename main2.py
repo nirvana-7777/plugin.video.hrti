@@ -108,7 +108,10 @@ def list_subcategories(path):
         for catalog_entry in catalog['Items']:
             list_item = xbmcgui.ListItem(label=catalog_entry['Title'])
             # catalog_entry['VodData'] AvailableFrom, Duration, ProductionYear
-            print("SeriesData: "+catalog_entry['SeriesData'])
+            if catalog_entry['SeriesData'] is not None:
+                print("SeriesData: "+catalog_entry['SeriesData'])
+            elif catalog_entry['EpisodeData'] is not None:
+                print("EpisodeData: " + catalog_entry['EpisodeData'])
             # catalog_entry['SeriesData'] {'LastEpisodeNumber': 1,
             # 'LastSeasonNumber': 1, 'SeriesName': '',
             # 'SeriesReferenceId': '44425aa1-0a72-7f51-9371-046be46ed537'}
@@ -293,12 +296,12 @@ def play_video(path):
             print("test")
         else:
             authorize_and_play(filename, content_type, path, video_store_ids, None)
-            #seasons = api.get_seasons(path)
-            #list_seasons(seasons)
-            #print(seasons)
-            #seasons_ref_id = seasons[0]['ReferenceId']
-            #episodes = api.get_episodes(path, seasons_ref_id)
-            #print(episodes)
+            # seasons = api.get_seasons(path)
+            # list_seasons(seasons)
+            # print(seasons)
+            # seasons_ref_id = seasons[0]['ReferenceId']
+            # episodes = api.get_episodes(path, seasons_ref_id)
+            # print(episodes)
     else:
         # Create a playable item with a path to play.
         for channel in channels:
@@ -337,8 +340,6 @@ def router(paramstring):
         elif params['action'] == 'play':
             # Play a video from a provided URL.
             play_video(params['video'])
-        elif params['action'] == 'series':
-            list_seasons(params['video'])
         elif params['action'] == 'logout':
             api.logout()
         else:
