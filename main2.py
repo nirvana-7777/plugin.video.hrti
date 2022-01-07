@@ -273,7 +273,6 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids, c
 
 
 def list_seasons(ref_id):
-    # i = 0
     seasons = api.get_seasons(ref_id)
     for season in seasons:
         list_item = xbmcgui.ListItem(label=season['Title'])
@@ -283,10 +282,31 @@ def list_seasons(ref_id):
         list_item.setInfo('video', {'title': season['Title'],
                                     'genre': season['Title'],
                                     'mediatype': 'video'})
-        url = get_url(action='episodes', category=season['ReferenceId'])
+        url = get_url(action='episodes', category=ref_id+'/'+season['ReferenceId'])
         is_folder = True
         xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
-        # i += 1
+    xbmcplugin.endOfDirectory(_HANDLE)
+
+
+def list_episodes(ref_id):
+    sections = path_parse("/" + ref_id)
+    series_id = sections[0]
+    season_id = sections[1]
+    episodes = api.get_episodes(series_id, season_id)
+    for episode in episodes:
+        list_item = xbmcgui.ListItem(label=episode['Title'])
+        list_item.setArt({'thumb': episode['PosterLandscape'],
+                          'icon': episode['PosterLandscape'],
+                          'fanart': episode['PosterPortrait']})
+        list_item.setInfo('video', {'title': episode['Title'],
+                                    'genre': episode['Title'],
+                                    'mediatype': 'video'})
+        list_item.setProperty('IsPlayable', 'true')
+        list_item.setInfo('video', metadata)
+
+        url = get_url(action='play', video=episode['FileName'])
+        is_folder = False
+        xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     xbmcplugin.endOfDirectory(_HANDLE)
 
 
@@ -303,22 +323,9 @@ def play_video(path):
         filename = voddetails['FileName']
         content_type = voddetails['Type']
         video_store_ids = voddetails['SVODVideostores']
-        if content_type == 'series':
-            # RunPlugin(plugin://video/hrti)
-            # params = str({'action': 'series', 'video': path})
-            # url = get_url(action='series', category=path)
-            # router(params)
-            print("test")
-        else:
+        if content_type != 'series':
             authorize_and_play(filename, content_type, path, video_store_ids, None)
-            # seasons = api.get_seasons(path)
-            # list_seasons(seasons)
-            # print(seasons)
-            # seasons_ref_id = seasons[0]['ReferenceId']
-            # episodes = api.get_episodes(path, seasons_ref_id)
-            # print(episodes)
     else:
-        # Create a playable item with a path to play.
         for channel in channels:
             if path == channel['StreamingURL']:
                 refid = channel['ReferenceID']
@@ -360,7 +367,7 @@ def router(paramstring):
             list_seasons(params['category'])
         elif params['action'] == 'episodes':
             # Play a video from a provided URL.
-            list_seasons(params['category'])
+            list_episodes(params['category'])
         elif params['action'] == 'logout':
             api.logout()
         else:
