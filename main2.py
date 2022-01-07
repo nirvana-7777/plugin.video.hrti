@@ -283,7 +283,7 @@ def list_seasons(ref_id):
         list_item.setInfo('video', {'title': season['Title'],
                                     'genre': season['Title'],
                                     'mediatype': 'video'})
-        url = get_url(action='listing', category=season['ReferenceId'])
+        url = get_url(action='episodes', category=season['ReferenceId'])
         is_folder = True
         xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
         # i += 1
@@ -356,6 +356,9 @@ def router(paramstring):
             # Play a video from a provided URL.
             play_video(params['video'])
         elif params['action'] == 'series':
+            # Play a video from a provided URL.
+            list_seasons(params['category'])
+        elif params['action'] == 'episodes':
             # Play a video from a provided URL.
             list_seasons(params['category'])
         elif params['action'] == 'logout':
