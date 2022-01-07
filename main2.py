@@ -272,8 +272,9 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids, c
     xbmcplugin.setResolvedUrl(_HANDLE, True, listitem=list_item)
 
 
-def list_seasons(seasons):
+def list_seasons(ref_id):
     # i = 0
+    seasons = api.get_seasons(ref_id)
     for season in seasons:
         list_item = xbmcgui.ListItem(label=season['Title'])
         list_item.setArt({'thumb': season['PosterLandscape'],
