@@ -108,7 +108,7 @@ def list_subcategories(path):
         for catalog_entry in catalog['Items']:
             list_item = xbmcgui.ListItem(label=catalog_entry['Title'])
             # catalog_entry['VodData'] AvailableFrom, Duration, ProductionYear
-            print("SeriesData: ")+catalog_entry['SeriesData']
+            print("SeriesData: "+catalog_entry['SeriesData'])
             # catalog_entry['SeriesData'] {'LastEpisodeNumber': 1,
             # 'LastSeasonNumber': 1, 'SeriesName': '',
             # 'SeriesReferenceId': '44425aa1-0a72-7f51-9371-046be46ed537'}
@@ -288,8 +288,8 @@ def play_video(path):
         if content_type == 'series':
             # RunPlugin(plugin://video/hrti)
             # params = str({'action': 'series', 'video': path})
-            url = get_url(action='series', category=path)
-            router(params)
+            # url = get_url(action='series', category=path)
+            # router(params)
         else:
             authorize_and_play(filename, content_type, path, video_store_ids, None)
             #seasons = api.get_seasons(path)
