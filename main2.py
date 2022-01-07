@@ -110,7 +110,7 @@ def list_subcategories(path):
             # catalog_entry['VodData'] AvailableFrom, Duration, ProductionYear
             item_is_series = True
             item_is_episode = True
-
+            series_data = None
             try:
                 series_data = catalog_entry['SeriesData']
                 print("SeriesData: " + str(series_data))
@@ -131,13 +131,17 @@ def list_subcategories(path):
             list_item.setArt({'thumb': catalog_entry['PosterLandscape'],
                               'icon': catalog_entry['PosterLandscape'],
                               'fanart': catalog_entry['PosterPortrait']})
-            list_item.setProperty('IsPlayable', 'true')
-            metadata = {'mediatype': 'video'}
-            list_item.setInfo('video', metadata)
-            url = get_url(action='play', video=catalog_entry['ReferenceId'])
+            if not item_is_series:
+                list_item.setProperty('IsPlayable', 'true')
+                metadata = {'mediatype': 'video'}
+                list_item.setInfo('video', metadata)
+                url = get_url(action='play', video=catalog_entry['ReferenceId'])
             # Add the list item to a virtual Kodi folder.
             # is_folder = False means that this item won't open any sub-list.
-            is_folder = False
+                is_folder = False
+            else:
+                url = get_url(action='listing', category=series_data['SeriesReferenceId'])
+                is_folder = True
             # Add our item to the Kodi virtual folder listing.
             xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
 
