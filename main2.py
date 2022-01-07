@@ -140,7 +140,7 @@ def list_subcategories(path):
             # is_folder = False means that this item won't open any sub-list.
                 is_folder = False
             else:
-                url = get_url(action='listing', category=series_data['SeriesReferenceId'])
+                url = get_url(action='series', category=series_data['SeriesReferenceId'])
                 is_folder = True
             # Add our item to the Kodi virtual folder listing.
             xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
@@ -354,6 +354,9 @@ def router(paramstring):
         elif params['action'] == 'play':
             # Play a video from a provided URL.
             play_video(params['video'])
+        elif params['action'] == 'series':
+            # Play a video from a provided URL.
+            list_seasons(params['category'])
         elif params['action'] == 'logout':
             api.logout()
         else:
