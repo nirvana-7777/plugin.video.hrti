@@ -113,12 +113,12 @@ def list_subcategories(path):
 
             try:
                 series_data = catalog_entry['SeriesData']
-                print("SeriesData: " + series_data)
+                print("SeriesData: " + str(series_data))
             except KeyError:
                 item_is_series = False
             try:
                 episode_data = catalog_entry['EpisodeData']
-                print("EpisodeData: " + episode_data)
+                print("EpisodeData: " + str(episode_data))
             except KeyError:
                 item_is_episode = False
 
