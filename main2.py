@@ -280,9 +280,9 @@ def list_seasons(seasons):
                           'icon': season['PosterLandscape'],
                           'fanart': season['PosterPortrait']})
         list_item.setInfo('video', {'title': season['Title'],
-                                    'genre': seasons['Title'],
+                                    'genre': season['Title'],
                                     'mediatype': 'video'})
-        url = get_url(action='listing', category=seasons[i]['ReferenceId'])
+        url = get_url(action='listing', category=season['ReferenceId'])
         is_folder = True
         xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
         # i += 1
