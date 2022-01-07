@@ -286,7 +286,7 @@ def play_video(path):
         video_store_ids = voddetails['SVODVideostores']
         if content_type == 'series':
             # RunPlugin(plugin://video/hrti)
-            params = {'action': 'series', 'video': path}
+            params = str({'action': 'series', 'video': path})
             router(params)
         else:
             authorize_and_play(filename, content_type, path, video_store_ids, None)
