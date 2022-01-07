@@ -290,6 +290,7 @@ def play_video(path):
             # params = str({'action': 'series', 'video': path})
             # url = get_url(action='series', category=path)
             # router(params)
+            print("test")
         else:
             authorize_and_play(filename, content_type, path, video_store_ids, None)
             #seasons = api.get_seasons(path)
