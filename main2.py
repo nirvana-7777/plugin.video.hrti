@@ -302,6 +302,7 @@ def list_episodes(ref_id):
                                     'genre': episode['Title'],
                                     'mediatype': 'video'})
         list_item.setProperty('IsPlayable', 'true')
+        metadata = {'mediatype': 'video'}
         list_item.setInfo('video', metadata)
 
         url = get_url(action='play', video=episode['FileName'])
