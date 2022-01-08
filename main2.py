@@ -105,9 +105,16 @@ def list_subcategories(path):
         catalog = api.get_catalog(parent_category, 250, 1)
         # number = catalog['NumberOfItems']
         # print(catalog)
+        title = ""
+        landscape = ""
+        portrait = ""
         for catalog_entry in catalog['Items']:
-            list_item = xbmcgui.ListItem(label=catalog_entry['Title'])
-            print(catalog_entry['Title'])
+            try:
+                title = catalog_entry['Title']
+                landscape = catalog_entry['PosterLandscape']
+                portrait = catalog_entry['PosterPortrait']
+            except KeyError:
+                print("KeyError")
             # catalog_entry['VodData'] AvailableFrom, Duration, ProductionYear
             item_is_series = True
             series_data = None
@@ -123,9 +130,10 @@ def list_subcategories(path):
             # catalog_entry['Type']
             # catalog_entry['VodCategoryNames']
             # catalog_entry['AvailableFrom']
-            list_item.setArt({'thumb': catalog_entry['PosterLandscape'],
-                              'icon': catalog_entry['PosterLandscape'],
-                              'fanart': catalog_entry['PosterPortrait']})
+            list_item = xbmcgui.ListItem(label=title)
+            list_item.setArt({'thumb': landscape,
+                              'icon': landscape,
+                              'fanart': portrait})
             if not item_is_series:
                 list_item.setProperty('IsPlayable', 'true')
                 metadata = {'mediatype': 'video'}
