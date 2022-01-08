@@ -105,24 +105,17 @@ def list_subcategories(path):
         catalog = api.get_catalog(parent_category, 250, 1)
         # number = catalog['NumberOfItems']
         # print(catalog)
-        title = ""
-        landscape = ""
-        portrait = ""
         for catalog_entry in catalog['Items']:
-            try:
-                title = catalog_entry['Title']
-                landscape = catalog_entry['PosterLandscape']
-                portrait = catalog_entry['PosterPortrait']
-            except KeyError:
-                print("KeyError")
+            title = plugin.get_dict_value(catalog_entry, 'Title')
+            landscape = plugin.get_dict_value(catalog_entry, 'PosterLandscape')
+            portrait = plugin.get_dict_value(catalog_entry, 'PosterPortrait')
             # catalog_entry['VodData'] AvailableFrom, Duration, ProductionYear
-            item_is_series = True
-            series_data = None
-            try:
-                series_data = catalog_entry['SeriesData']
-                print("SeriesData: " + str(series_data))
-            except KeyError:
+
+            series_data = plugin.get_dict_value(catalog_entry, 'SeriesData')
+            if len(series_data) == 0:
                 item_is_series = False
+            else:
+                item_is_series = True
 
             # catalog_entry['SeriesData'] {'LastEpisodeNumber': 1,
             # 'LastSeasonNumber': 1, 'SeriesName': '',
@@ -138,12 +131,12 @@ def list_subcategories(path):
                 list_item.setProperty('IsPlayable', 'true')
                 metadata = {'mediatype': 'video'}
                 list_item.setInfo('video', metadata)
-                url = get_url(action='play', video=catalog_entry['ReferenceId'])
+                url = get_url(action='play', video=plugin.get_dict_value(catalog_entry, 'ReferenceId'))
             # Add the list item to a virtual Kodi folder.
             # is_folder = False means that this item won't open any sub-list.
                 is_folder = False
             else:
-                url = get_url(action='series', category=series_data['SeriesReferenceId'])
+                url = get_url(action='series', category=plugin.get_dict_value(catalog_entry, 'SeriesReferenceId'))
                 is_folder = True
             # Add our item to the Kodi virtual folder listing.
             xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
