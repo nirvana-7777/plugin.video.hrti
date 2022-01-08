@@ -109,18 +109,12 @@ def list_subcategories(path):
             list_item = xbmcgui.ListItem(label=catalog_entry['Title'])
             # catalog_entry['VodData'] AvailableFrom, Duration, ProductionYear
             item_is_series = True
-            item_is_episode = True
             series_data = None
             try:
                 series_data = catalog_entry['SeriesData']
                 print("SeriesData: " + str(series_data))
             except KeyError:
                 item_is_series = False
-            try:
-                episode_data = catalog_entry['EpisodeData']
-                print("EpisodeData: " + str(episode_data))
-            except KeyError:
-                item_is_episode = False
 
             # catalog_entry['SeriesData'] {'LastEpisodeNumber': 1,
             # 'LastSeasonNumber': 1, 'SeriesName': '',
@@ -274,6 +268,8 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids, c
 
 def list_seasons(ref_id):
     seasons = api.get_seasons(ref_id)
+    xbmcplugin.setPluginCategory(_HANDLE, 'Seasons')
+    xbmcplugin.setContent(_HANDLE, 'tvshows')
     for season in seasons:
         list_item = xbmcgui.ListItem(label=season['Title'])
         list_item.setArt({'thumb': season['PosterLandscape'],
@@ -289,6 +285,8 @@ def list_seasons(ref_id):
 
 
 def list_episodes(ref_id):
+    xbmcplugin.setPluginCategory(_HANDLE, 'Episodes')
+    xbmcplugin.setContent(_HANDLE, 'episodes')
     sections = path_parse("/" + ref_id)
     series_id = sections[0]
     season_id = sections[1]
