@@ -107,6 +107,7 @@ def list_subcategories(path):
         # print(catalog)
         for catalog_entry in catalog['Items']:
             list_item = xbmcgui.ListItem(label=catalog_entry['Title'])
+            print(catalog_entry['Title'])
             # catalog_entry['VodData'] AvailableFrom, Duration, ProductionYear
             item_is_series = True
             series_data = None
