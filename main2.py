@@ -70,8 +70,8 @@ def path_parse(path_string, *, normalize=True, module=posixpath):
 def get_children(node, wanted_subcategory):
     children = None
     for child in node:
-        if child['ReferenceId'] == wanted_subcategory:
-            children = child['Children']
+        if plugin.get_dict_value(child, 'ReferenceId') == wanted_subcategory:
+            children = plugin.get_dict_value(child, 'Children')
     return children
 
 
@@ -88,16 +88,16 @@ def list_subcategories(path):
     count = 0
     for child in current_node:
         if child['ParentReferenceId'] == parent_category:
-            list_item = xbmcgui.ListItem(label=child['Name'])
-            list_item.setArt({'thumb': child['PosterLandscape'],
-                              'fanart': child['PosterLandscape']})
-            list_item.setInfo('video', {'title': child['Name'],
-                                        'genre': child['Name'],
+            list_item = xbmcgui.ListItem(label=plugin.get_dict_value(child, 'Name'))
+            list_item.setArt({'thumb': plugin.get_dict_value(child, 'PosterLandscape'),
+                              'fanart': plugin.get_dict_value(child, 'PosterLandscape')})
+            list_item.setInfo('video', {'title': plugin.get_dict_value(child, 'Name'),
+                                        'genre': plugin.get_dict_value(child, 'Name'),
                                         'mediatype': 'video'})
             if path is None:
-                url = get_url(action='listing', category=child['ReferenceId'])
+                url = get_url(action='listing', category=plugin.get_dict_value(child, 'ReferenceId'))
             else:
-                url = get_url(action='listing', category=path+"/"+child['ReferenceId'])
+                url = get_url(action='listing', category=path+"/"+plugin.get_dict_value(child, 'ReferenceId'))
             is_folder = True
             xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
             count += 1
@@ -207,9 +207,12 @@ def list_videos(category):
     # Get the list of videos in the category.
     # Iterate through videos.
     for channel in channels:
-        if (channel['Radio'] and category == 'Radio Channels') or (not channel['Radio'] and category == 'TV Channels'):
-            list_item = xbmcgui.ListItem(label=channel['Name'])
-            list_item.setArt({'thumb': channel['Icon'], 'icon': channel['Icon'], 'fanart': channel['Icon']})
+        if (plugin.get_dict_value(channel, 'Radio') and category == 'Radio Channels')\
+                or (not plugin.get_dict_value(channel, 'Radio') and category == 'TV Channels'):
+            list_item = xbmcgui.ListItem(label=plugin.get_dict_value(channel, 'Name'))
+            list_item.setArt({'thumb': plugin.get_dict_value(channel, 'Icon'),
+                              'icon': plugin.get_dict_value(channel, 'Icon'),
+                              'fanart': plugin.get_dict_value(channel, 'Icon')})
             list_item.setProperty('IsPlayable', 'true')
 
             # for video in videos:
@@ -217,14 +220,14 @@ def list_videos(category):
             # list_item = xbmcgui.ListItem(label=video['name']
             # Set additional info for the list item.
             # 'mediatype' is needed for skin to display info for this ListItem correctly.
-            if channel['Radio']:
+            if plugin.get_dict_value(channel, 'Radio'):
                 metadata = {'mediatype': 'audio'}
                 list_item.setInfo('music', metadata)
             else:
                 metadata = {'mediatype': 'video'}
                 list_item.setInfo('video', metadata)
 
-            url = get_url(action='play', video=channel['StreamingURL'])
+            url = get_url(action='play', video=plugin.get_dict_value(channel, 'StreamingURL'))
             # Add the list item to a virtual Kodi folder.
             # is_folder = False means that this item won't open any sub-list.
             is_folder = False
@@ -242,7 +245,7 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids, c
     directories = parts.path.strip('/').split('/')
     contentdrmid = directories[0] + "_" + directories[1]
     result = api.authorize_session(contenttype, content_ref_id, contentdrmid, video_store_ids, channel_id)
-    api.report_session_event(result['SessionId'], content_ref_id)
+    api.report_session_event(plugin.get_dict_value(result, 'SessionId'), content_ref_id)
 
     user_agent = "kodi plugin for hrti.hrt.hr (python)"
 
@@ -273,14 +276,14 @@ def list_seasons(ref_id):
     xbmcplugin.setPluginCategory(_HANDLE, 'Seasons')
     xbmcplugin.setContent(_HANDLE, 'tvshows')
     for season in seasons:
-        list_item = xbmcgui.ListItem(label=season['Title'])
-        list_item.setArt({'thumb': season['PosterLandscape'],
-                          'icon': season['PosterLandscape'],
-                          'fanart': season['PosterPortrait']})
-        list_item.setInfo('video', {'title': season['Title'],
-                                    'genre': season['Title'],
+        list_item = xbmcgui.ListItem(label=plugin.get_dict_value(season, 'Title'))
+        list_item.setArt({'thumb': plugin.get_dict_value(season, 'PosterLandscape'),
+                          'icon': plugin.get_dict_value(season, 'PosterLandscape'),
+                          'fanart': plugin.get_dict_value(season, 'PosterPortrait')})
+        list_item.setInfo('video', {'title': plugin.get_dict_value(season, 'Title'),
+                                    'genre': plugin.get_dict_value(season, 'Title'),
                                     'mediatype': 'video'})
-        url = get_url(action='episodes', category=ref_id+'/'+season['ReferenceId'])
+        url = get_url(action='episodes', category=ref_id+'/'+plugin.get_dict_value(season, 'ReferenceId'))
         is_folder = True
         xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     xbmcplugin.endOfDirectory(_HANDLE)
@@ -294,18 +297,18 @@ def list_episodes(ref_id):
     season_id = sections[1]
     episodes = api.get_episodes(series_id, season_id)
     for episode in episodes:
-        list_item = xbmcgui.ListItem(label=episode['Title'])
-        list_item.setArt({'thumb': episode['PosterLandscape'],
-                          'icon': episode['PosterLandscape'],
-                          'fanart': episode['PosterPortrait']})
-        list_item.setInfo('video', {'title': episode['Title'],
-                                    'genre': episode['Title'],
+        list_item = xbmcgui.ListItem(label=plugin.get_dict_value(episode, 'Title'))
+        list_item.setArt({'thumb': plugin.get_dict_value(episode, 'PosterLandscape'),
+                          'icon': plugin.get_dict_value(episode, 'PosterLandscape'),
+                          'fanart': plugin.get_dict_value(episode, 'PosterPortrait')})
+        list_item.setInfo('video', {'title': plugin.get_dict_value(episode, 'Title'),
+                                    'genre': plugin.get_dict_value(episode, 'Title'),
                                     'mediatype': 'video'})
         list_item.setProperty('IsPlayable', 'true')
         metadata = {'mediatype': 'video'}
         list_item.setInfo('video', metadata)
 
-        url = get_url(action='play', video=episode['ReferenceId'])
+        url = get_url(action='play', video=plugin.get_dict_value(episode, 'ReferenceId'))
         is_folder = False
         xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     xbmcplugin.endOfDirectory(_HANDLE)
@@ -321,16 +324,16 @@ def play_video(path):
     if parts.scheme == "":
         voddetails = api.get_vod_details(path)
         print(voddetails)
-        filename = voddetails['FileName']
-        content_type = voddetails['Type']
-        video_store_ids = voddetails['SVODVideostores']
+        filename = plugin.get_dict_value(voddetails, 'FileName')
+        content_type = plugin.get_dict_value(voddetails, 'Type')
+        video_store_ids = plugin.get_dict_value(voddetails, 'SVODVideostores')
         if content_type != 'series':
             authorize_and_play(filename, content_type, path, video_store_ids, None)
     else:
         for channel in channels:
-            if path == channel['StreamingURL']:
-                refid = channel['ReferenceID']
-                if channel['Radio']:
+            if path == plugin.get_dict_value(channel, 'StreamingURL'):
+                refid = plugin.get_dict_value(channel, 'ReferenceID')
+                if plugin.get_dict_value(channel, 'Radio'):
                     content_type = "rlive"
                 else:
                     content_type = "tlive"
