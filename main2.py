@@ -136,7 +136,7 @@ def list_subcategories(path):
             # is_folder = False means that this item won't open any sub-list.
                 is_folder = False
             else:
-                url = get_url(action='series', category=plugin.get_dict_value(catalog_entry, 'SeriesReferenceId'))
+                url = get_url(action='series', category=plugin.get_dict_value(series_data, 'SeriesReferenceId'))
                 is_folder = True
             # Add our item to the Kodi virtual folder listing.
             xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
