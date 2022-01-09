@@ -170,7 +170,9 @@ class HRTiAPI:
                 validfrom = result['ValidFrom']
                 validto = result['ValidTo']
                 self.__userid = result['Customer']['CustomerId']
+                self.plugin.set_setting('customerid', self.__userid)
                 email = result['Customer']['Email']
+                self.plugin.set_setting('email', email)
                 print(self.TOKEN)
                 print(validfrom)
                 print(validto)
