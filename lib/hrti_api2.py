@@ -181,7 +181,7 @@ class HRTiAPI:
                 self.plugin.set_setting('firstname', firstname)
                 self.plugin.set_setting('lastname', lastname)
                 self.plugin.set_setting('language', language)
-                self.plugin.set_setting('geoblocked', geoblocked)
+                # self.plugin.set_setting('geoblocked', geoblocked)
                 self.plugin.set_setting('pvrhours', pvrhours)
                 print(self.TOKEN)
                 print(validfrom)
