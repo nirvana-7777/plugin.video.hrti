@@ -18,5 +18,10 @@
     <category label="30010">
         <setting label="Customer ID" type="text" id="customerid" default="" enable="false"/>
         <setting label="Email" type="text" id="email" default="" enable="false"/>
+        <setting label="First Name" type="text" id="firstname" default="" enable="false"/>
+        <setting label="Last Name" type="text" id="lastname" default="" enable="false"/>
+        <setting label="Language" type="text" id="language" default="" enable="false"/>
+        <setting label="Geoblocking Enabled" type="bool" id="geoblocked" default="" enable="false"/>
+        <setting label="Hours on NPVR" type="number" id="pvrhours" default="" enable="false"/>
     </category>
 </settings>

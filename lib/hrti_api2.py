@@ -173,6 +173,16 @@ class HRTiAPI:
                 self.plugin.set_setting('customerid', self.__userid)
                 email = result['Customer']['Email']
                 self.plugin.set_setting('email', email)
+                firstname = result['Customer']['FirstName']
+                lastname = result['Customer']['LastName']
+                language =  result['Customer']['LanguageReferenceId']
+                geoblocked = result['Customer']['GeoblockingEnabled']
+                pvrhours = result['Customer']['NPVRHours']
+                self.plugin.set_setting('firstname', firstname)
+                self.plugin.set_setting('lastname', lastname)
+                self.plugin.set_setting('language', language)
+                self.plugin.set_setting('geoblocked', geoblocked)
+                self.plugin.set_setting('pvrhours', pvrhours)
                 print(self.TOKEN)
                 print(validfrom)
                 print(validto)
