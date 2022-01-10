@@ -39,6 +39,7 @@ class HRTiAPI:
             self.plugin.dialog_ok("Login has failed, check credentials using default credentials for this session")
             self.__username = 'anonymoushrt'
             self.__password = 'an0nPasshrt'
+            self.DEVICE_ID = ''
             self.grant_access()
         self.register_device()
         self.get_content_rating()

@@ -186,35 +186,36 @@ def list_videos(category):
     xbmcplugin.setContent(_HANDLE, 'videos')
     # Get the list of videos in the category.
     # Iterate through videos.
-    for channel in channels:
-        if (plugin.get_dict_value(channel, 'Radio') and category == 'Radio Channels')\
-                or (not plugin.get_dict_value(channel, 'Radio') and category == 'TV Channels'):
-            list_item = xbmcgui.ListItem(label=plugin.get_dict_value(channel, 'Name'))
-            list_item.setArt({'thumb': plugin.get_dict_value(channel, 'Icon'),
-                              'icon': plugin.get_dict_value(channel, 'Icon'),
-                              'fanart': plugin.get_dict_value(channel, 'Icon')})
-            list_item.setProperty('IsPlayable', 'true')
+    if channels is not None:
+        for channel in channels:
+            if (plugin.get_dict_value(channel, 'Radio') and category == 'Radio Channels')\
+                    or (not plugin.get_dict_value(channel, 'Radio') and category == 'TV Channels'):
+                list_item = xbmcgui.ListItem(label=plugin.get_dict_value(channel, 'Name'))
+                list_item.setArt({'thumb': plugin.get_dict_value(channel, 'Icon'),
+                                  'icon': plugin.get_dict_value(channel, 'Icon'),
+                                  'fanart': plugin.get_dict_value(channel, 'Icon')})
+                list_item.setProperty('IsPlayable', 'true')
 
-            # for video in videos:
-            # Create a list item with a text label and a thumbnail image.
-            # list_item = xbmcgui.ListItem(label=video['name']
-            # Set additional info for the list item.
-            # 'mediatype' is needed for skin to display info for this ListItem correctly.
-            if plugin.get_dict_value(channel, 'Radio'):
-                metadata = {'mediatype': 'audio'}
-                list_item.setInfo('music', metadata)
-            else:
-                metadata = {'mediatype': 'video'}
-                list_item.setInfo('video', metadata)
+                # for video in videos:
+                # Create a list item with a text label and a thumbnail image.
+                # list_item = xbmcgui.ListItem(label=video['name']
+               # Set additional info for the list item.
+                # 'mediatype' is needed for skin to display info for this ListItem correctly.
+                if plugin.get_dict_value(channel, 'Radio'):
+                    metadata = {'mediatype': 'audio'}
+                    list_item.setInfo('music', metadata)
+                else:
+                    metadata = {'mediatype': 'video'}
+                    list_item.setInfo('video', metadata)
 
-            url = get_url(action='play', video=plugin.get_dict_value(channel, 'StreamingURL'))
-            # Add the list item to a virtual Kodi folder.
-            # is_folder = False means that this item won't open any sub-list.
-            is_folder = False
-            # Add our item to the Kodi virtual folder listing.
-            xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
-            # Add a sort method for the virtual folder items (alphabetically, ignore articles)
-            # xbmcplugin.addSortMethod(_HANDLE, xbmcplugin.SORT_METHOD_LABEL_IGNORE_THE)
+                url = get_url(action='play', video=plugin.get_dict_value(channel, 'StreamingURL'))
+                # Add the list item to a virtual Kodi folder.
+                # is_folder = False means that this item won't open any sub-list.
+                is_folder = False
+                # Add our item to the Kodi virtual folder listing.
+                xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
+    # Add a sort method for the virtual folder items (alphabetically, ignore articles)
+    # xbmcplugin.addSortMethod(_HANDLE, xbmcplugin.SORT_METHOD_LABEL_IGNORE_THE)
     # Finish creating a virtual folder.
     xbmcplugin.endOfDirectory(_HANDLE)
 
