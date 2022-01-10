@@ -22,6 +22,7 @@
         <setting label="Last Name" type="text" id="lastname" default="" enable="false"/>
         <setting label="Language" type="text" id="language" default="" enable="false"/>
         <setting label="Geoblocking Enabled" type="text" id="geoblocked" default="" enable="false"/>
+        <setting label="Videostore Enabled" type="text" id="videostoreenabled" default="" enable="false"/>
         <setting label="Hours on NPVR" type="text" id="pvrhours" default="" enable="false"/>
         <setting label="Session valid from:" type="text" id="validfrom" default="" enable="false"/>
         <setting label="Session valid to" type="text" id="validto" default="" enable="false"/>
