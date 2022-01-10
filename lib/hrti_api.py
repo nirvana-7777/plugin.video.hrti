@@ -26,7 +26,7 @@ class HRTiAPI:
         self.TOKEN = ''
 
     def init_client(self):
-
+        print('api init')
         username = self.plugin.get_setting("username")
         if username == '':
             username = 'anonymoushrt'
@@ -49,6 +49,7 @@ class HRTiAPI:
         self.register_device()
         self.get_content_rating()
         self.get_profiles()
+        print('api init end')
 
     def api_post(self, url, payload, host, referer):
 
