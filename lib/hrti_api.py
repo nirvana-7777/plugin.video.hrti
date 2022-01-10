@@ -38,7 +38,12 @@ class HRTiAPI:
         xbmc.log("hrti init with User: " + username, level=xbmc.LOGDEBUG)
         xbmc.log("hrti init with PW: " + password, level=xbmc.LOGDEBUG)
         xbmc.log("hrti init with Cookie: " + str(self.session.cookies), level=xbmc.LOGDEBUG)
-        self.grant_access()
+        result = self.grant_access()
+        if result is None:
+            self.plugin.dialog_ok("Login has failed, check credentials using default credentials for session")
+            self.__username = 'anonymoushrt'
+            self.__password = 'an0nPasshrt'
+            self.grant_access()
         self.register_device()
         self.get_content_rating()
         self.get_profiles()
@@ -126,8 +131,6 @@ class HRTiAPI:
             self.plugin.set_setting('validfrom', str(validfrom))
             self.plugin.set_setting('validto', str(validto))
             xbmc.log("hrti grant access: " + str(result), level=xbmc.LOGDEBUG)
-        else:
-            self.plugin.dialog_ok("Login has failed - check credentials")
         return result
 
     def register_device(self):
