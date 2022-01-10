@@ -121,8 +121,8 @@ class HRTiAPI:
             if not (result is None):
                 self.TOKEN = result['Token']
                 self.plugin.set_setting('token', self.TOKEN)
-                validfrom = result['ValidFrom']
-                validto = result['ValidTo']
+                tokenvalidfrom = result['ValidFrom']
+                tokenvalidto = result['ValidTo']
                 self.__userid = result['Customer']['CustomerId']
                 email = result['Customer']['Email']
                 firstname = result['Customer']['FirstName']
@@ -138,11 +138,11 @@ class HRTiAPI:
                 self.plugin.set_setting('language', language)
                 # self.plugin.set_setting('geoblocked', geoblocked)
                 # self.plugin.set_setting('pvrhours', pvrhours)
-                print(self.TOKEN)
-                test = self.plugin.get_date_from_epoch(validfrom)
-                print(test)
-                print(validfrom)
-                print(validto)
+                # print(self.TOKEN)
+                validfrom = self.plugin.get_date_from_epoch(tokenvalidfrom)
+                validto = self.plugin.get_date_from_epoch(tokenvalidto)
+                self.plugin.set_setting('validfrom', validfrom)
+                self.plugin.set_setting('validto', validto)
                 print(geoblocked)
                 print(pvrhours)
             # print(result.json().get("ValidFrom"))
