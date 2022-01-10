@@ -175,7 +175,7 @@ class HRTiAPI:
                 self.plugin.set_setting('email', email)
                 firstname = result['Customer']['FirstName']
                 lastname = result['Customer']['LastName']
-                language =  result['Customer']['LanguageReferenceId']
+                language = result['Customer']['LanguageReferenceId']
                 geoblocked = result['Customer']['GeoblockingEnabled']
                 pvrhours = result['Customer']['NPVRHours']
                 self.plugin.set_setting('firstname', firstname)
