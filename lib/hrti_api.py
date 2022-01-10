@@ -13,38 +13,42 @@ class HRTiAPI:
     hrtiBaseUrl = "https://hrti.hrt.hr/api/api/ott/"
     hsapiBaseUrl = "https://hsapi.aviion.tv/client.svc/json/"
     session = requests.Session()
-    is_init = False
 
     def __init__(self, plugin):
         self.plugin = plugin
+        self.__userid = None
+        self.__username = ''
+        self.__password = ''
+        self.__ip = None
+        self.__drmid = None
+        self.__user_agent = 'kodi plugin for hrti.hrt.hr (python)'
+        self.DEVICE_ID = None
+        self.TOKEN = ''
 
-        if not self.is_init:
-            self.__userid = None
-            username = self.plugin.get_setting("username")
-            if username == '':
-                username = 'anonymoushrt'
-            password = self.plugin.get_setting("password")
-            if password == '':
-                password = 'an0nPasshrt'
-            self.__username = username
-            self.__password = password
-            self.__ip = self.get_ip(self)
-            self.__drmid = None
-            self.__user_agent = 'kodi plugin for hrti.hrt.hr (python)'
-            self.DEVICE_ID = self.plugin.get_setting('device_id')
-            self.TOKEN = self.plugin.get_setting('token')
-            if self.TOKEN == '':
-                self.TOKEN = 'lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8kmqwKNSUc8Gw'
-            result = self.grant_access()
-            if result is None:
-                self.plugin.dialog_ok("Login has failed, check credentials using default credentials for this session")
-                self.__username = 'anonymoushrt'
-                self.__password = 'an0nPasshrt'
-                self.grant_access()
-            self.register_device()
-            self.get_content_rating()
-            self.get_profiles()
-            self.is_init = True
+    def init_client(self):
+
+        username = self.plugin.get_setting("username")
+        if username == '':
+            username = 'anonymoushrt'
+        password = self.plugin.get_setting("password")
+        if password == '':
+            password = 'an0nPasshrt'
+        self.__username = username
+        self.__password = password
+        self.__ip = self.get_ip(self)
+        self.DEVICE_ID = self.plugin.get_setting('device_id')
+        self.TOKEN = self.plugin.get_setting('token')
+        if self.TOKEN == '':
+            self.TOKEN = 'lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8kmqwKNSUc8Gw'
+        result = self.grant_access()
+        if result is None:
+            self.plugin.dialog_ok("Login has failed, check credentials using default credentials for this session")
+            self.__username = 'anonymoushrt'
+            self.__password = 'an0nPasshrt'
+            self.grant_access()
+        self.register_device()
+        self.get_content_rating()
+        self.get_profiles()
 
     def api_post(self, url, payload, host, referer):
 

@@ -199,7 +199,7 @@ def list_videos(category):
                 # for video in videos:
                 # Create a list item with a text label and a thumbnail image.
                 # list_item = xbmcgui.ListItem(label=video['name']
-               # Set additional info for the list item.
+                # Set additional info for the list item.
                 # 'mediatype' is needed for skin to display info for this ListItem correctly.
                 if plugin.get_dict_value(channel, 'Radio'):
                     metadata = {'mediatype': 'audio'}
@@ -368,4 +368,7 @@ def router(paramstring):
 if __name__ == '__main__':
     # Call the router function and pass the plugin call parameters to it.
     # We use string slicing to trim the leading '?' from the plugin call paramstring
-    router(sys.argv[2][1:])
+    if api.TOKEN == '':
+        api.init_client()
+    else:
+        router(sys.argv[2][1:])
