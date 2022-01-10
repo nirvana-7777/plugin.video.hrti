@@ -87,7 +87,7 @@ def list_subcategories(path):
             i += 1
     count = 0
     for child in current_node:
-        if child['ParentReferenceId'] == parent_category:
+        if plugin.get_dict_value(child, 'ParentReferenceId') == parent_category:
             list_item = xbmcgui.ListItem(label=plugin.get_dict_value(child, 'Name'))
             list_item.setArt({'thumb': plugin.get_dict_value(child, 'PosterLandscape'),
                               'fanart': plugin.get_dict_value(child, 'PosterLandscape')})
@@ -103,23 +103,19 @@ def list_subcategories(path):
             count += 1
     if count == 0:
         catalog = api.get_catalog(parent_category, 250, 1)
-        # number = catalog['NumberOfItems']
-        # print(catalog)
+        # number = catalog['NumberOfItems'] TODO: handle more than 250 items
         for catalog_entry in catalog['Items']:
             title = plugin.get_dict_value(catalog_entry, 'Title')
             landscape = plugin.get_dict_value(catalog_entry, 'PosterLandscape')
             portrait = plugin.get_dict_value(catalog_entry, 'PosterPortrait')
             # catalog_entry['VodData'] AvailableFrom, Duration, ProductionYear
-
+            # TODO: additional info from VodData
             series_data = plugin.get_dict_value(catalog_entry, 'SeriesData')
             if len(series_data) == 0:
                 item_is_series = False
             else:
                 item_is_series = True
 
-            # catalog_entry['SeriesData'] {'LastEpisodeNumber': 1,
-            # 'LastSeasonNumber': 1, 'SeriesName': '',
-            # 'SeriesReferenceId': '44425aa1-0a72-7f51-9371-046be46ed537'}
             # catalog_entry['Type']
             # catalog_entry['VodCategoryNames']
             # catalog_entry['AvailableFrom']
@@ -151,7 +147,7 @@ def list_categories():
     """
     # Set plugin category. It is displayed in some skins as the name
     # of the current section.
-    xbmcplugin.setPluginCategory(_HANDLE, 'My Video Collection')
+    xbmcplugin.setPluginCategory(_HANDLE, 'HRTi categories')
     # Set plugin content. It allows Kodi to select appropriate views
     # for this type of content.
     xbmcplugin.setContent(_HANDLE, 'videos')
@@ -161,20 +157,6 @@ def list_categories():
     for category in categories:
         # Create a list item with a text label and a thumbnail image.
         list_item = xbmcgui.ListItem(label=category)
-        # Set graphics (thumbnail, fanart, banner, poster, landscape etc.) for the list item.
-        # Here we use the same image for all items for simplicity's sake.
-        # In a real-life plugin you need to set each image accordingly.
-
-        # list_item.setArt({'thumb': VIDEOS[category][0]['thumb'],
-        #                'icon': VIDEOS[category][0]['thumb'],
-        #               'fanart': VIDEOS[category][0]['thumb']})
-
-        # Set additional info for the list item.
-        # Here we use a category name for both properties for for simplicity's sake.
-        # setInfo allows to set various information for an item.
-        # For available properties see the following link:
-        # https://codedocs.xyz/xbmc/xbmc/group__python__xbmcgui__listitem.html#ga0b71166869bda87ad744942888fb5f14
-        # 'mediatype' is needed for a skin to display info for this ListItem correctly.
         list_item.setInfo('video', {'title': category,
                                     'genre': category,
                                     'mediatype': 'video'})
@@ -186,8 +168,6 @@ def list_categories():
         # Add our item to the Kodi virtual folder listing.
         xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     list_subcategories(None)
-    # Add a sort method for the virtual folder items (alphabetically, ignore articles)
-    # xbmcplugin.addSortMethod(_HANDLE, xbmcplugin.SORT_METHOD_LABEL_IGNORE_THE)
     # Finish creating a virtual folder.
     xbmcplugin.endOfDirectory(_HANDLE)
 
@@ -240,7 +220,6 @@ def list_videos(category):
 
 
 def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids, channel_id):
-    print("Filename: "+filename)
     parts = urlparse(filename)
     directories = parts.path.strip('/').split('/')
     contentdrmid = directories[0] + "_" + directories[1]
@@ -323,7 +302,6 @@ def play_video(path):
     parts = urlparse(path)
     if parts.scheme == "":
         voddetails = api.get_vod_details(path)
-        print(voddetails)
         filename = plugin.get_dict_value(voddetails, 'FileName')
         content_type = plugin.get_dict_value(voddetails, 'Type')
         video_store_ids = plugin.get_dict_value(voddetails, 'SVODVideostores')
@@ -351,11 +329,11 @@ def router(paramstring):
     # {<parameter>: <value>} elements
     deviceid = plugin.uniq_id()
     api.DEVICE_ID = deviceid
-    xbmc.log("DeviceID: "+str(deviceid),  level=xbmc.LOGDEBUG)
+    xbmc.log("DeviceID: " + str(deviceid), level=xbmc.LOGDEBUG)
 
     params = dict(parse_qsl(paramstring))
     # Check the parameters passed to the plugin
-    print("Params" + str(params))
+    xbmc.log(("Params: " + str(params)), level=xbmc.LOGDEBUG)
     if params:
         if params['action'] == 'listing':
             # Display the list of videos in a provided category.
