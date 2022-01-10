@@ -125,8 +125,6 @@ class HRTiAPI:
             validto = self.plugin.get_date_from_epoch(tokenvalidto)
             self.plugin.set_setting('validfrom', str(validfrom))
             self.plugin.set_setting('validto', str(validto))
-            print(geoblocked)
-            print(pvrhours)
             xbmc.log("hrti grant access: " + str(result), level=xbmc.LOGDEBUG)
         return result
 
