@@ -9,11 +9,8 @@
         <setting label="language" type="text" id="language" default="en" visible="false"/>
         <setting label="device_id" type="text" id="device_id" default="" visible="false"/>
         <setting label="viewer_id" type="text" id="viewer_id" default="" visible="false"/>
-        <setting label="portability" type="text" id="portability" default="" visible="false"/>
         <setting label="token" type="text" id="token" default="" visible="false"/>
         <setting label="mpx" type="text" id="mpx" default="" visible="false"/>
-        <setting label="email" type="text" id="email" default="" visible="false"/>
-        <setting label="password" type="text" id="password" default="" visible="false"/>
     </category>
     <category label="30010">
         <setting label="Customer ID" type="text" id="customerid" default="" enable="false"/>
