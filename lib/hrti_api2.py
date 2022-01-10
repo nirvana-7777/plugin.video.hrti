@@ -97,49 +97,7 @@ class HRTiAPI:
             print('*************************************')
             if cookie.domain == '.hrti.hrt.hr':
                 cookie_header = cookie.name+"="+cookie.value
-        print(cookie_header)
-        url = "https://hrti.hrt.hr/api/api/ott/GrantAccess"
-        payload = {
-            "Username": self.__username,
-            "Password": self.__password,
-            "OperatorReferenceId": "hrt"
-        }
-        xbmc.log("hrti payload: " + str(payload), level=xbmc.LOGDEBUG)
-        headers = {
-            'content-type': 'application/json',
-            'accept': 'application/json, text/plain, */*',
-            # 'authorization': 'Client lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8kmqwKNSUc8Gw',
-            # 'Connection': 'keep-alive',
-            'content-length': '107',
-            'Host': 'hrti.hrt.hr',
-            'IPAddress': str(self.__ip),
-            'OperatorReferenceId': 'hrt',
-            # 'sec-ch-ua-mobile': '?0',
-            # 'Origin': 'https://hrti.hrt.hr',
-            # 'Referer': 'https://hrti.hrt.hr/signin',
-            # 'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
-            # 'sec-ch-ua-platform': '"Linux"',
-            # 'accept-encoding': 'gzip, deflate, br',
-            # 'accept-language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
-            'User-Agent': self.__user_agent,
-            # 'sec-fetch-site': 'same-origin',
-            # 'sec-fetch-mode': 'cors',
-            # 'sec - fetch - dest': 'empty',
-            'Cookie': cookie_header
-        }
-        # self._auth = None
-        # r = requests.post(url, json=payload, headers=headers, cookies=self.cookie)
-        print(json.dumps(headers))
-        print(json.dumps(payload))
-        print(url)
-        # self.session.headers.update({'user-agent': self.user_agent})
-        # self.session.headers.update({'content-type': 'application/json'})
-        # self.session.headers.update({'content-length': '107'})
-        # self.session.headers.update({'deviceid': 'a8dc5ca6-8932-4932-88b6-6aee5d843624'})
-        # self.session.headers.update({'host': 'hrti.hrt.hr'})
-        # self.session.headers.update({'cookie': cookie_header})
-        # print(self.session.headers)
-        # r = self.session.post(url, json=json.dumps(payload), headers=headers)
+
         url = self.hrtiBaseUrl+"/api/api/ott/GrantAccess"
 
         payload = json.dumps({
@@ -170,14 +128,15 @@ class HRTiAPI:
                 validfrom = result['ValidFrom']
                 validto = result['ValidTo']
                 self.__userid = result['Customer']['CustomerId']
-                self.plugin.set_setting('customerid', self.__userid)
                 email = result['Customer']['Email']
-                self.plugin.set_setting('email', email)
                 firstname = result['Customer']['FirstName']
                 lastname = result['Customer']['LastName']
                 language = result['Customer']['LanguageReferenceId']
                 geoblocked = result['Customer']['GeoblockingEnabled']
+                videostoreenabled = result['Customer']['VideostoreEnabled']
                 pvrhours = result['Customer']['NPVRHours']
+                self.plugin.set_setting('customerid', self.__userid)
+                self.plugin.set_setting('email', email)
                 self.plugin.set_setting('firstname', firstname)
                 self.plugin.set_setting('lastname', lastname)
                 self.plugin.set_setting('language', language)
