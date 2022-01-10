@@ -42,7 +42,7 @@ class HRTiAPI:
             self.TOKEN = 'lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8kmqwKNSUc8Gw'
         result = self.grant_access()
         if result is None:
-            self.plugin.dialog_ok("Login has failed, check credentials using default credentials for this session")
+            self.plugin.dialog_ok("Login has failed, check credentials! Using default credentials for this session")
             self.__username = 'anonymoushrt'
             self.__password = 'an0nPasshrt'
             self.grant_access()

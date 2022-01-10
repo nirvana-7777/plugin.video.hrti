@@ -18,6 +18,8 @@ from lib.common import Common
 _HANDLE = int(sys.argv[1])
 _URL = sys.argv[0]
 
+is_init = False
+
 plugin = Common(
     addon=xbmcaddon.Addon(),
     addon_handle=_HANDLE,
@@ -367,8 +369,9 @@ if __name__ == '__main__':
     # Call the router function and pass the plugin call parameters to it.
     # We use string slicing to trim the leading '?' from the plugin call paramstring
     print("Token: " + api.TOKEN)
-    if api.TOKEN == '':
+    if not is_init:
         api.init_client()
         channels = api.get_channels()
         catalog_structure = api.get_catalog_structure()
+        is_init = True
     router(sys.argv[2][1:])
