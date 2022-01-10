@@ -12,7 +12,7 @@ import xbmcgui
 import xbmcplugin
 import xbmcaddon
 import posixpath
-from lib.hrti_api2 import HRTiAPI
+from lib.hrti_api import HRTiAPI
 from lib.common import Common
 
 _HANDLE = int(sys.argv[1])
