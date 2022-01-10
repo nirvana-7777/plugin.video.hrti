@@ -139,7 +139,7 @@ class HRTiAPI:
                 # self.plugin.set_setting('geoblocked', geoblocked)
                 # self.plugin.set_setting('pvrhours', pvrhours)
                 print(self.TOKEN)
-                test = plugin.get_date_from_epoch(validfrom)
+                test = self.plugin.get_date_from_epoch(validfrom)
                 print(test)
                 print(validfrom)
                 print(validto)
