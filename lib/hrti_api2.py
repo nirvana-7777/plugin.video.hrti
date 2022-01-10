@@ -101,61 +101,96 @@ class HRTiAPI:
             "Password": self.__password,
             "OperatorReferenceId": "hrt"
         })
-        headers = {
-            'content-type': 'application/json',
-            'User-Agent':  self.__user_agent,
-            'IPAddress': str(self.__ip),
-            'OperatorReferenceId': 'hrt',
-            'Cookie': cookie_header
-        }
 
-        response = self.session.post(url, headers=headers, data=payload)
+#        headers = {
+#            'content-type': 'application/json',
+#            'User-Agent':  self.__user_agent,
+#            'IPAddress': str(self.__ip),
+#            'OperatorReferenceId': 'hrt',
+#            'Cookie': cookie_header
+#        }
 
-        print(response.text)
-        xbmc.log("hrti status code: " + str(response.status_code), level=xbmc.LOGDEBUG)
-        if response.status_code == 200:
-            print(response.headers.get('content-type'))
-            self.logged_in = True
-            result = response.json().get("Result")
-            print(result)
-            if not (result is None):
-                self.TOKEN = result['Token']
-                self.plugin.set_setting('token', self.TOKEN)
-                tokenvalidfrom = result['ValidFrom']
-                tokenvalidto = result['ValidTo']
-                self.__userid = result['Customer']['CustomerId']
-                email = result['Customer']['Email']
-                firstname = result['Customer']['FirstName']
-                lastname = result['Customer']['LastName']
-                language = result['Customer']['LanguageReferenceId']
-                geoblocked = result['Customer']['GeoblockingEnabled']
-                videostoreenabled = result['Customer']['VideostoreEnabled']
-                pvrhours = result['Customer']['NPVRHours']
-                self.plugin.set_setting('customerid', self.__userid)
-                self.plugin.set_setting('email', email)
-                self.plugin.set_setting('firstname', firstname)
-                self.plugin.set_setting('lastname', lastname)
-                self.plugin.set_setting('language', language)
-                self.plugin.set_setting('geoblocked', str(geoblocked))
-                self.plugin.set_setting('videostoreenabled', str(videostoreenabled))
-                self.plugin.set_setting('pvrhours', str(pvrhours))
-                # print(self.TOKEN)
-                validfrom = self.plugin.get_date_from_epoch(tokenvalidfrom)
-                validto = self.plugin.get_date_from_epoch(tokenvalidto)
-                self.plugin.set_setting('validfrom', str(validfrom))
-                self.plugin.set_setting('validto', str(validto))
-                print(geoblocked)
-                print(pvrhours)
-            # print(result.json().get("ValidFrom"))
-            # print(result.json().get("ValidTo"))
-            # print(json.dumps(parsed_json, indent=4, sort_keys=True))
-                print(response.json())
+#        response = self.session.post(url, headers=headers, data=payload)
+        host = "hrti.hrt.hr"
+        referer = "https://hrti.hrt.hr/signin"
+        result = self.api_post(url, payload, host, referer)
+
+        if not (result is None):
+            self.TOKEN = result['Token']
+            self.plugin.set_setting('token', self.TOKEN)
+            tokenvalidfrom = result['ValidFrom']
+            tokenvalidto = result['ValidTo']
+            self.__userid = result['Customer']['CustomerId']
+            email = result['Customer']['Email']
+            firstname = result['Customer']['FirstName']
+            lastname = result['Customer']['LastName']
+            language = result['Customer']['LanguageReferenceId']
+            geoblocked = result['Customer']['GeoblockingEnabled']
+            videostoreenabled = result['Customer']['VideostoreEnabled']
+            pvrhours = result['Customer']['NPVRHours']
+            self.plugin.set_setting('customerid', self.__userid)
+            self.plugin.set_setting('email', email)
+            self.plugin.set_setting('firstname', firstname)
+            self.plugin.set_setting('lastname', lastname)
+            self.plugin.set_setting('language', language)
+            self.plugin.set_setting('geoblocked', str(geoblocked))
+            self.plugin.set_setting('videostoreenabled', str(videostoreenabled))
+            self.plugin.set_setting('pvrhours', str(pvrhours))
+            validfrom = self.plugin.get_date_from_epoch(tokenvalidfrom)
+            validto = self.plugin.get_date_from_epoch(tokenvalidto)
+            self.plugin.set_setting('validfrom', str(validfrom))
+            self.plugin.set_setting('validto', str(validto))
+            print(geoblocked)
+            print(pvrhours)
             # xbmc.log("hrti grant access: " + str(r.json()), level=xbmc.LOGDEBUG)
-                xbmc.log("hrti grant access: " + response.text, level=xbmc.LOGDEBUG)
-            # self._auth["expires"] = time.time() + self._auth["expires_in"]
-            else:
-                self.plugin.dialog_ok(response.json().get("ErrorDescription"))
-        return response.status_code
+            # xbmc.log("hrti grant access: " + response.text, level=xbmc.LOGDEBUG)
+        return result
+
+#        print(response.text)
+#        xbmc.log("hrti status code: " + str(response.status_code), level=xbmc.LOGDEBUG)
+#        if response.status_code == 200:
+#            print(response.headers.get('content-type'))
+#            self.logged_in = True
+#            result = response.json().get("Result")
+#            print(result)
+#            if not (result is None):
+#                self.TOKEN = result['Token']
+#                self.plugin.set_setting('token', self.TOKEN)
+#                tokenvalidfrom = result['ValidFrom']
+#                tokenvalidto = result['ValidTo']
+#                self.__userid = result['Customer']['CustomerId']
+#                email = result['Customer']['Email']
+#                firstname = result['Customer']['FirstName']
+#                lastname = result['Customer']['LastName']
+#                language = result['Customer']['LanguageReferenceId']
+#                geoblocked = result['Customer']['GeoblockingEnabled']
+#                videostoreenabled = result['Customer']['VideostoreEnabled']
+#                pvrhours = result['Customer']['NPVRHours']
+#                self.plugin.set_setting('customerid', self.__userid)
+#                self.plugin.set_setting('email', email)
+#                self.plugin.set_setting('firstname', firstname)
+#                self.plugin.set_setting('lastname', lastname)
+#                self.plugin.set_setting('language', language)
+#                self.plugin.set_setting('geoblocked', str(geoblocked))
+#                self.plugin.set_setting('videostoreenabled', str(videostoreenabled))
+#                self.plugin.set_setting('pvrhours', str(pvrhours))
+#                # print(self.TOKEN)
+#                validfrom = self.plugin.get_date_from_epoch(tokenvalidfrom)
+#                validto = self.plugin.get_date_from_epoch(tokenvalidto)
+#                self.plugin.set_setting('validfrom', str(validfrom))
+#                self.plugin.set_setting('validto', str(validto))
+#                print(geoblocked)
+#                print(pvrhours)
+#            # print(result.json().get("ValidFrom"))
+#            # print(result.json().get("ValidTo"))
+#            # print(json.dumps(parsed_json, indent=4, sort_keys=True))
+#                print(response.json())
+#            # xbmc.log("hrti grant access: " + str(r.json()), level=xbmc.LOGDEBUG)
+#                xbmc.log("hrti grant access: " + response.text, level=xbmc.LOGDEBUG)
+#            # self._auth["expires"] = time.time() + self._auth["expires_in"]
+#            else:
+#                self.plugin.dialog_ok(response.json().get("ErrorDescription"))
+#        return response.status_code
 
     def register_device(self):
 
