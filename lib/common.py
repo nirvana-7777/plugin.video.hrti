@@ -16,6 +16,7 @@ from os.path import join
 from string import capwords
 from time import mktime, sleep, strptime
 from uuid import UUID
+from re import re
 
 import xbmc
 import xbmcaddon
