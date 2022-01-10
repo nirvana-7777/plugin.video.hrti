@@ -130,7 +130,6 @@ class HRTiAPI:
             xbmc.log("hrti grant access: " + result, level=xbmc.LOGDEBUG)
         return result
 
-
     def register_device(self):
 
         url = self.hsapiBaseUrl+"RegisterDevice"
