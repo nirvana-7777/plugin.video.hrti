@@ -100,7 +100,7 @@ class HRTiAPI:
         referer = "https://hrti.hrt.hr/signin"
         result = self.api_post(url, payload, host, referer)
 
-        if not (result is None):
+        if result is not None:
             self.TOKEN = result['Token']
             self.plugin.set_setting('token', self.TOKEN)
             tokenvalidfrom = result['ValidFrom']
@@ -127,7 +127,7 @@ class HRTiAPI:
             self.plugin.set_setting('validto', str(validto))
             print(geoblocked)
             print(pvrhours)
-            xbmc.log("hrti grant access: " + result, level=xbmc.LOGDEBUG)
+            xbmc.log("hrti grant access: " + str(result), level=xbmc.LOGDEBUG)
         return result
 
     def register_device(self):
