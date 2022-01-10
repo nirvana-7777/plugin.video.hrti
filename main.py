@@ -221,6 +221,7 @@ def list_videos(category):
 
 
 def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids, channel_id):
+    print(filename)
     parts = urlparse(filename)
     directories = parts.path.strip('/').split('/')
     contentdrmid = directories[0] + "_" + directories[1]
