@@ -126,6 +126,8 @@ class HRTiAPI:
             self.plugin.set_setting('validfrom', str(validfrom))
             self.plugin.set_setting('validto', str(validto))
             xbmc.log("hrti grant access: " + str(result), level=xbmc.LOGDEBUG)
+        else:
+            self.plugin.dialog_ok("Login has failed - check credentials")
         return result
 
     def register_device(self):
