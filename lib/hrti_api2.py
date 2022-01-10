@@ -91,10 +91,6 @@ class HRTiAPI:
     def grant_access(self):
         cookie_header = None
         for cookie in self.session.cookies:
-            print('cookie domain = ' + cookie.domain)
-            print('cookie name = ' + cookie.name)
-            print('cookie value = ' + cookie.value)
-            print('*************************************')
             if cookie.domain == '.hrti.hrt.hr':
                 cookie_header = cookie.name+"="+cookie.value
 
@@ -143,6 +139,8 @@ class HRTiAPI:
                 # self.plugin.set_setting('geoblocked', geoblocked)
                 # self.plugin.set_setting('pvrhours', pvrhours)
                 print(self.TOKEN)
+                test = plugin.get_date_from_epoch(validfrom)
+                print(test)
                 print(validfrom)
                 print(validto)
                 print(geoblocked)
