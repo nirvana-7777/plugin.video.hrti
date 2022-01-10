@@ -237,8 +237,9 @@ class Common():
         return date
 
 
-    def get_date_from_epoch(self, epoch):
-        return datetime.datetime.fromtimestamp(epoch)
+    def get_date_from_epoch(self, timestamp):
+        TimestampUtc = re.split('\(|\)', timestamp)[1][:10]
+        return datetime.datetime.fromtimestamp(int(TimestampUtc))
 
     def get_mpx(self, token):
         token_data = loads(self.b64dec(token.split('.')[1]))
