@@ -25,8 +25,6 @@ plugin = Common(
 )
 
 api = HRTiAPI(plugin)
-channels = api.get_channels()
-catalog_structure = api.get_catalog_structure()
 
 CATEGORIES = ['TV Channels', 'Radio Channels']
 
@@ -370,5 +368,6 @@ if __name__ == '__main__':
     # We use string slicing to trim the leading '?' from the plugin call paramstring
     if api.TOKEN == '':
         api.init_client()
-    else:
-        router(sys.argv[2][1:])
+        channels = api.get_channels()
+        catalog_structure = api.get_catalog_structure()
+    router(sys.argv[2][1:])
