@@ -34,13 +34,9 @@ class HRTiAPI:
         self.TOKEN = self.plugin.get_setting('token')
         if self.TOKEN == '':
             self.TOKEN = 'lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8kmqwKNSUc8Gw'
-        xbmc.log("hrti init with IP: " + str(self.__ip), level=xbmc.LOGDEBUG)
-        xbmc.log("hrti init with User: " + username, level=xbmc.LOGDEBUG)
-        xbmc.log("hrti init with PW: " + password, level=xbmc.LOGDEBUG)
-        xbmc.log("hrti init with Cookie: " + str(self.session.cookies), level=xbmc.LOGDEBUG)
         result = self.grant_access()
         if result is None:
-            self.plugin.dialog_ok("Login has failed, check credentials using default credentials for session")
+            self.plugin.dialog_ok("Login has failed, check credentials using default credentials for this session")
             self.__username = 'anonymoushrt'
             self.__password = 'an0nPasshrt'
             self.grant_access()
