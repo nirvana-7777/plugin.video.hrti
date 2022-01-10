@@ -366,7 +366,7 @@ def router(paramstring):
 if __name__ == '__main__':
     # Call the router function and pass the plugin call parameters to it.
     # We use string slicing to trim the leading '?' from the plugin call paramstring
-    print(api.TOKEN)
+    print("Token: " + api.TOKEN)
     if api.TOKEN == '':
         api.init_client()
         channels = api.get_channels()
