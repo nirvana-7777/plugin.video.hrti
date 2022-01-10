@@ -10,14 +10,13 @@ import xbmc
 
 
 class HRTiAPI:
-    hrtiBaseUrl = "https://hrti.hrt.hr"
-    hsapiBaseUrl = "https://hsapi.aviion.tv"
+    hrtiBaseUrl = "https://hrti.hrt.hr/api/api/ott/"
+    hsapiBaseUrl = "https://hsapi.aviion.tv/client.svc/json/"
     session = requests.Session()
 
     def __init__(self, plugin):
         self.plugin = plugin
 
-        # self._auth = None
         self.logged_in = False
         self.__userid = None
         username = self.plugin.get_setting("username")
@@ -84,17 +83,12 @@ class HRTiAPI:
 
     @staticmethod
     def get_ip(self):
-        url = self.hrtiBaseUrl+"/api/api/ott/getIPAddress"
+        url = self.hrtiBaseUrl+"getIPAddress"
         r = self.session.get(url)
         return r.json()
 
     def grant_access(self):
-        cookie_header = None
-        for cookie in self.session.cookies:
-            if cookie.domain == '.hrti.hrt.hr':
-                cookie_header = cookie.name+"="+cookie.value
-
-        url = self.hrtiBaseUrl+"/api/api/ott/GrantAccess"
+        url = self.hrtiBaseUrl+"GrantAccess"
 
         payload = json.dumps({
             "Username": self.__username,
@@ -102,15 +96,6 @@ class HRTiAPI:
             "OperatorReferenceId": "hrt"
         })
 
-#        headers = {
-#            'content-type': 'application/json',
-#            'User-Agent':  self.__user_agent,
-#            'IPAddress': str(self.__ip),
-#            'OperatorReferenceId': 'hrt',
-#            'Cookie': cookie_header
-#        }
-
-#        response = self.session.post(url, headers=headers, data=payload)
         host = "hrti.hrt.hr"
         referer = "https://hrti.hrt.hr/signin"
         result = self.api_post(url, payload, host, referer)
@@ -142,59 +127,13 @@ class HRTiAPI:
             self.plugin.set_setting('validto', str(validto))
             print(geoblocked)
             print(pvrhours)
-            # xbmc.log("hrti grant access: " + str(r.json()), level=xbmc.LOGDEBUG)
-            # xbmc.log("hrti grant access: " + response.text, level=xbmc.LOGDEBUG)
+            xbmc.log("hrti grant access: " + result, level=xbmc.LOGDEBUG)
         return result
 
-#        print(response.text)
-#        xbmc.log("hrti status code: " + str(response.status_code), level=xbmc.LOGDEBUG)
-#        if response.status_code == 200:
-#            print(response.headers.get('content-type'))
-#            self.logged_in = True
-#            result = response.json().get("Result")
-#            print(result)
-#            if not (result is None):
-#                self.TOKEN = result['Token']
-#                self.plugin.set_setting('token', self.TOKEN)
-#                tokenvalidfrom = result['ValidFrom']
-#                tokenvalidto = result['ValidTo']
-#                self.__userid = result['Customer']['CustomerId']
-#                email = result['Customer']['Email']
-#                firstname = result['Customer']['FirstName']
-#                lastname = result['Customer']['LastName']
-#                language = result['Customer']['LanguageReferenceId']
-#                geoblocked = result['Customer']['GeoblockingEnabled']
-#                videostoreenabled = result['Customer']['VideostoreEnabled']
-#                pvrhours = result['Customer']['NPVRHours']
-#                self.plugin.set_setting('customerid', self.__userid)
-#                self.plugin.set_setting('email', email)
-#                self.plugin.set_setting('firstname', firstname)
-#                self.plugin.set_setting('lastname', lastname)
-#                self.plugin.set_setting('language', language)
-#                self.plugin.set_setting('geoblocked', str(geoblocked))
-#                self.plugin.set_setting('videostoreenabled', str(videostoreenabled))
-#                self.plugin.set_setting('pvrhours', str(pvrhours))
-#                # print(self.TOKEN)
-#                validfrom = self.plugin.get_date_from_epoch(tokenvalidfrom)
-#                validto = self.plugin.get_date_from_epoch(tokenvalidto)
-#                self.plugin.set_setting('validfrom', str(validfrom))
-#                self.plugin.set_setting('validto', str(validto))
-#                print(geoblocked)
-#                print(pvrhours)
-#            # print(result.json().get("ValidFrom"))
-#            # print(result.json().get("ValidTo"))
-#            # print(json.dumps(parsed_json, indent=4, sort_keys=True))
-#                print(response.json())
-#            # xbmc.log("hrti grant access: " + str(r.json()), level=xbmc.LOGDEBUG)
-#                xbmc.log("hrti grant access: " + response.text, level=xbmc.LOGDEBUG)
-#            # self._auth["expires"] = time.time() + self._auth["expires_in"]
-#            else:
-#                self.plugin.dialog_ok(response.json().get("ErrorDescription"))
-#        return response.status_code
 
     def register_device(self):
 
-        url = self.hsapiBaseUrl+"/client.svc/json/RegisterDevice"
+        url = self.hsapiBaseUrl+"RegisterDevice"
 
         payload = json.dumps({
             "DeviceSerial": self.DEVICE_ID,
@@ -213,7 +152,7 @@ class HRTiAPI:
 
     def get_content_rating(self):
 
-        url = self.hsapiBaseUrl + "/client.svc/json/ContentRatingsGet"
+        url = self.hsapiBaseUrl + "ContentRatingsGet"
 
         payload = json.dumps({})
         host = "hsapi.aviion.tv"
@@ -223,7 +162,7 @@ class HRTiAPI:
 
     def get_profiles(self):
 
-        url = self.hsapiBaseUrl + "/client.svc/json/ProfilesGet"
+        url = self.hsapiBaseUrl + "ProfilesGet"
 
         payload = json.dumps({})
         host = "hsapi.aviion.tv"
@@ -233,7 +172,7 @@ class HRTiAPI:
 
     def get_channels(self):
 
-        url = self.hrtiBaseUrl + "/api/api/ott/GetChannels"
+        url = self.hrtiBaseUrl + "GetChannels"
 
         payload = json.dumps({})
         host = "hrti.hrt.hr"
@@ -243,7 +182,7 @@ class HRTiAPI:
 
     def get_catalog_structure(self):
 
-        url = self.hrtiBaseUrl + "/api/api/ott/GetCatalogueStructure"
+        url = self.hrtiBaseUrl + "GetCatalogueStructure"
 
         payload = json.dumps({})
         host = "hrti.hrt.hr"
@@ -253,7 +192,7 @@ class HRTiAPI:
 
     def get_catalog(self, reference_id, max_number, page):
 
-        url = self.hrtiBaseUrl + "/api/api/ott/GetCatalogue"
+        url = self.hrtiBaseUrl + "GetCatalogue"
 
         payload = json.dumps({
             "ReferenceId": reference_id,
@@ -267,7 +206,7 @@ class HRTiAPI:
 
     def get_vod_details(self, reference_id):
 
-        url = self.hrtiBaseUrl + "/api/api/ott/GetVodDetails"
+        url = self.hrtiBaseUrl + "GetVodDetails"
 
         payload = json.dumps({
             "ReferenceId": reference_id,
@@ -279,7 +218,7 @@ class HRTiAPI:
 
     def get_programme(self, channelids, starttime, endtime):
 
-        url = self.hrtiBaseUrl + "/api/api/ott/GetProgramme"
+        url = self.hrtiBaseUrl + "GetProgramme"
 
         payload = json.dumps({
             "ChannelReferenceIds": channelids,
@@ -293,7 +232,7 @@ class HRTiAPI:
 
     def authorize_session(self, contenttype, contentrefid, contentdrmid, videostorerefids, channelid):
 
-        url = self.hrtiBaseUrl + "/api/api/ott/AuthorizeSession"
+        url = self.hrtiBaseUrl + "AuthorizeSession"
 
         payload = json.dumps({
             "ContentType": contenttype,
@@ -320,7 +259,7 @@ class HRTiAPI:
 
     def report_session_event(self, sessionid, channelid):
 
-        url = self.hrtiBaseUrl + "/api/api/ott/ReportSessionEvent"
+        url = self.hrtiBaseUrl + "ReportSessionEvent"
 
         payload = json.dumps({
             "SessionEventId": 1,
@@ -337,7 +276,7 @@ class HRTiAPI:
 
     def get_seasons(self, series_ref_id):
 
-        url = self.hrtiBaseUrl + "/api/api/ott/GetSeasons"
+        url = self.hrtiBaseUrl + "GetSeasons"
 
         payload = json.dumps({
             "SeriesReferenceId": series_ref_id
@@ -349,7 +288,7 @@ class HRTiAPI:
 
     def get_episodes(self, series_ref_id, season_ref_id):
 
-        url = self.hrtiBaseUrl + "/api/api/ott/GetEpisodes"
+        url = self.hrtiBaseUrl + "GetEpisodes"
 
         payload = json.dumps({
             "SeriesReferenceId": series_ref_id,
@@ -362,7 +301,7 @@ class HRTiAPI:
 
     def logout(self):
 
-        url = self.hsapiBaseUrl + "/client.svc/json/DeviceInstanceDelete"
+        url = self.hsapiBaseUrl + "DeviceInstanceDelete"
 
         payload = json.dumps({
             "Serial": self.DEVICE_ID,
