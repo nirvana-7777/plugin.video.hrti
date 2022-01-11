@@ -17,8 +17,6 @@ class HRTiAPI:
     def __init__(self, plugin):
         self.plugin = plugin
         self.__userid = None
-        self.USERNAME = ''
-        self.PASSWORD = ''
         self.__ip = self.get_ip(self)
         self.__drmid = None
         self.__user_agent = 'kodi plugin for hrti.hrt.hr (python)'
@@ -69,12 +67,12 @@ class HRTiAPI:
         r = self.session.get(url)
         return r.json()
 
-    def grant_access(self):
+    def grant_access(self, username, password):
         url = self.hrtiBaseUrl+"GrantAccess"
 
         payload = json.dumps({
-            "Username": self.USERNAME,
-            "Password": self.PASSWORD,
+            "Username": username,
+            "Password": password,
             "OperatorReferenceId": "hrt"
         })
 

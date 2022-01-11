@@ -27,25 +27,21 @@ plugin = Common(
 api = HRTiAPI(plugin)
 username = plugin.get_setting("username")
 password = plugin.get_setting("password")
-api.USERNAME = username
-api.PASSWORD = password
 api.DEVICE_ID = plugin.uniq_id()
 token = plugin.get_setting("token")
 if token == '' or token == 'lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8kmqwKNSUc8Gw':
     print(username)
     print(password)
-    login_result = api.grant_access()
+    login_result = api.grant_access(username, password)
     if login_result is None:
         plugin.dialog_ok("Login has failed, check credentials! Using default credentials for this session")
-        api.USERNAME = 'anonymoushrt'
-        api.PASSWORD = 'an0nPasshrt'
-        login_result2 = api.grant_access()
+        login_result2 = api.grant_access('anonymoushrt', 'an0nPasshrt')
         token = plugin.get_dict_value(login_result2, 'Token')
     else:
         token = plugin.get_dict_value(login_result, 'Token')
         plugin.set_setting("token", token)
 api.TOKEN = token
-# self.register_device()
+self.register_device()
 api.get_content_rating()
 api.get_profiles()
 xbmc.log("Token: " + str(api.TOKEN), level=xbmc.LOGDEBUG)
