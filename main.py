@@ -35,12 +35,12 @@ if token == '' or token == 'lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8
     if login_result is None:
         plugin.dialog_ok("Login has failed, check credentials! Using default credentials for this session")
         api.grant_access('anonymoushrt', 'an0nPasshrt')
+    api.register_device()
+    api.get_content_rating()
+    api.get_profiles()
 else:
     api.USERID = userid
     api.TOKEN = token
-api.register_device()
-api.get_content_rating()
-api.get_profiles()
 xbmc.log("UserID: " + str(api.USERID), level=xbmc.LOGDEBUG)
 xbmc.log("Token: " + str(api.TOKEN), level=xbmc.LOGDEBUG)
 xbmc.log("DeviceID: " + str(api.DEVICE_ID), level=xbmc.LOGDEBUG)
