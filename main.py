@@ -109,11 +109,14 @@ def list_subcategories(path):
             parent_category = sections[i]
             i += 1
     count = 0
+    xbmcplugin.setPluginCategory(_HANDLE, parent_category)
     for child in current_node:
         if plugin.get_dict_value(child, 'ParentReferenceId') == parent_category:
             list_item = xbmcgui.ListItem(label=plugin.get_dict_value(child, 'Name'))
-            list_item.setArt({'thumb': plugin.get_dict_value(child, 'PosterLandscape'),
-                              'fanart': plugin.get_dict_value(child, 'PosterLandscape')})
+            landscape = plugin.get_dict_value(child, 'PosterLandscape')
+            list_item.setArt({'thumb': landscape,
+                              'icon': landscape,
+                              'fanart': landscape})
             list_item.setInfo('video', {'title': plugin.get_dict_value(child, 'Name'),
                                         'genre': plugin.get_dict_value(child, 'Name'),
                                         'mediatype': 'video'})
