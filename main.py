@@ -40,8 +40,9 @@ if token == '' or token == 'lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8
         api.USERNAME = 'anonymoushrt'
         api.PASSWORD = 'an0nPasshrt'
         login_result2 = api.grant_access()
-        token = plugin.get_dict_value(login_result2, token)
+        token = plugin.get_dict_value(login_result2, 'Token')
     else:
+        token = plugin.get_dict_value(login_result, 'Token')
         plugin.set_setting("token", token)
 api.TOKEN = token
 # self.register_device()
