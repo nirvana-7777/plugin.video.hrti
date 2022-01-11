@@ -50,8 +50,6 @@ api.DEVICE_ID = device_id
 xbmc.log("UserID: " + str(api.USERID), level=xbmc.LOGDEBUG)
 xbmc.log("Token: " + str(api.TOKEN), level=xbmc.LOGDEBUG)
 xbmc.log("DeviceID: " + str(api.DEVICE_ID), level=xbmc.LOGDEBUG)
-# channels = api.get_channels()
-# catalog_structure = api.get_catalog_structure()
 
 CATEGORIES = ['TV Channels', 'Radio Channels']
 
@@ -247,7 +245,6 @@ def list_videos(category):
 
 
 def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids, channel_id):
-    print(filename)
     parts = urlparse(filename)
     directories = parts.path.strip('/').split('/')
     contentdrmid = directories[0] + "_" + directories[1]

@@ -302,7 +302,7 @@ class HRTiAPI:
     def get_license(self):
         # Prepare for drm keys
         drm_license = {'userId': self.USERID, 'sessionId': self.__drmid, 'merchant': 'aviion2'}
-        print(str(drm_license))
+        xbmc.log("DRM License: " + str(drm_license), level=xbmc.LOGDEBUG)
         try:
             license_str = base64.b64encode(json.dumps(drm_license))
             return license_str
