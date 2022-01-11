@@ -55,7 +55,7 @@ class HRTiAPI:
             errorcode = response.json().get("ErrorCode")
             errordesc = response.json().get("ErrorDescription")
             if errorcode != 0:
-                self.plugin.dialog_ok(url + " raised error: " + errordesc)
+                self.plugin.dialog_ok(str(url) + " raised error " + str(errorcode) + ": " + str(errordesc))
             else:
                 result = response.json().get("Result")
         else:
