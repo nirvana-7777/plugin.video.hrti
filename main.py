@@ -41,7 +41,7 @@ if token == '' or token == 'lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8
         token = plugin.get_dict_value(login_result, 'Token')
         plugin.set_setting("token", token)
 api.TOKEN = token
-self.register_device()
+api.register_device()
 api.get_content_rating()
 api.get_profiles()
 xbmc.log("Token: " + str(api.TOKEN), level=xbmc.LOGDEBUG)
