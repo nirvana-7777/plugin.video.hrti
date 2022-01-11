@@ -207,6 +207,17 @@ class HRTiAPI:
         result = self.api_post(url, payload, host, referer)
         return result
 
+    def get_devices(self):
+
+        url = self.hsapiBaseUrl + "DeviceInstancesGet"
+
+        payload = json.dumps({
+        })
+        host = "hsapi.aviion.tv"
+        referer = "https://hrti-selfcare.hrt.hr/"
+        result = self.api_post(url, payload, host, referer)
+        return result
+
     def authorize_session(self, contenttype, contentrefid, contentdrmid, videostorerefids, channelid):
 
         url = self.hrtiBaseUrl + "AuthorizeSession"
