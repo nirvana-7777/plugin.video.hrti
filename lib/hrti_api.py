@@ -16,7 +16,7 @@ class HRTiAPI:
 
     def __init__(self, plugin):
         self.plugin = plugin
-        self.__userid = None
+        self.USERID = None
         self.__ip = self.get_ip(self)
         self.__drmid = None
         self.__user_agent = 'kodi plugin for hrti.hrt.hr (python)'
@@ -85,7 +85,7 @@ class HRTiAPI:
             self.plugin.set_setting('token', self.TOKEN)
             tokenvalidfrom = result['ValidFrom']
             tokenvalidto = result['ValidTo']
-            self.__userid = result['Customer']['CustomerId']
+            self.USERID = result['Customer']['CustomerId']
             email = result['Customer']['Email']
             firstname = result['Customer']['FirstName']
             lastname = result['Customer']['LastName']
@@ -93,7 +93,7 @@ class HRTiAPI:
             geoblocked = result['Customer']['GeoblockingEnabled']
             videostoreenabled = result['Customer']['VideostoreEnabled']
             pvrhours = result['Customer']['NPVRHours']
-            self.plugin.set_setting('customerid', self.__userid)
+            self.plugin.set_setting('customerid', self.USERID)
             self.plugin.set_setting('email', email)
             self.plugin.set_setting('firstname', firstname)
             self.plugin.set_setting('lastname', lastname)
@@ -290,7 +290,7 @@ class HRTiAPI:
 
     def get_license(self):
         # Prepare for drm keys
-        drm_license = {'userId': self.__userid, 'sessionId': self.__drmid, 'merchant': 'aviion2'}
+        drm_license = {'userId': self.USERID, 'sessionId': self.__drmid, 'merchant': 'aviion2'}
         print(str(drm_license))
         try:
             license_str = base64.b64encode(json.dumps(drm_license))

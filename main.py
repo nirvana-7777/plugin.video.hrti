@@ -29,18 +29,14 @@ username = plugin.get_setting("username")
 password = plugin.get_setting("password")
 api.DEVICE_ID = plugin.uniq_id()
 token = plugin.get_setting("token")
-if token == '' or token == 'lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8kmqwKNSUc8Gw':
+userid = plugin.get_setting("customerid")
+if token == '' or token == 'lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8kmqwKNSUc8Gw' or userid == "":
     print(username)
     print(password)
     login_result = api.grant_access(username, password)
     if login_result is None:
         plugin.dialog_ok("Login has failed, check credentials! Using default credentials for this session")
-        login_result2 = api.grant_access('anonymoushrt', 'an0nPasshrt')
-        token = plugin.get_dict_value(login_result2, 'Token')
-    else:
-        token = plugin.get_dict_value(login_result, 'Token')
-        plugin.set_setting("token", token)
-api.TOKEN = token
+        api.grant_access('anonymoushrt', 'an0nPasshrt')
 api.register_device()
 api.get_content_rating()
 api.get_profiles()
