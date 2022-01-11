@@ -18,8 +18,6 @@ from lib.common import Common
 _HANDLE = int(sys.argv[1])
 _URL = sys.argv[0]
 
-is_init = False
-
 plugin = Common(
     addon=xbmcaddon.Addon(),
     addon_handle=_HANDLE,
@@ -27,6 +25,30 @@ plugin = Common(
 )
 
 api = HRTiAPI(plugin)
+username = plugin.get_setting("username")
+password = plugin.get_setting("password")
+api.USERNAME = username
+api.PASSWORD = password
+api.DEVICE_ID = plugin.uniq_id()
+token = plugin.get_setting("token")
+if token == '':
+    login_result = api.grant_access()
+    if login_result is None:
+        plugin.dialog_ok("Login has failed, check credentials! Using default credentials for this session")
+        api.USERNAME = 'anonymoushrt'
+        api.PASSWORD = 'an0nPasshrt'
+        login_result2 = api.grant_access()
+        token = plugin.get_dict_value(login_result2, token)
+    else:
+        plugin.set_setting("token", token)
+    # self.register_device()
+    # self.get_content_rating()
+    # self.get_profiles()
+print(token)
+api.TOKEN = token
+xbmc.log("DeviceID: " + str(api.DEVICE_ID), level=xbmc.LOGDEBUG)
+channels = api.get_channels()
+catalog_structure = api.get_catalog_structure()
 
 CATEGORIES = ['TV Channels', 'Radio Channels']
 
@@ -329,10 +351,6 @@ def router(paramstring):
     """
     # Parse a URL-encoded paramstring to the dictionary of
     # {<parameter>: <value>} elements
-    deviceid = plugin.uniq_id()
-    api.DEVICE_ID = deviceid
-    xbmc.log("DeviceID: " + str(deviceid), level=xbmc.LOGDEBUG)
-
     params = dict(parse_qsl(paramstring))
     # Check the parameters passed to the plugin
     xbmc.log(("Params: " + str(params)), level=xbmc.LOGDEBUG)
@@ -368,10 +386,4 @@ def router(paramstring):
 if __name__ == '__main__':
     # Call the router function and pass the plugin call parameters to it.
     # We use string slicing to trim the leading '?' from the plugin call paramstring
-    print("Token: " + api.TOKEN)
-    if not is_init:
-        api.init_client()
-        channels = api.get_channels()
-        catalog_structure = api.get_catalog_structure()
-        is_init = True
     router(sys.argv[2][1:])

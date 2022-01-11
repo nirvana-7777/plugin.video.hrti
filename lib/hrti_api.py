@@ -17,9 +17,9 @@ class HRTiAPI:
     def __init__(self, plugin):
         self.plugin = plugin
         self.__userid = None
-        self.__username = ''
-        self.__password = ''
-        self.__ip = None
+        self.USERNAME = ''
+        self.PASSWORD = ''
+        self.__ip = self.get_ip(self)
         self.__drmid = None
         self.__user_agent = 'kodi plugin for hrti.hrt.hr (python)'
         self.DEVICE_ID = None
@@ -27,28 +27,14 @@ class HRTiAPI:
 
     def init_client(self):
         print('api init')
-        username = self.plugin.get_setting("username")
-        if username == '':
-            username = 'anonymoushrt'
-        password = self.plugin.get_setting("password")
-        if password == '':
-            password = 'an0nPasshrt'
-        self.__username = username
-        self.__password = password
-        self.__ip = self.get_ip(self)
+
+        # self.__username = username
+        # self.__password = password
+        self.__ip = None
         self.DEVICE_ID = self.plugin.get_setting('device_id')
         self.TOKEN = self.plugin.get_setting('token')
         if self.TOKEN == '':
             self.TOKEN = 'lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8kmqwKNSUc8Gw'
-        result = self.grant_access()
-        if result is None:
-            self.plugin.dialog_ok("Login has failed, check credentials! Using default credentials for this session")
-            self.__username = 'anonymoushrt'
-            self.__password = 'an0nPasshrt'
-            self.grant_access()
-        self.register_device()
-        self.get_content_rating()
-        self.get_profiles()
         print('api init end')
 
     def api_post(self, url, payload, host, referer):
@@ -99,8 +85,8 @@ class HRTiAPI:
         url = self.hrtiBaseUrl+"GrantAccess"
 
         payload = json.dumps({
-            "Username": self.__username,
-            "Password": self.__password,
+            "Username": self.USERNAME,
+            "Password": self.PASSWORD,
             "OperatorReferenceId": "hrt"
         })
 
