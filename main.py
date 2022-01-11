@@ -27,7 +27,6 @@ plugin = Common(
 api = HRTiAPI(plugin)
 username = plugin.get_setting("username")
 password = plugin.get_setting("password")
-api.DEVICE_ID = plugin.uniq_id()
 token = plugin.get_setting("token")
 userid = plugin.get_setting("customerid")
 if token == '' or token == 'lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8kmqwKNSUc8Gw' or userid == "":
@@ -41,11 +40,18 @@ if token == '' or token == 'lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8
 else:
     api.USERID = userid
     api.TOKEN = token
+device_id = plugin.get_setting("device_id")
+if device_id == "":
+    device_id = plugin.uniq_id()
+    api.register_device()
+    api.get_content_rating()
+    api.get_profiles()
+api.DEVICE_ID = device_id
 xbmc.log("UserID: " + str(api.USERID), level=xbmc.LOGDEBUG)
 xbmc.log("Token: " + str(api.TOKEN), level=xbmc.LOGDEBUG)
 xbmc.log("DeviceID: " + str(api.DEVICE_ID), level=xbmc.LOGDEBUG)
-channels = api.get_channels()
-catalog_structure = api.get_catalog_structure()
+# channels = api.get_channels()
+# catalog_structure = api.get_catalog_structure()
 
 CATEGORIES = ['TV Channels', 'Radio Channels']
 
@@ -95,7 +101,7 @@ def get_children(node, wanted_subcategory):
 
 
 def list_subcategories(path):
-    current_node = catalog_structure
+    current_node = api.get_catalog_structure()
     parent_category = ""
     if path is not None:
         sections = path_parse("/"+path)
@@ -205,6 +211,7 @@ def list_videos(category):
     xbmcplugin.setContent(_HANDLE, 'videos')
     # Get the list of videos in the category.
     # Iterate through videos.
+    channels = api.get_channels()
     if channels is not None:
         for channel in channels:
             if (plugin.get_dict_value(channel, 'Radio') and category == 'Radio Channels')\
@@ -329,6 +336,7 @@ def play_video(path):
         if content_type != 'series':
             authorize_and_play(filename, content_type, path, video_store_ids, None)
     else:
+        channels = api.get_channels()
         for channel in channels:
             if path == plugin.get_dict_value(channel, 'StreamingURL'):
                 refid = plugin.get_dict_value(channel, 'ReferenceID')
