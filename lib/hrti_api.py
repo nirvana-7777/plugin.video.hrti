@@ -25,18 +25,6 @@ class HRTiAPI:
         self.DEVICE_ID = None
         self.TOKEN = ''
 
-    def init_client(self):
-        print('api init')
-
-        # self.__username = username
-        # self.__password = password
-        self.__ip = None
-        self.DEVICE_ID = self.plugin.get_setting('device_id')
-        self.TOKEN = self.plugin.get_setting('token')
-        if self.TOKEN == '':
-            self.TOKEN = 'lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8kmqwKNSUc8Gw'
-        print('api init end')
-
     def api_post(self, url, payload, host, referer):
 
         cookie_header = None
@@ -67,7 +55,7 @@ class HRTiAPI:
             errorcode = response.json().get("ErrorCode")
             errordesc = response.json().get("ErrorDescription")
             if errorcode != 0:
-                self.plugin.dialog_ok(errordesc)
+                self.plugin.dialog_ok(url + " raised error: " + errordesc)
             else:
                 result = response.json().get("Result")
         else:
