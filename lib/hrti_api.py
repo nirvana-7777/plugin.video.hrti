@@ -60,7 +60,7 @@ class HRTiAPI:
                 result = response.json().get("Result")
         else:
             self.plugin.dialog_ok("HRTi API Call for " +
-                                  url + " did not respond 200 OK but "+str(response.status_code))
+                                  url + " did not respond 200 OK or JSON but "+str(response.status_code))
         return result
 
     @staticmethod

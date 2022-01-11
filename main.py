@@ -32,6 +32,8 @@ api.PASSWORD = password
 api.DEVICE_ID = plugin.uniq_id()
 token = plugin.get_setting("token")
 if token == '' or token == 'lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8kmqwKNSUc8Gw':
+    print(username)
+    print(password)
     login_result = api.grant_access()
     if login_result is None:
         plugin.dialog_ok("Login has failed, check credentials! Using default credentials for this session")
