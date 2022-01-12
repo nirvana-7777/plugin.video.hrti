@@ -43,6 +43,7 @@ else:
 device_id = plugin.get_setting("device_id")
 if device_id == "":
     device_id = plugin.uniq_id()
+    plugin.set_setting("device_id", device_id)
     api.register_device()
     api.get_content_rating()
     api.get_profiles()
