@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
+
+import time
+
 from kodi_six.utils import PY2, py2_encode, py2_decode
 from six.moves.urllib.parse import urlencode
 
@@ -238,10 +241,14 @@ class Common():
             date = '%s-%s-%s' % (spl[2], spl[1], spl[0])
         return date
 
-
     def get_date_from_epoch(self, timestamp):
         TimestampUtc = re.split('\(|\)', timestamp)[1][:10]
         return datetime.fromtimestamp(int(TimestampUtc))
+
+    def get_time_from_epoch(self, timestamp):
+        TimestampUtc = re.split('\(|\)', timestamp)[1][:10]
+        strtime = time.strftime('%d %H:%M:%S', datetime.fromtimestamp(int(TimestampUtc)))
+        return strtime
 
     def get_mpx(self, token):
         token_data = loads(self.b64dec(token.split('.')[1]))
