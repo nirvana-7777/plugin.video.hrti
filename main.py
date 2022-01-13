@@ -269,7 +269,8 @@ def list_epg(channel):
         for item in epglist:
             timestart = plugin.get_time_from_epoch(plugin.get_dict_value(item, 'TimeStart'))
             timeend = plugin.get_time_from_epoch(plugin.get_dict_value(item, 'TimeEnd'))
-            entry = plugin.get_dict_value(item, 'Title') + " | " + str(timestart) + " - " + str(timeend)
+            # entry = plugin.get_dict_value(item, 'Title') + " | " + str(timestart) + " - " + str(timeend)
+            entry = str(timestart) + " | " + plugin.get_dict_value(item, 'Title')
             list_item = xbmcgui.ListItem(label=entry)
             list_item.setArt({'thumb': plugin.get_dict_value(item, 'ImagePath'),
                               'icon': plugin.get_dict_value(item, 'ImagePath'),
