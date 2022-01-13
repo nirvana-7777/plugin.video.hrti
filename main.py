@@ -52,7 +52,7 @@ xbmc.log("UserID: " + str(api.USERID), level=xbmc.LOGDEBUG)
 xbmc.log("Token: " + str(api.TOKEN), level=xbmc.LOGDEBUG)
 xbmc.log("DeviceID: " + str(api.DEVICE_ID), level=xbmc.LOGDEBUG)
 
-CATEGORIES = ['TV Channels', 'Radio Channels, EPG']
+CATEGORIES = ['TV Channels', 'Radio Channels', 'EPG']
 
 
 def get_url(**kwargs):
@@ -242,10 +242,35 @@ def list_videos(category):
                 is_folder = False
                 # Add our item to the Kodi virtual folder listing.
                 xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
+            elif category == 'EPG':
+                list_item = xbmcgui.ListItem(label=plugin.get_dict_value(channel, 'Name'))
+                list_item.setArt({'thumb': plugin.get_dict_value(channel, 'Icon'),
+                                  'icon': plugin.get_dict_value(channel, 'Icon'),
+                                  'fanart': plugin.get_dict_value(channel, 'Icon')})
+                url = get_url(action='EPG', channel=plugin.get_dict_value(channel, 'ReferenceId'))
+                is_folder = False
+                # Add our item to the Kodi virtual folder listing.
+                xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     # Add a sort method for the virtual folder items (alphabetically, ignore articles)
     # xbmcplugin.addSortMethod(_HANDLE, xbmcplugin.SORT_METHOD_LABEL_IGNORE_THE)
     # Finish creating a virtual folder.
     xbmcplugin.endOfDirectory(_HANDLE)
+
+
+def list_epg(channel):
+    channelids = [channel]
+    now = "/Date(1642087937218)/"
+    programmes = api.get_programme(channelids, now, now)
+    if programmes is not None:
+        for programme in programmes:
+            list_item = xbmcgui.ListItem(label=plugin.get_dict_value(programme, 'Title'))
+            list_item.setArt({'thumb': plugin.get_dict_value(programme, 'ImagePath'),
+                              'icon': plugin.get_dict_value(programme, 'ImagePath'),
+                              'fanart': plugin.get_dict_value(programme, 'ImagePath')})
+            url = get_url(action='EPG Details', programme=plugin.get_dict_value(programme, 'ReferenceId'))
+            is_folder = False
+            # Add our item to the Kodi virtual folder listing.
+            xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
 
 
 def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids, channel_id):
@@ -363,7 +388,9 @@ def router(paramstring):
     if params:
         if params['action'] == 'listing':
             # Display the list of videos in a provided category.
-            if params['category'] == 'TV Channels' or params['category'] == 'Radio Channels':
+            if params['category'] == 'TV Channels' or \
+                    params['category'] == 'Radio Channels' or \
+                    params['category'] == 'EPG':
                 list_videos(params['category'])
             else:
                 list_subcategories(params['category'])
@@ -376,6 +403,8 @@ def router(paramstring):
         elif params['action'] == 'episodes':
             # Play a video from a provided URL.
             list_episodes(params['category'])
+        elif params['action'] == 'EPG':
+            list_epg(params['channel'])
         elif params['action'] == 'logout':
             api.logout()
         else:
