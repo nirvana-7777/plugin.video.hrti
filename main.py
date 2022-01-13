@@ -52,7 +52,7 @@ xbmc.log("UserID: " + str(api.USERID), level=xbmc.LOGDEBUG)
 xbmc.log("Token: " + str(api.TOKEN), level=xbmc.LOGDEBUG)
 xbmc.log("DeviceID: " + str(api.DEVICE_ID), level=xbmc.LOGDEBUG)
 
-CATEGORIES = ['TV Channels', 'Radio Channels']
+CATEGORIES = ['TV Channels', 'Radio Channels, EPG']
 
 
 def get_url(**kwargs):
