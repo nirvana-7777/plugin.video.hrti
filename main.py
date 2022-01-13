@@ -248,7 +248,7 @@ def list_videos(category):
                                   'icon': plugin.get_dict_value(channel, 'Icon'),
                                   'fanart': plugin.get_dict_value(channel, 'Icon')})
                 url = get_url(action='EPG', channel=plugin.get_dict_value(channel, 'ReferenceId'))
-                is_folder = False
+                is_folder = True
                 # Add our item to the Kodi virtual folder listing.
                 xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     # Add a sort method for the virtual folder items (alphabetically, ignore articles)
@@ -271,7 +271,7 @@ def list_epg(channel):
                               'icon': plugin.get_dict_value(item, 'ImagePath'),
                               'fanart': plugin.get_dict_value(item, 'ImagePath')})
             url = get_url(action='EPG Details', programme=plugin.get_dict_value(item, 'ReferenceId'))
-            is_folder = False
+            is_folder = True
             # Add our item to the Kodi virtual folder listing.
             xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     xbmcplugin.endOfDirectory(_HANDLE)
