@@ -148,7 +148,7 @@ class Common():
         return self.dialog_yesno(self.get_resource('signout_body').get('text'))
 
     def current_milli_time(self):
-        return round(self.time.time() * 1000)
+        return round(self.time() * 1000)
 
     def time_now(self):
         return datetime.now().strftime(self.time_format)
