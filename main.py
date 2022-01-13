@@ -262,11 +262,9 @@ def list_epg(channel):
     start = "/Date(1642087937218)/"
     end = "/Date(1642114800000)/"
     programmes = api.get_programme(channelids, start, end)
-    print("Programmes:" + str(programmes))
     if programmes is not None:
         programme = programmes[0]
         epglist = plugin.get_dict_value(programme, 'EpgList')
-        print(epglist)
         for item in epglist:
             list_item = xbmcgui.ListItem(label=plugin.get_dict_value(item, 'Title'))
             list_item.setArt({'thumb': plugin.get_dict_value(item, 'ImagePath'),
@@ -276,7 +274,7 @@ def list_epg(channel):
             is_folder = False
             # Add our item to the Kodi virtual folder listing.
             xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
-
+    xbmcplugin.endOfDirectory(_HANDLE)
 
 def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids, channel_id):
     parts = urlparse(filename)
