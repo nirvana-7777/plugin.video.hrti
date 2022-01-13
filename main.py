@@ -261,6 +261,7 @@ def list_epg(channel):
     channelids = [channel]
     now = "/Date(1642087937218)/"
     programmes = api.get_programme(channelids, now, now)
+    print("Programmes:" + str(programmes))
     if programmes is not None:
         for programme in programmes:
             list_item = xbmcgui.ListItem(label=plugin.get_dict_value(programme, 'Title'))
