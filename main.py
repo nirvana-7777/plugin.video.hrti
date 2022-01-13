@@ -259,16 +259,20 @@ def list_videos(category):
 
 def list_epg(channel):
     channelids = [channel]
-    now = "/Date(1642087937218)/"
-    programmes = api.get_programme(channelids, now, now)
+    start = "/Date(1642087937218)/"
+    end = "/Date(1642114800000)/"
+    programmes = api.get_programme(channelids, start, end)
     print("Programmes:" + str(programmes))
     if programmes is not None:
-        for programme in programmes:
-            list_item = xbmcgui.ListItem(label=plugin.get_dict_value(programme, 'Title'))
-            list_item.setArt({'thumb': plugin.get_dict_value(programme, 'ImagePath'),
-                              'icon': plugin.get_dict_value(programme, 'ImagePath'),
-                              'fanart': plugin.get_dict_value(programme, 'ImagePath')})
-            url = get_url(action='EPG Details', programme=plugin.get_dict_value(programme, 'ReferenceId'))
+        programme = programmes[0]
+        epglist = plugin.get_dict_value(programme, 'EpgList')
+        print(epglist)
+        for item in epglist:
+            list_item = xbmcgui.ListItem(label=plugin.get_dict_value(item, 'Title'))
+            list_item.setArt({'thumb': plugin.get_dict_value(item, 'ImagePath'),
+                              'icon': plugin.get_dict_value(item, 'ImagePath'),
+                              'fanart': plugin.get_dict_value(item, 'ImagePath')})
+            url = get_url(action='EPG Details', programme=plugin.get_dict_value(item, 'ReferenceId'))
             is_folder = False
             # Add our item to the Kodi virtual folder listing.
             xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
