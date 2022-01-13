@@ -149,7 +149,7 @@ class Common():
 
     def current_milli_time(self):
         millisecond = datetime.now()
-        return mktime(millisecond.timetuple()) * 1000)
+        return mktime(millisecond.timetuple() * 1000)
 
     def time_now(self):
         return datetime.now().strftime(self.time_format)
