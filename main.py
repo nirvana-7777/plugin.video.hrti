@@ -260,7 +260,6 @@ def list_videos(category):
 def list_epg(channel):
     channelids = [channel]
     start = "/Date(" + str(plugin.get_time_offset(-2)) + ")/"
-    print(start)
     end = "/Date(" + str(plugin.get_time_offset(48)) + ")/"
     programmes = api.get_programme(channelids, start, end)
     if programmes is not None:
@@ -268,19 +267,18 @@ def list_epg(channel):
         epglist = plugin.get_dict_value(programme, 'EpgList')
         for item in epglist:
             timestart = plugin.get_time_from_epoch(plugin.get_dict_value(item, 'TimeStart'))
-            timeend = plugin.get_time_from_epoch(plugin.get_dict_value(item, 'TimeEnd'))
-            # entry = plugin.get_dict_value(item, 'Title') + " | " + str(timestart) + " - " + str(timeend)
             entry = str(timestart) + " | " + plugin.get_dict_value(item, 'Title')
             list_item = xbmcgui.ListItem(label=entry)
             list_item.setArt({'thumb': plugin.get_dict_value(item, 'ImagePath'),
                               'icon': plugin.get_dict_value(item, 'ImagePath'),
                               'fanart': plugin.get_dict_value(item, 'ImagePath')})
-            url = get_url(action='EPG Details', programme=plugin.get_dict_value(item, 'ReferenceId'))
-            is_folder = True
+            url = get_url(action='EPGDetails', programme=str(channelids)+"/"+plugin.get_dict_value(item, 'ReferenceId'))
+            is_folder = False
             # Add our item to the Kodi virtual folder listing.
             xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     xbmcplugin.endOfDirectory(_HANDLE)
 
+def show_epg_entry(params):
 
 def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids, channel_id):
     parts = urlparse(filename)
@@ -414,6 +412,8 @@ def router(paramstring):
             list_episodes(params['category'])
         elif params['action'] == 'EPG':
             list_epg(params['channel'])
+        elif params['action'] == 'EPGDetails':
+            show_epg_entry(params['programme'])
         elif params['action'] == 'logout':
             api.logout()
         else:

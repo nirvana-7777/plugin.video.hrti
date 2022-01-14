@@ -207,6 +207,19 @@ class HRTiAPI:
         result = self.api_post(url, payload, host, referer)
         return result
 
+    def get_epg_details(self, channelid, referenceid):
+
+        url = self.hrtiBaseUrl + "GetEpgDetails"
+
+        payload = json.dumps({
+            "ChannelReferenceId": channelid,
+            "ReferenceId": referenceid,
+        })
+        host = "hrti.hrt.hr"
+        referer = "https://hrti.hrt.hr/live/programme"
+        result = self.api_post(url, payload, host, referer)
+        return result
+
     def get_devices(self):
 
         url = self.hsapiBaseUrl + "DeviceInstancesGet"
