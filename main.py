@@ -262,6 +262,7 @@ def list_epg(channel):
     start = "/Date(" + str(plugin.get_time_offset(-2)) + ")/"
     end = "/Date(" + str(plugin.get_time_offset(48)) + ")/"
     programmes = api.get_programme(channelids, start, end)
+    xbmcplugin.setContent(_HANDLE, 'images')
     if programmes is not None:
         programme = programmes[0]
         epglist = plugin.get_dict_value(programme, 'EpgList')
@@ -288,6 +289,7 @@ def show_epg_entry(params):
     print(referenceid)
     details = api.get_epg_details(channelid, referenceid)
     print(details)
+    # list_item = xbmcgui.ListItem(label=plugin.get_dict_value(details, '')
 
 
 def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids, channel_id):
