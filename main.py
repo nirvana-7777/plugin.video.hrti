@@ -289,8 +289,11 @@ def show_epg_entry(params):
     print(referenceid)
     details = api.get_epg_details(channelid, referenceid)
     print(details)
-    # list_item = xbmcgui.ListItem(label=plugin.get_dict_value(details, '')
-
+    list_item = xbmcgui.ListItem(path=plugin.get_dict_value(details, 'ImagePath'))
+    # list_item = xbmcgui.ListItem(label=plugin.get_dict_value(details, 'Title')
+    list_item.setMimeType('image/jpg')
+    list_item.setContentLookup(False)
+    xbmcplugin.setResolvedUrl(_HANDLE, True, listitem=list_item)
 
 def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids, channel_id):
     parts = urlparse(filename)

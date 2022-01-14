@@ -247,7 +247,7 @@ class Common():
 
     def get_time_from_epoch(self, timestamp):
         TimestampUtc = re.split('\(|\)', timestamp)[1][:10]
-        return datetime.fromtimestamp(int(TimestampUtc)).strftime('%H:%M:%S')
+        return datetime.fromtimestamp(int(TimestampUtc)).strftime('%H:%M')
 
     def get_mpx(self, token):
         token_data = loads(self.b64dec(token.split('.')[1]))
