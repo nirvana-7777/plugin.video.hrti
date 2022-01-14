@@ -317,6 +317,7 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids, c
     metadata = {'plot': plugin.get_dict_value(epg_details, 'DescriptionLong'),
                 'plotoutline': plugin.get_dict_value(epg_details, 'DescriptionShort')}
     list_item.setInfo('video', metadata)
+    print(metadata)
 
     list_item.setProperty('inputstream', 'inputstream.adaptive')
     list_item.setProperty('inputstream.adaptive.manifest_type', 'mpd')
