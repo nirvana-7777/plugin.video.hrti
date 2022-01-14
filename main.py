@@ -259,9 +259,9 @@ def list_videos(category):
 
 def list_epg(channel):
     channelids = [channel]
-    start = "/Date(" + str(plugin.current_milli_time()) + ")/"
+    start = "/Date(" + str(plugin.get_time_offset(-2)) + ")/"
     print(start)
-    end = "/Date(1642114800000)/"
+    end = "/Date(" + str(plugin.get_time_offset(48)) + ")/"
     programmes = api.get_programme(channelids, start, end)
     if programmes is not None:
         programme = programmes[0]
