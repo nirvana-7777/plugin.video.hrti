@@ -278,7 +278,17 @@ def list_epg(channel):
             xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     xbmcplugin.endOfDirectory(_HANDLE)
 
+
 def show_epg_entry(params):
+    parts = urlparse(params)
+    directories = parts.path.strip('/').split('/')
+    channelid = directories[0]
+    referenceid = directories[1]
+    print(channelid)
+    print(referenceid)
+    details = api.get_epg_details(channelid, referenceid)
+    print(details)
+
 
 def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids, channel_id):
     parts = urlparse(filename)
