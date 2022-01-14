@@ -103,7 +103,7 @@ def list_subcategories(path):
     current_node = api.get_catalog_structure()
     parent_category = ""
     if path is not None:
-        sections = path_parse("/"+path)
+        sections = path_parse("/" + path)
         i = 0
         while i < len(sections):
             current_node = get_children(current_node, sections[i])
@@ -124,7 +124,7 @@ def list_subcategories(path):
             if path is None:
                 url = get_url(action='listing', category=plugin.get_dict_value(child, 'ReferenceId'))
             else:
-                url = get_url(action='listing', category=path+"/"+plugin.get_dict_value(child, 'ReferenceId'))
+                url = get_url(action='listing', category=path + "/" + plugin.get_dict_value(child, 'ReferenceId'))
             is_folder = True
             xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
             count += 1
@@ -155,8 +155,8 @@ def list_subcategories(path):
                 metadata = {'mediatype': 'video'}
                 list_item.setInfo('video', metadata)
                 url = get_url(action='play', video=plugin.get_dict_value(catalog_entry, 'ReferenceId'))
-            # Add the list item to a virtual Kodi folder.
-            # is_folder = False means that this item won't open any sub-list.
+                # Add the list item to a virtual Kodi folder.
+                # is_folder = False means that this item won't open any sub-list.
                 is_folder = False
             else:
                 url = get_url(action='series', category=plugin.get_dict_value(series_data, 'SeriesReferenceId'))
@@ -216,7 +216,7 @@ def list_videos(category):
     channels = api.get_channels()
     if channels is not None:
         for channel in channels:
-            if (plugin.get_dict_value(channel, 'Radio') and category == 'Radio Channels')\
+            if (plugin.get_dict_value(channel, 'Radio') and category == 'Radio Channels') \
                     or (not plugin.get_dict_value(channel, 'Radio') and category == 'TV Channels'):
                 list_item = xbmcgui.ListItem(label=plugin.get_dict_value(channel, 'Name'))
                 list_item.setArt({'thumb': plugin.get_dict_value(channel, 'Icon'),
@@ -272,7 +272,7 @@ def list_epg(channel):
             list_item.setArt({'thumb': plugin.get_dict_value(item, 'ImagePath'),
                               'icon': plugin.get_dict_value(item, 'ImagePath'),
                               'fanart': plugin.get_dict_value(item, 'ImagePath')})
-            url = get_url(action='EPGDetails', programme=str(channelids)+"/"+plugin.get_dict_value(item, 'ReferenceId'))
+            url = get_url(action='EPGDetails', programme=str(channelids[0]) + "/" + plugin.get_dict_value(item, 'ReferenceId'))
             is_folder = False
             # Add our item to the Kodi virtual folder listing.
             xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
@@ -333,7 +333,7 @@ def list_seasons(ref_id):
         list_item.setInfo('video', {'title': plugin.get_dict_value(season, 'Title'),
                                     'genre': plugin.get_dict_value(season, 'Title'),
                                     'mediatype': 'video'})
-        url = get_url(action='episodes', category=ref_id+'/'+plugin.get_dict_value(season, 'ReferenceId'))
+        url = get_url(action='episodes', category=ref_id + '/' + plugin.get_dict_value(season, 'ReferenceId'))
         is_folder = True
         xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     xbmcplugin.endOfDirectory(_HANDLE)
