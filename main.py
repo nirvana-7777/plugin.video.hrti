@@ -274,6 +274,7 @@ def list_epg(channel):
                               'icon': plugin.get_dict_value(item, 'ImagePath'),
                               'fanart': plugin.get_dict_value(item, 'ImagePath')})
             url = get_url(action='EPGDetails', programme=str(channelids[0]) + "/" + plugin.get_dict_value(item, 'ReferenceId'))
+            list_item.setProperty('IsPlayable', 'true')
             is_folder = False
             # Add our item to the Kodi virtual folder listing.
             xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
@@ -291,9 +292,11 @@ def show_epg_entry(params):
     print(details)
     list_item = xbmcgui.ListItem(path=plugin.get_dict_value(details, 'ImagePath'))
     # list_item = xbmcgui.ListItem(label=plugin.get_dict_value(details, 'Title')
-    list_item.setMimeType('image/jpg')
-    list_item.setContentLookup(False)
+    list_item.setMimeType('image/jpeg')
+    xbmcplugin.setContent(_HANDLE, 'images')
+    # list_item.setContentLookup(False)
     xbmcplugin.setResolvedUrl(_HANDLE, True, listitem=list_item)
+
 
 def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids, channel_id):
     parts = urlparse(filename)
