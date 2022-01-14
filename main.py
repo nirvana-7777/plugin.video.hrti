@@ -313,6 +313,11 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids, c
     list_item.setMimeType('application/xml+dash')
     list_item.setContentLookup(False)
 
+    epg_details = api.get_epg_details(channel_id, content_ref_id)
+    metadata = {'plot': plugin.get_dict_value(epg_details, 'DescriptionLong'),
+                'plotoutline': plugin.get_dict_value(epg_details, 'DescriptionShort')}
+    list_item.setInfo('video', metadata)
+
     list_item.setProperty('inputstream', 'inputstream.adaptive')
     list_item.setProperty('inputstream.adaptive.manifest_type', 'mpd')
     list_item.setProperty('inputstream.adaptive.license_type', 'com.widevine.alpha')
