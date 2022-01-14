@@ -290,10 +290,8 @@ def show_epg_entry(params):
     print(referenceid)
     details = api.get_epg_details(channelid, referenceid)
     print(details)
-    list_item = xbmcgui.ListItem(path=plugin.get_dict_value(details, 'ImagePath'))
-    # list_item = xbmcgui.ListItem(label=plugin.get_dict_value(details, 'Title')
-    list_item.setMimeType('image/jpeg')
-    xbmcplugin.setContent(_HANDLE, 'images')
+    plugin.notification("test", "test2", plugin.get_dict_value(details, 'ImagePath'), 10)
+
     # list_item.setContentLookup(False)
     xbmcplugin.setResolvedUrl(_HANDLE, True, listitem=list_item)
 
