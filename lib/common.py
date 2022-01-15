@@ -154,6 +154,10 @@ class Common():
         millisecond = datetime.now() + timedelta(hours=offset)
         return int(mktime(millisecond.timetuple()) * 1000)
 
+    def get_time_now(self):
+        millisecond = datetime.now()
+        return int(mktime(millisecond.timetuple()))
+
     def time_now(self):
         return datetime.now().strftime(self.time_format)
 
