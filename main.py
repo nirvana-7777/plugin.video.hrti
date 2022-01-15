@@ -199,7 +199,7 @@ def list_categories():
     xbmcplugin.endOfDirectory(_HANDLE)
 
 
-def get_now(epg_list):
+def get_now_event(epg_list):
     return epg_list[0]
 
 
