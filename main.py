@@ -218,13 +218,14 @@ def list_videos(category):
         channelids = []
         for channel in channels:
             channelids.append(plugin.get_dict_value(channel, 'ReferenceId'))
-        start = "/Date(" + str(plugin.get_time_offset(0)) + ")/"
-        end = "/Date(" + str(plugin.get_time_offset(1)) + ")/"
+        start = "/Date(" + str(plugin.get_time_offset(-4)) + ")/"
+        end = "/Date(" + str(plugin.get_time_offset(4)) + ")/"
         programmes = api.get_programme(channelids, start, end)
-        print(programmes)
         for channel in channels:
             if (plugin.get_dict_value(channel, 'Radio') and category == 'Radio Channels') \
                     or (not plugin.get_dict_value(channel, 'Radio') and category == 'TV Channels'):
+                channel_epg = plugin.get_dict_value(programmes[plugin.get_dict_value(channel, 'ReferenceID')], 'EpgList')
+                print(channel_epg)
                 list_item = xbmcgui.ListItem(label=plugin.get_dict_value(channel, 'Name'))
                 list_item.setArt({'thumb': plugin.get_dict_value(channel, 'Icon'),
                                   'icon': plugin.get_dict_value(channel, 'Icon'),
