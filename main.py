@@ -262,7 +262,7 @@ def list_videos(category):
                     metadata = {'mediatype': 'video'}
                     list_item.setInfo('video', metadata)
 
-                url = get_url(action='play', video=plugin.get_dict_value(channel, 'StreamingURL'))
+                url = get_url(action='play', video=plugin.get_dict_value(channel, 'StreamingURL'), referenceid=plugin.get_dict_value(now, 'ReferenceId'))
                 # Add the list item to a virtual Kodi folder.
                 # is_folder = False means that this item won't open any sub-list.
                 is_folder = False
@@ -322,7 +322,7 @@ def show_epg_entry(params):
     # xbmcplugin.setResolvedUrl(_HANDLE, True, listitem=list_item)
 
 
-def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids, channel_id):
+def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids, channel_id, epg_ref_id):
     parts = urlparse(filename)
     directories = parts.path.strip('/').split('/')
     contentdrmid = directories[0] + "_" + directories[1]
@@ -337,13 +337,13 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids, c
     list_item.setMimeType('application/xml+dash')
     list_item.setContentLookup(False)
 
-    # epg_details = api.get_epg_details(channel_id, content_ref_id)
-    # print(channel_id)
-    # print(content_ref_id)
-    # metadata = {'plot': plugin.get_dict_value(epg_details, 'DescriptionLong'),
-    #             'plotoutline': plugin.get_dict_value(epg_details, 'DescriptionShort')}
-    # list_item.setInfo('video', metadata)
-    # print(metadata)
+    epg_details = api.get_epg_details(channel_id, epg_ref_id)
+    print(channel_id)
+    print(epg_ref_id)
+    metadata = {'plot': plugin.get_dict_value(epg_details, 'DescriptionLong'),
+                'plotoutline': plugin.get_dict_value(epg_details, 'DescriptionShort')}
+    list_item.setInfo('video', metadata)
+    print(metadata)
 
     list_item.setProperty('inputstream', 'inputstream.adaptive')
     list_item.setProperty('inputstream.adaptive.manifest_type', 'mpd')
@@ -404,10 +404,11 @@ def list_episodes(ref_id):
     xbmcplugin.endOfDirectory(_HANDLE)
 
 
-def play_video(path):
+def play_video(path, epg_ref_id):
     """
     Play a video by the provided path.
     :param path: Fully-qualified video URL
+    :param epg_ref_id EPG Reference
     :type path: str
     """
     parts = urlparse(path)
@@ -417,7 +418,7 @@ def play_video(path):
         content_type = plugin.get_dict_value(voddetails, 'Type')
         video_store_ids = plugin.get_dict_value(voddetails, 'SVODVideostores')
         if content_type != 'series':
-            authorize_and_play(filename, content_type, path, video_store_ids, None)
+            authorize_and_play(filename, content_type, path, video_store_ids, None, None)
     else:
         channels = api.get_channels()
         for channel in channels:
@@ -427,7 +428,7 @@ def play_video(path):
                     content_type = "rlive"
                 else:
                     content_type = "tlive"
-                authorize_and_play(path, content_type, refid, None, refid)
+                authorize_and_play(path, content_type, refid, None, refid, epg_ref_id)
 
 
 def router(paramstring):
@@ -453,7 +454,7 @@ def router(paramstring):
                 list_subcategories(params['category'])
         elif params['action'] == 'play':
             # Play a video from a provided URL.
-            play_video(params['video'])
+            play_video(params['video'], params['referenceid'])
         elif params['action'] == 'series':
             # Play a video from a provided URL.
             list_seasons(params['category'])
