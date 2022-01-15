@@ -224,7 +224,10 @@ def list_videos(category):
         for channel in channels:
             if (plugin.get_dict_value(channel, 'Radio') and category == 'Radio Channels') \
                     or (not plugin.get_dict_value(channel, 'Radio') and category == 'TV Channels'):
-                channel_epg = plugin.get_dict_value(programmes[plugin.get_dict_value(channel, 'ReferenceID')], 'EpgList')
+                channel_epg = None
+                for programme in programmes:
+                    if plugin.get_dict_value(programme, 'ReferenceID') == plugin.get_dict_value(channel, 'ReferenceId'):
+                        channel_epg = plugin.get_dict_value(programme, 'EpgList')
                 print(channel_epg)
                 list_item = xbmcgui.ListItem(label=plugin.get_dict_value(channel, 'Name'))
                 list_item.setArt({'thumb': plugin.get_dict_value(channel, 'Icon'),
@@ -301,7 +304,7 @@ def show_epg_entry(params):
     # plugin.notification("test", "test2", plugin.get_dict_value(details, 'ImagePath'), 10)
 
     # list_item.setContentLookup(False)
-    xbmcplugin.setResolvedUrl(_HANDLE, True, listitem=list_item)
+    # xbmcplugin.setResolvedUrl(_HANDLE, True, listitem=list_item)
 
 
 def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids, channel_id):
