@@ -215,6 +215,13 @@ def list_videos(category):
     # Iterate through videos.
     channels = api.get_channels()
     if channels is not None:
+        channelids = []
+        for channel in channels:
+            channelids.append(plugin.get_dict_value(channel, 'ReferenceId'))
+        start = "/Date(" + str(plugin.get_time_offset(0)) + ")/"
+        end = "/Date(" + str(plugin.get_time_offset(1)) + ")/"
+        programmes = api.get_programme(channelids, start, end)
+        print(programmes)
         for channel in channels:
             if (plugin.get_dict_value(channel, 'Radio') and category == 'Radio Channels') \
                     or (not plugin.get_dict_value(channel, 'Radio') and category == 'TV Channels'):
@@ -290,7 +297,7 @@ def show_epg_entry(params):
     print(referenceid)
     details = api.get_epg_details(channelid, referenceid)
     print(details)
-    plugin.notification("test", "test2", plugin.get_dict_value(details, 'ImagePath'), 10)
+    # plugin.notification("test", "test2", plugin.get_dict_value(details, 'ImagePath'), 10)
 
     # list_item.setContentLookup(False)
     xbmcplugin.setResolvedUrl(_HANDLE, True, listitem=list_item)
@@ -311,13 +318,13 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids, c
     list_item.setMimeType('application/xml+dash')
     list_item.setContentLookup(False)
 
-    epg_details = api.get_epg_details(channel_id, content_ref_id)
-    print(channel_id)
-    print(content_ref_id)
-    metadata = {'plot': plugin.get_dict_value(epg_details, 'DescriptionLong'),
-                'plotoutline': plugin.get_dict_value(epg_details, 'DescriptionShort')}
-    list_item.setInfo('video', metadata)
-    print(metadata)
+    # epg_details = api.get_epg_details(channel_id, content_ref_id)
+    # print(channel_id)
+    # print(content_ref_id)
+    # metadata = {'plot': plugin.get_dict_value(epg_details, 'DescriptionLong'),
+    #             'plotoutline': plugin.get_dict_value(epg_details, 'DescriptionShort')}
+    # list_item.setInfo('video', metadata)
+    # print(metadata)
 
     list_item.setProperty('inputstream', 'inputstream.adaptive')
     list_item.setProperty('inputstream.adaptive.manifest_type', 'mpd')
