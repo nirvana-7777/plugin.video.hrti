@@ -199,6 +199,10 @@ def list_categories():
     xbmcplugin.endOfDirectory(_HANDLE)
 
 
+def get_now(epg_list):
+    return epg_list[0]
+
+
 def list_videos(category):
     """
     Create the list of playable videos in the Kodi interface.
@@ -228,8 +232,11 @@ def list_videos(category):
                 for programme in programmes:
                     if plugin.get_dict_value(programme, 'ReferenceID') == plugin.get_dict_value(channel, 'ReferenceId'):
                         channel_epg = plugin.get_dict_value(programme, 'EpgList')
-                print(channel_epg)
-                list_item = xbmcgui.ListItem(label=plugin.get_dict_value(channel, 'Name'))
+                if channel_epg is not None:
+                    now = get_now_event(channel_epg)
+                else:
+                    now = None
+                list_item = xbmcgui.ListItem(label=plugin.get_dict_value(channel, 'Name') + str(" | ") + plugin.get_dict_value(now, 'Title'))
                 list_item.setArt({'thumb': plugin.get_dict_value(channel, 'Icon'),
                                   'icon': plugin.get_dict_value(channel, 'Icon'),
                                   'fanart': plugin.get_dict_value(channel, 'Icon')})
