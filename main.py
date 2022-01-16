@@ -306,6 +306,12 @@ def list_epg(channel):
                           video=str(channelids[0]),
                           referenceid=plugin.get_dict_value(item, 'ReferenceId'))
             list_item.setProperty('IsPlayable', 'true')
+            if plugin.get_dict_value(programme, 'Radio'):
+                metadata = {'mediatype': 'audio'}
+                list_item.setInfo('music', metadata)
+            else:
+                metadata = {'mediatype': 'video'}
+                list_item.setInfo('video', metadata)
             is_folder = False
             # Add our item to the Kodi virtual folder listing.
             xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
