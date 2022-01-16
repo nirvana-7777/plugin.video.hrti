@@ -414,6 +414,9 @@ def list_episodes(ref_id):
     xbmcplugin.endOfDirectory(_HANDLE)
 
 
+def get_replay_url(refid, epg_ref_id)
+    event = api.get_epg_details(refid, epg_ref_id)
+
 def play_video(path, epg_ref_id):
     """
     Play a video by the provided path.
@@ -430,11 +433,15 @@ def play_video(path, epg_ref_id):
         if content_type != 'series':
             authorize_and_play(filename, content_type, path, video_store_ids, None, None)
     else:
-        if parts.scheme == "":
-            print('Re-Play')
-        else:
-            channels = api.get_channels()
-            for channel in channels:
+        channels = api.get_channels()
+        for channel in channels:
+            if parts.scheme == "":
+                refid = plugin.get_dict_value(channel, 'ReferenceID')
+                if path == refid:
+                    event = api.get_epg_details(refid, epg_ref_id)
+                    url = plugin.get_dict_value(event, 'FileName')
+                    print('Play: '+ str(url))
+            else:
                 if path == plugin.get_dict_value(channel, 'StreamingURL'):
                     refid = plugin.get_dict_value(channel, 'ReferenceID')
                     if plugin.get_dict_value(channel, 'Radio'):
@@ -442,8 +449,6 @@ def play_video(path, epg_ref_id):
                     else:
                         content_type = "tlive"
                     authorize_and_play(path, content_type, refid, None, refid, epg_ref_id)
-                else:
-                    print('NixStreaming')
 
 def router(paramstring):
     """
