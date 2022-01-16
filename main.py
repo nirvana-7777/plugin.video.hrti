@@ -337,7 +337,7 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids, c
     parts = urlparse(filename)
     directories = parts.path.strip('/').split('/')
     if contenttype == "thepg":
-        contentdrmid = str(directories[0]) + "_" + str(content_ref_id) + ".smil"
+        contentdrmid = str(directories[0]) + "_" + str(epg_ref_id) + ".smil"
     else:
         contentdrmid = str(directories[0]) + "_" + str(directories[1])
     print('ContentDRMID: ' + str(contentdrmid))
