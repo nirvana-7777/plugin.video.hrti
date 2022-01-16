@@ -414,9 +414,6 @@ def list_episodes(ref_id):
     xbmcplugin.endOfDirectory(_HANDLE)
 
 
-def get_replay_url(refid, epg_ref_id)
-    event = api.get_epg_details(refid, epg_ref_id)
-
 def play_video(path, epg_ref_id):
     """
     Play a video by the provided path.
@@ -440,7 +437,7 @@ def play_video(path, epg_ref_id):
                 if path == refid:
                     event = api.get_epg_details(refid, epg_ref_id)
                     url = plugin.get_dict_value(event, 'FileName')
-                    print('Play: '+ str(url))
+                    print('Play: ' + str(url))
             else:
                 if path == plugin.get_dict_value(channel, 'StreamingURL'):
                     refid = plugin.get_dict_value(channel, 'ReferenceID')
@@ -449,6 +446,7 @@ def play_video(path, epg_ref_id):
                     else:
                         content_type = "tlive"
                     authorize_and_play(path, content_type, refid, None, refid, epg_ref_id)
+
 
 def router(paramstring):
     """
