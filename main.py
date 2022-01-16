@@ -436,7 +436,8 @@ def play_video(path, epg_ref_id):
                     else:
                         content_type = "tlive"
                     authorize_and_play(path, content_type, refid, None, refid, epg_ref_id)
-
+                else:
+                    print('NixStreaming')
 
 def router(paramstring):
     """
@@ -470,8 +471,8 @@ def router(paramstring):
             list_episodes(params['category'])
         elif params['action'] == 'EPG':
             list_epg(params['channel'])
-        elif params['action'] == 'EPGDetails':
-            show_epg_entry(params['programme'])
+        # elif params['action'] == 'EPGDetails':
+        #     show_epg_entry(params['programme'])
         elif params['action'] == 'logout':
             api.logout()
         else:
