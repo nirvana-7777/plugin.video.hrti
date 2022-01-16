@@ -244,6 +244,7 @@ class HRTiAPI:
             "Starttime": starttime,
             "EndTime": endtime
         })
+        xbmc.log("Authorize Session: " + str(payload), level=xbmc.LOGDEBUG)
         host = "hrti.hrt.hr"
         if channelid is None:
             referer = "https://hrti.hrt.hr/videostore"
