@@ -262,7 +262,9 @@ def list_videos(category):
                     metadata = {'mediatype': 'video'}
                     list_item.setInfo('video', metadata)
 
-                url = get_url(action='play', video=plugin.get_dict_value(channel, 'StreamingURL'), referenceid=plugin.get_dict_value(now, 'ReferenceId'))
+                url = get_url(action='play',
+                              video=plugin.get_dict_value(channel, 'StreamingURL'),
+                              referenceid=plugin.get_dict_value(now, 'ReferenceId'))
                 # Add the list item to a virtual Kodi folder.
                 # is_folder = False means that this item won't open any sub-list.
                 is_folder = False
@@ -297,9 +299,12 @@ def list_epg(channel):
             entry = str(timestart) + " | " + plugin.get_dict_value(item, 'Title')
             list_item = xbmcgui.ListItem(label=entry)
             list_item.setArt({'thumb': plugin.get_dict_value(item, 'ImagePath'),
-                              'icon': plugin.get_dict_value(item, 'ImagePath'),
+                              'icon': plugin.get_dict_value(programme, 'Icon'),
                               'fanart': plugin.get_dict_value(item, 'ImagePath')})
-            url = get_url(action='EPGDetails', programme=str(channelids[0]) + "/" + plugin.get_dict_value(item, 'ReferenceId'))
+            url = get_url(action='play',
+                          # programme=str(channelids[0]) + "/" + plugin.get_dict_value(item, 'ReferenceId'),
+                          video=str(channelids[0]),
+                          referenceid=plugin.get_dict_value(item, 'ReferenceId'))
             list_item.setProperty('IsPlayable', 'true')
             is_folder = False
             # Add our item to the Kodi virtual folder listing.
@@ -411,7 +416,7 @@ def play_video(path, epg_ref_id):
     :type path: str
     """
     parts = urlparse(path)
-    if parts.scheme == "":
+    if epg_ref_id is None:
         voddetails = api.get_vod_details(path)
         filename = plugin.get_dict_value(voddetails, 'FileName')
         content_type = plugin.get_dict_value(voddetails, 'Type')
@@ -419,15 +424,18 @@ def play_video(path, epg_ref_id):
         if content_type != 'series':
             authorize_and_play(filename, content_type, path, video_store_ids, None, None)
     else:
-        channels = api.get_channels()
-        for channel in channels:
-            if path == plugin.get_dict_value(channel, 'StreamingURL'):
-                refid = plugin.get_dict_value(channel, 'ReferenceID')
-                if plugin.get_dict_value(channel, 'Radio'):
-                    content_type = "rlive"
-                else:
-                    content_type = "tlive"
-                authorize_and_play(path, content_type, refid, None, refid, epg_ref_id)
+        if parts.scheme == "":
+            print('Re-Play')
+        else:
+            channels = api.get_channels()
+            for channel in channels:
+                if path == plugin.get_dict_value(channel, 'StreamingURL'):
+                    refid = plugin.get_dict_value(channel, 'ReferenceID')
+                    if plugin.get_dict_value(channel, 'Radio'):
+                        content_type = "rlive"
+                    else:
+                        content_type = "tlive"
+                    authorize_and_play(path, content_type, refid, None, refid, epg_ref_id)
 
 
 def router(paramstring):
