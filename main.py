@@ -437,7 +437,11 @@ def play_video(path, epg_ref_id):
                 if path == refid:
                     event = api.get_epg_details(refid, epg_ref_id)
                     url = plugin.get_dict_value(event, 'FileNameStartOver')
-                    print('Play: ' + str(url))
+                    if plugin.get_dict_value(channel, 'Radio'):
+                        content_type = "rlive"
+                    else:
+                        content_type = "tlive"
+                    authorize_and_play(url, content_type, refid, None, refid, epg_ref_id)
             else:
                 if path == plugin.get_dict_value(channel, 'StreamingURL'):
                     refid = plugin.get_dict_value(channel, 'ReferenceID')
