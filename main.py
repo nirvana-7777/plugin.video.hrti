@@ -445,7 +445,7 @@ def play_video(path, epg_ref_id):
                         content_type = "thepg"
                     else:
                         content_type = "thepg"
-                    authorize_and_play(url, content_type, refid, None, refid, epg_ref_id)
+                    authorize_and_play(url, content_type, epg_ref_id, None, refid, epg_ref_id)
             else:
                 if path == plugin.get_dict_value(channel, 'StreamingURL'):
                     refid = plugin.get_dict_value(channel, 'ReferenceID')
