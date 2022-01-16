@@ -436,7 +436,7 @@ def play_video(path, epg_ref_id):
                 refid = plugin.get_dict_value(channel, 'ReferenceID')
                 if path == refid:
                     event = api.get_epg_details(refid, epg_ref_id)
-                    url = plugin.get_dict_value(event, 'FileName')
+                    url = plugin.get_dict_value(event, 'FileNameStartOver')
                     print('Play: ' + str(url))
             else:
                 if path == plugin.get_dict_value(channel, 'StreamingURL'):
