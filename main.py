@@ -333,7 +333,8 @@ def show_epg_entry(params):
     # xbmcplugin.setResolvedUrl(_HANDLE, True, listitem=list_item)
 
 
-def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids, channel_id, epg_ref_id):
+def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
+                       channel_id, epg_ref_id, starttime, endtime):
     parts = urlparse(filename)
     directories = parts.path.strip('/').split('/')
     if contenttype == "thepg":
@@ -341,7 +342,8 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids, c
     else:
         contentdrmid = str(directories[0]) + "_" + str(directories[1])
     print('ContentDRMID: ' + str(contentdrmid))
-    result = api.authorize_session(contenttype, content_ref_id, contentdrmid, video_store_ids, channel_id)
+    result = api.authorize_session(contenttype, content_ref_id, contentdrmid,
+                                   video_store_ids, channel_id, starttime, endtime)
     api.report_session_event(plugin.get_dict_value(result, 'SessionId'), content_ref_id)
 
     user_agent = "kodi plugin for hrti.hrt.hr (python)"
@@ -432,7 +434,7 @@ def play_video(path, epg_ref_id):
         content_type = plugin.get_dict_value(voddetails, 'Type')
         video_store_ids = plugin.get_dict_value(voddetails, 'SVODVideostores')
         if content_type != 'series':
-            authorize_and_play(filename, content_type, path, video_store_ids, None, None)
+            authorize_and_play(filename, content_type, path, video_store_ids, None, None, None, None)
     else:
         channels = api.get_channels()
         for channel in channels:
@@ -445,7 +447,9 @@ def play_video(path, epg_ref_id):
                         content_type = "thepg"
                     else:
                         content_type = "thepg"
-                    authorize_and_play(url, content_type, epg_ref_id, None, refid, epg_ref_id)
+                    authorize_and_play(url, content_type, epg_ref_id, None, refid,
+                                       epg_ref_id, plugin.get_dict_value(event, 'TimeStart'),
+                                       plugin.get_dict_value(event, 'TimeEnd'))
             else:
                 if path == plugin.get_dict_value(channel, 'StreamingURL'):
                     refid = plugin.get_dict_value(channel, 'ReferenceID')
@@ -453,7 +457,7 @@ def play_video(path, epg_ref_id):
                         content_type = "rlive"
                     else:
                         content_type = "tlive"
-                    authorize_and_play(path, content_type, refid, None, refid, epg_ref_id)
+                    authorize_and_play(path, content_type, refid, None, refid, epg_ref_id, None, None)
 
 
 def router(paramstring):

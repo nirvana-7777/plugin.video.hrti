@@ -231,7 +231,7 @@ class HRTiAPI:
         result = self.api_post(url, payload, host, referer)
         return result
 
-    def authorize_session(self, contenttype, contentrefid, contentdrmid, videostorerefids, channelid):
+    def authorize_session(self, contenttype, contentrefid, contentdrmid, videostorerefids, channelid, starttime, endtime):
 
         url = self.hrtiBaseUrl + "AuthorizeSession"
 
@@ -241,8 +241,8 @@ class HRTiAPI:
             "ContentDrmId": contentdrmid,
             "VideostoreReferenceIds": videostorerefids,
             "ChannelReferenceId": channelid,
-            "Starttime": None,
-            "EndTime": None
+            "Starttime": starttime,
+            "EndTime": endtime
         })
         host = "hrti.hrt.hr"
         if channelid is None:
