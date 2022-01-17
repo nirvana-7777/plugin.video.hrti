@@ -432,7 +432,8 @@ def play_video(path, epg_ref_id):
             if parts.scheme == "":
                 refid = plugin.get_dict_value(channel, 'ReferenceID')
                 if path == refid:
-                    timeend = plugin.get_datetime_from_epoch(plugin.get_dict_value(item, 'TimeEnd'))
+                    event = api.get_epg_details(refid, epg_ref_id)
+                    timeend = plugin.get_datetime_from_epoch(plugin.get_dict_value(event, 'TimeEnd'))
                     if plugin.get_datetime_now() > timeend:
                         url = plugin.get_dict_value(channel, 'StreamingUrl')
                         if plugin.get_dict_value(channel, 'Radio'):
@@ -441,7 +442,6 @@ def play_video(path, epg_ref_id):
                             content_type = "tlive"
                         authorize_and_play(url, content_type, ref_id, None, refid, epg_ref_id, None, None)
                     else:
-                        event = api.get_epg_details(refid, epg_ref_id)
                         url = plugin.get_dict_value(event, 'FileName')
                         if plugin.get_dict_value(channel, 'Radio'):
                             content_type = "thepg"
