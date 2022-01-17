@@ -294,11 +294,12 @@ def list_epg(channel):
     if programmes is not None:
         programme = programmes[0]
         epglist = plugin.get_dict_value(programme, 'EpgList')
+        timenow = datetime.now()
         for item in epglist:
             timestart = ""
             # if plugin.get_time_now() > plugin.get_datetime_from_epoch(plugin.get_dict_value(item, 'TimeStart')):
             #     timestart = "[COLOR FFFFFF00]"
-            print(plugin.get_time_now())
+            print(timenow)
             print(plugin.get_datetime_from_epoch(plugin.get_dict_value(item, 'TimeStart')))
             timestart = timestart + str(plugin.get_time_from_epoch(plugin.get_dict_value(item, 'TimeStart')))
             entry = str(timestart) + " | " + plugin.get_dict_value(item, 'Title')
