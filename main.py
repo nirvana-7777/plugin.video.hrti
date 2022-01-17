@@ -297,14 +297,14 @@ def list_epg(channel):
         timenow = plugin.get_datetime_now()
         for item in epglist:
             timestart = ""
-            if timenow > plugin.get_datetime_from_epoch(plugin.get_dict_value(item, 'TimeStart')):
-                timestart = "[COLOR FFFFFF00]"
             # print(timenow)
             # print(plugin.get_datetime_from_epoch(plugin.get_dict_value(item, 'TimeStart')))
             timestart = timestart + str(plugin.get_date_from_epoch(plugin.get_dict_value(item, 'TimeStart')))
             timestart = timestart + " | " + str(plugin.get_time_from_epoch(plugin.get_dict_value(item, 'TimeStart')))
-            entry = str(timestart) + " | " + plugin.get_dict_value(item, 'Title')
+            entry = timestart + " | " + plugin.get_dict_value(item, 'Title')
             list_item = xbmcgui.ListItem(label=entry)
+            if timenow > plugin.get_datetime_from_epoch(plugin.get_dict_value(item, 'TimeStart')):
+                list_item = xbmcgui.ListItem('[B][I][COLOR green]%s[/COLOR][/I][/B]' % label)
             list_item.setArt({'thumb': plugin.get_dict_value(item, 'ImagePath'),
                               'icon': plugin.get_dict_value(programme, 'Icon'),
                               'fanart': plugin.get_dict_value(item, 'ImagePath')})
