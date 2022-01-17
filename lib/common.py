@@ -53,16 +53,7 @@ class Common():
         self.addon_version = self.addon.getAddonInfo('version')
         self.addon_icon = self.addon.getAddonInfo('icon')
         self.addon_fanart = self.addon.getAddonInfo('fanart')
-        self.content = self.addon.getSetting('content')
-        self.view_id = self.addon.getSetting('view_id')
-        self.view_id_videos = self.addon.getSetting('view_id_videos')
-        self.view_id_epg = self.addon.getSetting('view_id_epg')
-        self.force_view = self.addon.getSetting('force_view') == 'true'
-        self.startup = self.addon.getSetting('startup') == 'true'
-        self.select_cdn = self.addon.getSetting('select_cdn') == 'true'
-        self.preferred_cdn = self.addon.getSetting('preferred_cdn')
         self.max_bw = self.addon.getSetting('max_bw')
-        self.resources = self.addon.getSetting('api_endpoint_resource_strings')
         self.kodi_version = int(xbmc.getInfoLabel('System.BuildVersion').split('.')[0])
 
         self.railCache = StorageServer.StorageServer(py2_encode('{0}.rail').format(self.addon_id), 24 * 7)
@@ -350,28 +341,3 @@ class Common():
         key = key.lower()
         result = [dict[k] for k in dict if k.lower() == key]
         return result[0] if len(result) > 0 else ''
-
-
-    def init_api_endpoints(self, service_dict):
-        endpoint_dict = dict()
-        endpoint_def_dict = dict(
-                        api_endpoint_rail='Rail',
-                        api_endpoint_rails='Rails',
-                        api_endpoint_epg='Epg',
-                        api_endpoint_event='Event',
-                        api_endpoint_playback='Playback',
-                        api_endpoint_signin='SignIn',
-                        api_endpoint_signout='SignOut',
-                        api_endpoint_refresh_access_token='RefreshAccessToken',
-                        api_endpoint_userprofile='UserProfile',
-                        api_endpoint_resource_strings='ResourceStrings'
-                        )
-        for key, value in endpoint_def_dict.items():
-            last_key = list(service_dict.get(value).get('Versions'))[-1]
-            service_path = service_dict.get(value).get('Versions').get(last_key).get('ServicePath')
-            self.set_setting(key, service_path)
-            endpoint_dict.update({key: service_path})
-            if key == 'api_endpoint_resource_strings':
-                self.resources = service_path
-
-        return endpoint_dict
