@@ -24,4 +24,8 @@
         <setting label="Session valid from:" type="text" id="validfrom" default="" enable="false"/>
         <setting label="Session valid to" type="text" id="validto" default="" enable="false"/>
     </category>
+    <category label="EPG">
+        <setting label="Hours of EPG before now" type="number" id="epgbefore" default="2" enable="false"/>
+        <setting label="Hours of EPG after now" type="number" id="epgafter" default="48" enable="false"/>
+    </category>
 </settings>

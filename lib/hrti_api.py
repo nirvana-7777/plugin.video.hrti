@@ -31,7 +31,7 @@ class HRTiAPI:
                 cookie_header = cookie.name + "=" + cookie.value
 
         headers = {
-            'host': host,
+            # 'host': host,
             'connection': 'keep-alive',
             'deviceid': self.DEVICE_ID,
             'operatorreferenceid': 'hrt',
