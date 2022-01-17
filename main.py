@@ -440,7 +440,7 @@ def play_video(path, epg_ref_id):
                             content_type = "rlive"
                         else:
                             content_type = "tlive"
-                        authorize_and_play(url, content_type, ref_id, None, refid, epg_ref_id, None, None)
+                        authorize_and_play(url, content_type, refid, None, refid, epg_ref_id, None, None)
                     else:
                         url = plugin.get_dict_value(event, 'FileName')
                         if plugin.get_dict_value(channel, 'Radio'):
