@@ -475,7 +475,7 @@ def router(paramstring):
             # Display the list of videos in a provided category.
             if params['category'] == 'TV Channels' or \
                     params['category'] == 'Radio Channels' or \
-                    params['category'] == 'EPG':
+                    params['category'] == 'Programme Guide':
                 list_videos(params['category'])
             else:
                 list_subcategories(params['category'])
