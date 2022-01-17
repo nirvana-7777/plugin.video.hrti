@@ -295,14 +295,16 @@ def list_epg(channel):
         programme = programmes[0]
         epglist = plugin.get_dict_value(programme, 'EpgList')
         for item in epglist:
-            timestart = plugin.get_time_from_epoch(plugin.get_dict_value(item, 'TimeStart'))
+            timestart = ""
+            if plugin.get_time_now() > plugin.get_datetime_from_epoch(plugin.get_dict_value(item, 'TimeStart')):
+                timestart = "[COLOR FFFFFF00]"
+            timestart = timestart + str(plugin.get_time_from_epoch(plugin.get_dict_value(item, 'TimeStart')))
             entry = str(timestart) + " | " + plugin.get_dict_value(item, 'Title')
             list_item = xbmcgui.ListItem(label=entry)
             list_item.setArt({'thumb': plugin.get_dict_value(item, 'ImagePath'),
                               'icon': plugin.get_dict_value(programme, 'Icon'),
                               'fanart': plugin.get_dict_value(item, 'ImagePath')})
             url = get_url(action='play',
-                          # programme=str(channelids[0]) + "/" + plugin.get_dict_value(item, 'ReferenceId'),
                           video=str(channelids[0]),
                           referenceid=plugin.get_dict_value(item, 'ReferenceId'))
             list_item.setProperty('IsPlayable', 'true')
@@ -316,21 +318,6 @@ def list_epg(channel):
             # Add our item to the Kodi virtual folder listing.
             xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     xbmcplugin.endOfDirectory(_HANDLE)
-
-
-def show_epg_entry(params):
-    parts = urlparse(params)
-    directories = parts.path.strip('/').split('/')
-    channelid = directories[0]
-    referenceid = directories[1]
-    print(channelid)
-    print(referenceid)
-    details = api.get_epg_details(channelid, referenceid)
-    print(details)
-    # plugin.notification("test", "test2", plugin.get_dict_value(details, 'ImagePath'), 10)
-
-    # list_item.setContentLookup(False)
-    # xbmcplugin.setResolvedUrl(_HANDLE, True, listitem=list_item)
 
 
 def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
