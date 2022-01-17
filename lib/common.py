@@ -240,6 +240,10 @@ class Common():
         TimestampUtc = re.split('\(|\)', timestamp)[1][:10]
         return datetime.fromtimestamp(int(TimestampUtc))
 
+    def get_date_from_epoch(self, timestamp):
+        TimestampUtc = re.split('\(|\)', timestamp)[1][:10]
+        return datetime.fromtimestamp(int(TimestampUtc)).strftime('%d.%m.')
+
     def get_time_from_epoch(self, timestamp):
         TimestampUtc = re.split('\(|\)', timestamp)[1][:10]
         return datetime.fromtimestamp(int(TimestampUtc)).strftime('%H:%M')
