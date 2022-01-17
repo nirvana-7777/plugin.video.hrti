@@ -288,8 +288,8 @@ def list_videos(category):
 
 def list_epg(channel):
     channelids = [channel]
-    epg_before = -plugin.get_setting(epgbefore)
-    epg_after = plugin.get_setting(epgafter)
+    epg_before = -plugin.get_setting("epgbefore")
+    epg_after = plugin.get_setting("epgafter")
     start = "/Date(" + str(plugin.get_time_offset(epg_before)) + ")/"
     end = "/Date(" + str(plugin.get_time_offset(epg_after)) + ")/"
     programmes = api.get_programme(channelids, start, end)
