@@ -152,6 +152,8 @@ class Common():
     def time_now(self):
         return datetime.now().strftime(self.time_format)
 
+    def get_datetime_now(self):
+        return datetime.now()
 
     def time_stamp(self, str_date):
         return datetime.fromtimestamp(mktime(strptime(str_date, self.time_format)))

@@ -294,7 +294,7 @@ def list_epg(channel):
     if programmes is not None:
         programme = programmes[0]
         epglist = plugin.get_dict_value(programme, 'EpgList')
-        timenow = datetime.now()
+        timenow = plugin.get_datetime_now()
         for item in epglist:
             timestart = ""
             # if plugin.get_time_now() > plugin.get_datetime_from_epoch(plugin.get_dict_value(item, 'TimeStart')):
