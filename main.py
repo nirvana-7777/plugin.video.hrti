@@ -434,7 +434,7 @@ def play_video(path, epg_ref_id):
                 if path == refid:
                     event = api.get_epg_details(refid, epg_ref_id)
                     timeend = plugin.get_datetime_from_epoch(plugin.get_dict_value(event, 'TimeEnd'))
-                    if plugin.get_datetime_now() > timeend:
+                    if plugin.get_datetime_now() < timeend:
                         url = plugin.get_dict_value(channel, 'StreamingUrl')
                         if plugin.get_dict_value(channel, 'Radio'):
                             content_type = "rlive"
