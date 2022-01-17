@@ -337,10 +337,10 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
                        channel_id, epg_ref_id, starttime, endtime):
     parts = urlparse(filename)
     directories = parts.path.strip('/').split('/')
-    if contenttype == "thepg":
-        contentdrmid = str(directories[0]) + "_" + str(epg_ref_id) + ".smil"
-    else:
-        contentdrmid = str(directories[0]) + "_" + str(directories[1])
+    # if contenttype == "thepg":
+    #     contentdrmid = str(directories[0]) + "_" + str(epg_ref_id) + ".smil"
+    # else:
+    contentdrmid = str(directories[0]) + "_" + str(directories[1])
     print('ContentDRMID: ' + str(contentdrmid))
     result = api.authorize_session(contenttype, content_ref_id, contentdrmid,
                                    video_store_ids, channel_id, starttime, endtime)
@@ -442,7 +442,7 @@ def play_video(path, epg_ref_id):
                 refid = plugin.get_dict_value(channel, 'ReferenceID')
                 if path == refid:
                     event = api.get_epg_details(refid, epg_ref_id)
-                    url = plugin.get_dict_value(event, 'FileNameStartOver')
+                    url = plugin.get_dict_value(event, 'FileName')
                     if plugin.get_dict_value(channel, 'Radio'):
                         content_type = "thepg"
                     else:
