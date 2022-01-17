@@ -52,7 +52,7 @@ xbmc.log("UserID: " + str(api.USERID), level=xbmc.LOGDEBUG)
 xbmc.log("Token: " + str(api.TOKEN), level=xbmc.LOGDEBUG)
 xbmc.log("DeviceID: " + str(api.DEVICE_ID), level=xbmc.LOGDEBUG)
 
-CATEGORIES = ['30030', '30031', '30032']
+CATEGORIES = [plugin.addon.getLocalizedString(30030), plugin.addon.getLocalizedString(30031), plugin.addon.getLocalizedString(30032)]
 
 
 def get_url(**kwargs):
@@ -234,8 +234,8 @@ def list_videos(category):
         end = "/Date(" + str(plugin.get_time_offset(4)) + ")/"
         programmes = api.get_programme(channelids, start, end)
         for channel in channels:
-            if (plugin.get_dict_value(channel, 'Radio') and category == '30031') \
-                    or (not plugin.get_dict_value(channel, 'Radio') and category == '30030'):
+            if (plugin.get_dict_value(channel, 'Radio') and category == plugin.addon.getLocalizedString(30031)) \
+                    or (not plugin.get_dict_value(channel, 'Radio') and category == plugin.addon.getLocalizedString(30030)):
                 channel_epg = None
                 for programme in programmes:
                     if plugin.get_dict_value(programme, 'ReferenceID') == plugin.get_dict_value(channel, 'ReferenceId'):
@@ -271,7 +271,7 @@ def list_videos(category):
                 is_folder = False
                 # Add our item to the Kodi virtual folder listing.
                 xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
-            elif category == '30032':
+            elif category == plugin.addon.getLocalizedString(30032):
                 list_item = xbmcgui.ListItem(label=plugin.get_dict_value(channel, 'Name'))
                 list_item.setArt({'thumb': plugin.get_dict_value(channel, 'Icon'),
                                   'icon': plugin.get_dict_value(channel, 'Icon'),
@@ -473,9 +473,9 @@ def router(paramstring):
     if params:
         if params['action'] == 'listing':
             # Display the list of videos in a provided category.
-            if params['category'] == '30030' or \
-                    params['category'] == '30031' or \
-                    params['category'] == '30032':
+            if params['category'] == plugin.addon.getLocalizedString(30030) or \
+                    params['category'] == plugin.addon.getLocalizedString(30031) or \
+                    params['category'] == plugin.addon.getLocalizedString(30032):
                 list_videos(params['category'])
             else:
                 list_subcategories(params['category'])
