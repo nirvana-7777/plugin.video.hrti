@@ -244,7 +244,8 @@ def list_videos(category):
                     now = get_now_event(channel_epg)
                 else:
                     now = None
-                list_item = xbmcgui.ListItem(label=plugin.get_dict_value(channel, 'Name') + str(" | ") + plugin.get_dict_value(now, 'Title'))
+                label = plugin.get_dict_value(channel, 'Name') + str(" | ") + plugin.get_dict_value(now, 'Title')
+                list_item = xbmcgui.ListItem(label=label)
                 list_item.setArt({'thumb': plugin.get_dict_value(channel, 'Icon'),
                                   'icon': plugin.get_dict_value(channel, 'Icon'),
                                   'fanart': plugin.get_dict_value(channel, 'Icon')})
@@ -294,14 +295,14 @@ def list_epg(channel):
     if programmes is not None:
         programme = programmes[0]
         epglist = plugin.get_dict_value(programme, 'EpgList')
-        print(epglist)
         timenow = plugin.get_datetime_now()
         for item in epglist:
             timestart = ""
             timestart = timestart + str(plugin.get_date_from_epoch(plugin.get_dict_value(item, 'TimeStart')))
             timestart = timestart + " | " + str(plugin.get_time_from_epoch(plugin.get_dict_value(item, 'TimeStart')))
             entry = timestart + " | " + plugin.get_dict_value(item, 'Title')
-            if timenow > plugin.get_datetime_from_epoch(plugin.get_dict_value(item, 'TimeStart')):
+            event_is_finished = timenow > plugin.get_datetime_from_epoch(plugin.get_dict_value(item, 'TimeEnd'))
+            if event_is_finished:
                 entry = '[COLOR green]' + entry + '[/COLOR]'
             list_item = xbmcgui.ListItem(label=entry)
             list_item.setArt({'thumb': plugin.get_dict_value(item, 'ImagePath'),
