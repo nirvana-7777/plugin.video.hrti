@@ -405,7 +405,9 @@ def list_episodes(ref_id):
         metadata = {'mediatype': 'video'}
         list_item.setInfo('video', metadata)
 
-        url = get_url(action='play', referenceid=plugin.get_dict_value(episode, 'ReferenceId'))
+        url = get_url(action='play',
+                      video=plugin.get_dict_value(episode, 'ReferenceId'),
+                      referenceid=None)
         is_folder = False
         xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     xbmcplugin.endOfDirectory(_HANDLE)
