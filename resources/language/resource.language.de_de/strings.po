@@ -24,6 +24,14 @@ msgctxt "#30002"
 msgid "Sign Out"
 msgstr "Ausloggen"
 
+msgctxt "#30003"
+msgid "Username"
+msgstr "Benutzername"
+
+msgctxt "#30004"
+msgid "Password"
+msgstr "Passwort"
+
 msgctxt "#30010"
 msgid "View Account Details"
 msgstr "Benurtzerkonto Details"
