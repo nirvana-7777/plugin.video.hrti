@@ -407,7 +407,7 @@ def list_episodes(ref_id):
 
         url = get_url(action='play',
                       video=plugin.get_dict_value(episode, 'ReferenceId'),
-                      referenceid='')
+                      referenceid=None)
         is_folder = False
         xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     xbmcplugin.endOfDirectory(_HANDLE)
@@ -421,7 +421,7 @@ def play_video(path, epg_ref_id):
     :type path: str
     """
     parts = urlparse(path)
-    if epg_ref_id is None:
+    if epg_ref_id == 'None':
         voddetails = api.get_vod_details(path)
         print(voddetails)
         filename = plugin.get_dict_value(voddetails, 'FileName')
