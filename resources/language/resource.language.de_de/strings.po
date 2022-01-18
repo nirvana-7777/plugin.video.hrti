@@ -28,6 +28,46 @@ msgctxt "#30010"
 msgid "View Account Details"
 msgstr "Benurtzerkonto Details"
 
+msgctxt "#30011"
+msgid "Customer ID"
+msgstr "Kundennummer"
+
+msgctxt "#30012"
+msgid "Email"
+msgstr "Emailadresse"
+
+msgctxt "#30013"
+msgid "First Name"
+msgstr "Vorname"
+
+msgctxt "#30014"
+msgid "Last Name"
+msgstr "Nachname"
+
+msgctxt "#30015"
+msgid "Language"
+msgstr "Sprache"
+
+msgctxt "#30016"
+msgid "Geoblocking Enabled"
+msgstr "Geoblocking an"
+
+msgctxt "#30017"
+msgid "Videostore Enabled"
+msgstr "Videostore an"
+
+msgctxt "#30018"
+msgid "Hours on NPVR"
+msgstr "NPVR in Stunden"
+
+msgctxt "#30019"
+msgid "Session valid from:"
+msgstr "Sitzung gültig ab:"
+
+msgctxt "#30009"
+msgid "Session valid to:"
+msgstr "Sitzung gültig bis:"
+
 msgctxt "#30020"
 msgid "EPG Settings"
 msgstr "EPG Einstellungen"
