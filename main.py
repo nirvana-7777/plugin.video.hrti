@@ -407,7 +407,7 @@ def list_episodes(ref_id):
 
         url = get_url(action='play',
                       video=plugin.get_dict_value(episode, 'ReferenceId'),
-                      referenceid=None)
+                      referenceid='')
         is_folder = False
         xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     xbmcplugin.endOfDirectory(_HANDLE)
