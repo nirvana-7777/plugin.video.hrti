@@ -289,7 +289,7 @@ class HRTiAPI:
 
     def get_radio_metadata(self, channel_ref_id):
 
-        url = self.hrtiBaseUrl + "GetEpisodes"
+        url = self.hrtiBaseUrl + "GetRadioEventMetadata"
 
         payload = json.dumps({
             "ChannelReferenceId": channel_ref_id,
