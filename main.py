@@ -405,9 +405,7 @@ def list_episodes(ref_id):
         metadata = {'mediatype': 'video'}
         list_item.setInfo('video', metadata)
 
-        url = get_url(action='play',
-                      video=plugin.get_dict_value(episode, 'ReferenceId'),
-                      referenceid=None)
+        url = get_url(action='play', video=plugin.get_dict_value(episode, 'ReferenceId'))
         is_folder = False
         xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     xbmcplugin.endOfDirectory(_HANDLE)
@@ -421,7 +419,7 @@ def play_video(path, epg_ref_id):
     :type path: str
     """
     parts = urlparse(path)
-    if epg_ref_id == 'None':
+    if epg_ref_id is None:
         voddetails = api.get_vod_details(path)
         print(voddetails)
         filename = plugin.get_dict_value(voddetails, 'FileName')
@@ -486,7 +484,11 @@ def router(paramstring):
                 list_subcategories(params['category'])
         elif params['action'] == 'play':
             # Play a video from a provided URL.
-            play_video(params['video'], params['referenceid'])
+            try:
+                epg_ref_id = params['referenceid']
+            except KeyError:
+                epg_ref_id = None
+            play_video(params['video'], epg_ref_id)
         elif params['action'] == 'series':
             # Play a video from a provided URL.
             list_seasons(params['category'])
