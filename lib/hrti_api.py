@@ -298,6 +298,16 @@ class HRTiAPI:
         result = self.api_post(url, payload, referer)
         return result
 
+    def get_device_instances(self):
+
+        url = self.hsapiBaseUrl + "DeviceInstancesGet"
+
+        payload = json.dumps({
+        })
+        referer = "https://hrti-selfcare.hrt.hr/"
+        result = self.api_post(url, payload, referer)
+        return result
+
     def logout(self):
 
         url = self.hsapiBaseUrl + "DeviceInstanceDelete"
