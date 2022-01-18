@@ -298,6 +298,26 @@ class HRTiAPI:
         result = self.api_post(url, payload, referer)
         return result
 
+    def get_watch_later(self):
+
+        url = self.hrtiBaseUrl + "GetWatchLater"
+
+        payload = json.dumps({
+        })
+        referer = "https://hrti.hrt.hr/watch_later"
+        result = self.api_post(url, payload, referer)
+        return result
+
+    def get_editors_choice(self):
+
+        url = self.hrtiBaseUrl + "GetEditorsChoice"
+
+        payload = json.dumps({
+        })
+        referer = "https://hrti.hrt.hr/editors_choice"
+        result = self.api_post(url, payload, referer)
+        return result
+
     def get_device_instances(self):
 
         url = self.hsapiBaseUrl + "DeviceInstancesGet"
