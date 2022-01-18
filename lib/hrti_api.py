@@ -22,8 +22,9 @@ class HRTiAPI:
         self.__user_agent = 'kodi plugin for hrti.hrt.hr (python)'
         self.DEVICE_ID = None
         self.TOKEN = ''
+        self.__device_reference_id = self.plugin.get_setting('devicereferenceid')
 
-    def api_post(self, url, payload, host, referer):
+    def api_post(self, url, payload, referer):
 
         cookie_header = None
         for cookie in self.session.cookies:
@@ -31,7 +32,6 @@ class HRTiAPI:
                 cookie_header = cookie.name + "=" + cookie.value
 
         headers = {
-            # 'host': host,
             'connection': 'keep-alive',
             'deviceid': self.DEVICE_ID,
             'operatorreferenceid': 'hrt',
@@ -40,7 +40,7 @@ class HRTiAPI:
             'content-type': 'application/json',
             'accept': 'application/json, text/plain, */*',
             'user-agent': self.__user_agent,
-            'devicetypeid': '6',
+            'devicetypeid': self.__device_reference_id,
             'origin': 'https://hrti.hrt.hr',
             'referer': referer,
             'accept-encoding': 'gzip, deflate, br',
@@ -76,9 +76,8 @@ class HRTiAPI:
             "OperatorReferenceId": "hrt"
         })
 
-        host = "hrti.hrt.hr"
         referer = "https://hrti.hrt.hr/signin"
-        result = self.api_post(url, payload, host, referer)
+        result = self.api_post(url, payload, referer)
 
         if result is not None:
             self.TOKEN = result['Token']
@@ -114,17 +113,16 @@ class HRTiAPI:
 
         payload = json.dumps({
             "DeviceSerial": self.DEVICE_ID,
-            "DeviceReferenceId": "6",
+            "DeviceReferenceId": self.__device_reference_id,
             "IpAddress": str(self.__ip),
-            "ConnectionType": "LAN/WiFi",
-            "ApplicationVersion": "5.62.5",
+            "ConnectionType": self.plugin.get_setting('connectiontype'),
+            "ApplicationVersion": self.plugin.get_setting('applicationversion'),
             "DrmId":  self.DEVICE_ID,
-            "OsVersion": "Linux",
-            "ClientType": "Chrome 96"
+            "OsVersion": self.plugin.get_setting('osversion'),
+            "ClientType": self.plugin.get_setting('clienttype')
         })
-        host = "hsapi.aviion.tv"
         referer = "https://hrti.hrt.hr/"
-        result = self.api_post(url, payload, host, referer)
+        result = self.api_post(url, payload, referer)
         return result
 
     def get_content_rating(self):
@@ -132,9 +130,8 @@ class HRTiAPI:
         url = self.hsapiBaseUrl + "ContentRatingsGet"
 
         payload = json.dumps({})
-        host = "hsapi.aviion.tv"
         referer = "https://hrti.hrt.hr/"
-        result = self.api_post(url, payload, host, referer)
+        result = self.api_post(url, payload, referer)
         return result
 
     def get_profiles(self):
@@ -142,9 +139,8 @@ class HRTiAPI:
         url = self.hsapiBaseUrl + "ProfilesGet"
 
         payload = json.dumps({})
-        host = "hsapi.aviion.tv"
         referer = "https://hrti.hrt.hr/"
-        result = self.api_post(url, payload, host, referer)
+        result = self.api_post(url, payload, referer)
         return result
 
     def get_channels(self):
@@ -152,9 +148,8 @@ class HRTiAPI:
         url = self.hrtiBaseUrl + "GetChannels"
 
         payload = json.dumps({})
-        host = "hrti.hrt.hr"
         referer = "https://hrti.hrt.hr/signin"
-        result = self.api_post(url, payload, host, referer)
+        result = self.api_post(url, payload, referer)
         return result
 
     def get_catalog_structure(self):
@@ -162,9 +157,8 @@ class HRTiAPI:
         url = self.hrtiBaseUrl + "GetCatalogueStructure"
 
         payload = json.dumps({})
-        host = "hrti.hrt.hr"
         referer = "https://hrti.hrt.hr/videostore"
-        result = self.api_post(url, payload, host, referer)
+        result = self.api_post(url, payload, referer)
         return result
 
     def get_catalog(self, reference_id, max_number, page):
@@ -176,9 +170,8 @@ class HRTiAPI:
             "ItemsPerPage": max_number,
             "PageNumber": page,
         })
-        host = "hrti.hrt.hr"
         referer = "https://hrti.hrt.hr/videostore"
-        result = self.api_post(url, payload, host, referer)
+        result = self.api_post(url, payload, referer)
         return result
 
     def get_vod_details(self, reference_id):
@@ -188,9 +181,8 @@ class HRTiAPI:
         payload = json.dumps({
             "ReferenceId": reference_id,
         })
-        host = "hrti.hrt.hr"
         referer = "https://hrti.hrt.hr/videostore"
-        result = self.api_post(url, payload, host, referer)
+        result = self.api_post(url, payload, referer)
         return result
 
     def get_programme(self, channelids, starttime, endtime):
@@ -202,9 +194,8 @@ class HRTiAPI:
             "StartTime": starttime,
             "EndTime": endtime
         })
-        host = "hrti.hrt.hr"
         referer = "https://hrti.hrt.hr/home"
-        result = self.api_post(url, payload, host, referer)
+        result = self.api_post(url, payload, referer)
         return result
 
     def get_epg_details(self, channelid, referenceid):
@@ -215,9 +206,8 @@ class HRTiAPI:
             "ChannelReferenceId": channelid,
             "ReferenceId": referenceid,
         })
-        host = "hrti.hrt.hr"
         referer = "https://hrti.hrt.hr/live/programme"
-        result = self.api_post(url, payload, host, referer)
+        result = self.api_post(url, payload, referer)
         return result
 
     def get_devices(self):
@@ -226,12 +216,12 @@ class HRTiAPI:
 
         payload = json.dumps({
         })
-        host = "hsapi.aviion.tv"
         referer = "https://hrti-selfcare.hrt.hr/"
-        result = self.api_post(url, payload, host, referer)
+        result = self.api_post(url, payload, referer)
         return result
 
-    def authorize_session(self, contenttype, contentrefid, contentdrmid, videostorerefids, channelid, starttime, endtime):
+    def authorize_session(self, contenttype, contentrefid, contentdrmid,
+                          videostorerefids, channelid, starttime, endtime):
 
         url = self.hrtiBaseUrl + "AuthorizeSession"
 
@@ -245,7 +235,6 @@ class HRTiAPI:
             "EndTime": endtime
         })
         xbmc.log("Authorize Session: " + str(payload), level=xbmc.LOGDEBUG)
-        host = "hrti.hrt.hr"
         if channelid is None:
             referer = "https://hrti.hrt.hr/videostore"
         else:
@@ -254,7 +243,7 @@ class HRTiAPI:
                 referer += "tv?channel=' + str(channelid)"
             else:
                 referer += "radio"
-        result = self.api_post(url, payload, host, referer)
+        result = self.api_post(url, payload, referer)
         if result is not None:
             self.__drmid = result['DrmId']
         return result
@@ -267,13 +256,12 @@ class HRTiAPI:
             "SessionEventId": 1,
             "SessionId": sessionid
         })
-        host = "hrti.hrt.hr"
         if channelid is None:
             referer = "https://hrti.hrt.hr/videostore"
         else:
             referer = "https://hrti.hrt.hr/live/"
             referer += "tv?channel=' + str(channelid)"
-        result = self.api_post(url, payload, host, referer)
+        result = self.api_post(url, payload, referer)
         return result
 
     def get_seasons(self, series_ref_id):
@@ -283,9 +271,8 @@ class HRTiAPI:
         payload = json.dumps({
             "SeriesReferenceId": series_ref_id
         })
-        host = "hrti.hrt.hr"
         referer = "https://hrti.hrt.hr/videostore"
-        result = self.api_post(url, payload, host, referer)
+        result = self.api_post(url, payload, referer)
         return result
 
     def get_episodes(self, series_ref_id, season_ref_id):
@@ -296,9 +283,19 @@ class HRTiAPI:
             "SeriesReferenceId": series_ref_id,
             "SeasonReferenceId": season_ref_id
         })
-        host = "hrti.hrt.hr"
         referer = "https://hrti.hrt.hr/videostore"
-        result = self.api_post(url, payload, host, referer)
+        result = self.api_post(url, payload, referer)
+        return result
+
+    def get_radio_metadata(self, channel_ref_id):
+
+        url = self.hrtiBaseUrl + "GetEpisodes"
+
+        payload = json.dumps({
+            "ChannelReferenceId": channel_ref_id,
+        })
+        referer = "https://hrti.hrt.hr/live/radio"
+        result = self.api_post(url, payload, referer)
         return result
 
     def logout(self):
@@ -308,9 +305,8 @@ class HRTiAPI:
         payload = json.dumps({
             "Serial": self.DEVICE_ID,
         })
-        host = "hsapi.aviion.tv"
         referer = "https://hrti.hrt.hr/"
-        result = self.api_post(url, payload, host, referer)
+        result = self.api_post(url, payload, referer)
         return result
 
     def get_license(self):

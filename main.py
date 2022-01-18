@@ -52,7 +52,9 @@ xbmc.log("UserID: " + str(api.USERID), level=xbmc.LOGDEBUG)
 xbmc.log("Token: " + str(api.TOKEN), level=xbmc.LOGDEBUG)
 xbmc.log("DeviceID: " + str(api.DEVICE_ID), level=xbmc.LOGDEBUG)
 
-CATEGORIES = [plugin.addon.getLocalizedString(30030), plugin.addon.getLocalizedString(30031), plugin.addon.getLocalizedString(30032)]
+CATEGORIES = [plugin.addon.getLocalizedString(30030),
+              plugin.addon.getLocalizedString(30031),
+              plugin.addon.getLocalizedString(30032)]
 
 
 def get_url(**kwargs):

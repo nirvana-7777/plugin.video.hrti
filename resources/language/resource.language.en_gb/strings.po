@@ -47,4 +47,26 @@ msgctxt "#30032"
 msgid "Programme Guide"
 msgstr ""
 
+msgctxt "#30040"
+msgid "Devices"
+msgstr ""
 
+msgctxt "#30041"
+msgid "Device Reference ID"
+msgstr ""
+
+msgctxt "#30042"
+msgid "Connection Type"
+msgstr ""
+
+msgctxt "#30043"
+msgid "Application Version"
+msgstr ""
+
+msgctxt "#30044"
+msgid "OS Version"
+msgstr ""
+
+msgctxt "#30045"
+msgid "Client Type"
+msgstr ""

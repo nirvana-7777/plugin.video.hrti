@@ -28,4 +28,12 @@
         <setting label="30021" type="number" id="epgbefore" default="2" enable="true"/>
         <setting label="30022" type="number" id="epgafter" default="48" enable="true"/>
     </category>
+    <category label="30040">
+        <setting label="30041" type="number" id="devicereferenceid" default="6" enable="false"/>
+        <setting label="30042" type="text" id="connectiontype" default="LAN/WiFi" enable="false"/>
+        <setting label="30043" type="text" id="applicationversion" default="5.62.5" enable="false"/>
+        <setting label="30044" type="text" id="osversion" default="Linux" enable="false"/>
+        <setting label="30045" type="text" id="clienttype" default="Chrome 96" enable="false"/>
+    </category>
+
 </settings>
