@@ -405,7 +405,7 @@ def list_episodes(ref_id):
         metadata = {'mediatype': 'video'}
         list_item.setInfo('video', metadata)
 
-        url = get_url(action='play', video=plugin.get_dict_value(episode, 'ReferenceId'))
+        url = get_url(action='play', referenceid=plugin.get_dict_value(episode, 'ReferenceId'))
         is_folder = False
         xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     xbmcplugin.endOfDirectory(_HANDLE)
@@ -421,7 +421,6 @@ def play_video(path, epg_ref_id):
     parts = urlparse(path)
     if epg_ref_id is None:
         voddetails = api.get_vod_details(path)
-        print(voddetails)
         filename = plugin.get_dict_value(voddetails, 'FileName')
         content_type = plugin.get_dict_value(voddetails, 'Type')
         video_store_ids = plugin.get_dict_value(voddetails, 'SVODVideostores')
