@@ -1,7 +1,6 @@
 # Kodi Media Center language file
-# Addon Name: DAZN
-# Addon id: plugin.video.dazn
-# Addon Provider: Jin
+# Addon Name: HRTi
+# Addon id: plugin.video.hrti
 
 msgid ""
 msgstr ""
@@ -13,73 +12,109 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgctxt "#30000"
-msgid "My Account"
-msgstr ""
-
-msgctxt "#30001"
-msgid "Save login data?"
+msgid "Username / Password"
 msgstr ""
 
 msgctxt "#30002"
 msgid "Sign Out"
 msgstr ""
 
+msgctxt "#30003"
+msgid "Username"
+msgstr ""
+
+msgctxt "#30004"
+msgid "Password"
+msgstr ""
+
 msgctxt "#30010"
-msgid "View"
+msgid "View Account Details"
 msgstr ""
 
 msgctxt "#30011"
-msgid "Override View"
+msgid "Customer ID"
 msgstr ""
 
 msgctxt "#30012"
-msgid "Content Type"
+msgid "Email"
 msgstr ""
 
 msgctxt "#30013"
-msgid "View: Folders"
+msgid "First Name"
 msgstr ""
 
 msgctxt "#30014"
-msgid "View: Videos"
+msgid "Last Name"
 msgstr ""
 
 msgctxt "#30015"
-msgid "View: Schedule"
+msgid "Language"
+msgstr ""
+
+msgctxt "#30016"
+msgid "Geoblocking Enabled"
+msgstr ""
+
+msgctxt "#30017"
+msgid "Videostore Enabled"
+msgstr ""
+
+msgctxt "#30018"
+msgid "Hours on NPVR"
+msgstr ""
+
+msgctxt "#30019"
+msgid "Session valid from:"
+msgstr ""
+
+msgctxt "#30009"
+msgid "Session valid to:"
 msgstr ""
 
 msgctxt "#30020"
-msgid "Video Player"
+msgid "EPG Settings"
 msgstr ""
 
 msgctxt "#30021"
-msgid "Inputstream Adaptive Settings..."
+msgid "Hours of EPG before now"
 msgstr ""
 
 msgctxt "#30022"
-msgid "Max. Bandwidth (Bit/s)"
+msgid "Hours of EPG after now"
 msgstr ""
 
-msgctxt "#30023"
-msgid "Manually select CDN"
+msgctxt "#30030"
+msgid "TV Channels"
 msgstr ""
 
-msgctxt "#30024"
-msgid "Preferred CDN"
+msgctxt "#30031"
+msgid "Radio Channels"
 msgstr ""
 
-msgctxt "#30214"
-msgid "Switch to Sport"
+msgctxt "#30032"
+msgid "Programme Guide"
 msgstr ""
 
-msgctxt "#30215"
-msgid "Switch to Competition"
+msgctxt "#30040"
+msgid "Devices"
 msgstr ""
 
-msgctxt "#30230"
-msgid "Enter Date"
+msgctxt "#30041"
+msgid "Device Reference ID"
 msgstr ""
 
-msgctxt "#30231"
-msgid "Show highlights only"
+msgctxt "#30042"
+msgid "Connection Type"
+msgstr ""
+
+msgctxt "#30043"
+msgid "Application Version"
+msgstr ""
+
+msgctxt "#30044"
+msgid "OS Version"
+msgstr ""
+
+msgctxt "#30045"
+msgid "Client Type"
 msgstr ""

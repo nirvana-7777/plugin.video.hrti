@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <settings>
     <category label="30000">
-        <setting label="Username" type="text" id="username" default=""/>
-        <setting label="Password" type="text" id="password" option="hidden"  default=""/>
+        <setting label="30003" type="text" id="username" default=""/>
+        <setting label="30004" type="text" id="password" option="hidden"  default=""/>
         <setting label="30001" type="bool" id="save_login" default="false" visible="false"/>
         <setting label="30002" type="action" id="logout" action="RunPlugin(plugin://plugin.video.hrti/?action=logout)" option="close"/>
         <setting label="country" type="text" id="country" default="" visible="false"/>
@@ -13,15 +13,27 @@
         <setting label="mpx" type="text" id="mpx" default="" visible="false"/>
     </category>
     <category label="30010">
-        <setting label="Customer ID" type="text" id="customerid" default="" enable="false"/>
-        <setting label="Email" type="text" id="email" default="" enable="false"/>
-        <setting label="First Name" type="text" id="firstname" default="" enable="false"/>
-        <setting label="Last Name" type="text" id="lastname" default="" enable="false"/>
-        <setting label="Language" type="text" id="language" default="" enable="false"/>
-        <setting label="Geoblocking Enabled" type="text" id="geoblocked" default="" enable="false"/>
-        <setting label="Videostore Enabled" type="text" id="videostoreenabled" default="" enable="false"/>
-        <setting label="Hours on NPVR" type="text" id="pvrhours" default="" enable="false"/>
-        <setting label="Session valid from:" type="text" id="validfrom" default="" enable="false"/>
-        <setting label="Session valid to" type="text" id="validto" default="" enable="false"/>
+        <setting label="30011" type="text" id="customerid" default="" enable="false"/>
+        <setting label="30012" type="text" id="email" default="" enable="false"/>
+        <setting label="30013" type="text" id="firstname" default="" enable="false"/>
+        <setting label="30014" type="text" id="lastname" default="" enable="false"/>
+        <setting label="30015" type="text" id="language" default="" enable="false"/>
+        <setting label="30016" type="text" id="geoblocked" default="" enable="false"/>
+        <setting label="30017" type="text" id="videostoreenabled" default="" enable="false"/>
+        <setting label="30018" type="text" id="pvrhours" default="" enable="false"/>
+        <setting label="30019" type="text" id="validfrom" default="" enable="false"/>
+        <setting label="30009" type="text" id="validto" default="" enable="false"/>
     </category>
+    <category label="30020">
+        <setting label="30021" type="number" id="epgbefore" default="2" enable="true"/>
+        <setting label="30022" type="number" id="epgafter" default="48" enable="true"/>
+    </category>
+    <category label="30040">
+        <setting label="30041" type="number" id="devicereferenceid" default="6" enable="false"/>
+        <setting label="30042" type="text" id="connectiontype" default="LAN/WiFi" enable="false"/>
+        <setting label="30043" type="text" id="applicationversion" default="5.62.5" enable="false"/>
+        <setting label="30044" type="text" id="osversion" default="Linux" enable="false"/>
+        <setting label="30045" type="text" id="clienttype" default="Chrome 96" enable="false"/>
+    </category>
+
 </settings>

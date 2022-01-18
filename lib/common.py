@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
+
+import time
+
 from kodi_six.utils import PY2, py2_encode, py2_decode
 from six.moves.urllib.parse import urlencode
 
@@ -50,16 +53,7 @@ class Common():
         self.addon_version = self.addon.getAddonInfo('version')
         self.addon_icon = self.addon.getAddonInfo('icon')
         self.addon_fanart = self.addon.getAddonInfo('fanart')
-        self.content = self.addon.getSetting('content')
-        self.view_id = self.addon.getSetting('view_id')
-        self.view_id_videos = self.addon.getSetting('view_id_videos')
-        self.view_id_epg = self.addon.getSetting('view_id_epg')
-        self.force_view = self.addon.getSetting('force_view') == 'true'
-        self.startup = self.addon.getSetting('startup') == 'true'
-        self.select_cdn = self.addon.getSetting('select_cdn') == 'true'
-        self.preferred_cdn = self.addon.getSetting('preferred_cdn')
         self.max_bw = self.addon.getSetting('max_bw')
-        self.resources = self.addon.getSetting('api_endpoint_resource_strings')
         self.kodi_version = int(xbmc.getInfoLabel('System.BuildVersion').split('.')[0])
 
         self.railCache = StorageServer.StorageServer(py2_encode('{0}.rail').format(self.addon_id), 24 * 7)
@@ -147,10 +141,19 @@ class Common():
     def logout(self):
         return self.dialog_yesno(self.get_resource('signout_body').get('text'))
 
+    def get_time_offset(self, offset):
+        millisecond = datetime.now() + timedelta(hours=offset)
+        return int(mktime(millisecond.timetuple()) * 1000)
+
+    def get_time_now(self):
+        millisecond = datetime.now()
+        return int(mktime(millisecond.timetuple()))
 
     def time_now(self):
         return datetime.now().strftime(self.time_format)
 
+    def get_datetime_now(self):
+        return datetime.now()
 
     def time_stamp(self, str_date):
         return datetime.fromtimestamp(mktime(strptime(str_date, self.time_format)))
@@ -235,10 +238,17 @@ class Common():
             date = '%s-%s-%s' % (spl[2], spl[1], spl[0])
         return date
 
+    def get_datetime_from_epoch(self, timestamp):
+        TimestampUtc = re.split('\(|\)', timestamp)[1][:10]
+        return datetime.fromtimestamp(int(TimestampUtc))
 
     def get_date_from_epoch(self, timestamp):
         TimestampUtc = re.split('\(|\)', timestamp)[1][:10]
-        return datetime.fromtimestamp(int(TimestampUtc))
+        return datetime.fromtimestamp(int(TimestampUtc)).strftime('%d.%m.')
+
+    def get_time_from_epoch(self, timestamp):
+        TimestampUtc = re.split('\(|\)', timestamp)[1][:10]
+        return datetime.fromtimestamp(int(TimestampUtc)).strftime('%H:%M')
 
     def get_mpx(self, token):
         token_data = loads(self.b64dec(token.split('.')[1]))
@@ -337,28 +347,3 @@ class Common():
         key = key.lower()
         result = [dict[k] for k in dict if k.lower() == key]
         return result[0] if len(result) > 0 else ''
-
-
-    def init_api_endpoints(self, service_dict):
-        endpoint_dict = dict()
-        endpoint_def_dict = dict(
-                        api_endpoint_rail='Rail',
-                        api_endpoint_rails='Rails',
-                        api_endpoint_epg='Epg',
-                        api_endpoint_event='Event',
-                        api_endpoint_playback='Playback',
-                        api_endpoint_signin='SignIn',
-                        api_endpoint_signout='SignOut',
-                        api_endpoint_refresh_access_token='RefreshAccessToken',
-                        api_endpoint_userprofile='UserProfile',
-                        api_endpoint_resource_strings='ResourceStrings'
-                        )
-        for key, value in endpoint_def_dict.items():
-            last_key = list(service_dict.get(value).get('Versions'))[-1]
-            service_path = service_dict.get(value).get('Versions').get(last_key).get('ServicePath')
-            self.set_setting(key, service_path)
-            endpoint_dict.update({key: service_path})
-            if key == 'api_endpoint_resource_strings':
-                self.resources = service_path
-
-        return endpoint_dict

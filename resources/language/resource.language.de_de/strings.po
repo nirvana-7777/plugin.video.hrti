@@ -1,6 +1,6 @@
 # Kodi Media Center language file
-# Addon Name: DAZN
-# Addon id: plugin.video.dazn
+# Addon Name: HRTi
+# Addon id: plugin.video.hrti
 # Addon Provider: Jin
 
 msgid ""
@@ -13,8 +13,8 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgctxt "#30000"
-msgid "My Account"
-msgstr "Mein Konto"
+msgid "Username / Password"
+msgstr "Benutzername / Passwort"
 
 msgctxt "#30001"
 msgid "Save login data?"
@@ -24,62 +24,78 @@ msgctxt "#30002"
 msgid "Sign Out"
 msgstr "Ausloggen"
 
+msgctxt "#30003"
+msgid "Username"
+msgstr "Benutzername"
+
+msgctxt "#30004"
+msgid "Password"
+msgstr "Passwort"
+
 msgctxt "#30010"
-msgid "View"
-msgstr "Ansicht"
+msgid "View Account Details"
+msgstr "Benurtzerkonto Details"
 
 msgctxt "#30011"
-msgid "Override View"
-msgstr "Ansicht überschreiben"
+msgid "Customer ID"
+msgstr "Kundennummer"
 
 msgctxt "#30012"
-msgid "Content Type"
-msgstr "Inhaltstyp"
+msgid "Email"
+msgstr "Emailadresse"
 
 msgctxt "#30013"
-msgid "View: Folders"
-msgstr "Ansicht: Ordner"
+msgid "First Name"
+msgstr "Vorname"
 
 msgctxt "#30014"
-msgid "View: Videos"
-msgstr "Ansicht: Videos"
+msgid "Last Name"
+msgstr "Nachname"
 
 msgctxt "#30015"
-msgid "View: Schedule"
-msgstr "Ansicht: Vorschau"
+msgid "Language"
+msgstr "Sprache"
+
+msgctxt "#30016"
+msgid "Geoblocking Enabled"
+msgstr "Geoblocking an"
+
+msgctxt "#30017"
+msgid "Videostore Enabled"
+msgstr "Videostore an"
+
+msgctxt "#30018"
+msgid "Hours on NPVR"
+msgstr "NPVR in Stunden"
+
+msgctxt "#30019"
+msgid "Session valid from:"
+msgstr "Sitzung gültig ab:"
+
+msgctxt "#30009"
+msgid "Session valid to:"
+msgstr "Sitzung gültig bis:"
 
 msgctxt "#30020"
-msgid "Video Player"
-msgstr "Video Player"
+msgid "EPG Settings"
+msgstr "EPG Einstellungen"
 
 msgctxt "#30021"
-msgid "Inputstream Adaptive Settings..."
-msgstr "Inputstream Adaptive Einstellungen..."
+msgid "Hours of EPG before now"
+msgstr "Vergangener EPG in Stunden"
 
 msgctxt "#30022"
-msgid "Max. Bandwidth (Bit/s)"
-msgstr "Max. Bandbreite (Bit/s)"
+msgid "Hours of EPG after now"
+msgstr "Zukünftiger EPG in Stunden"
 
-msgctxt "#30023"
-msgid "Manually select CDN"
-msgstr "CDN manuell auswählen"
+msgctxt "#30030"
+msgid "TV Channels"
+msgstr "TV Sender"
 
-msgctxt "#30024"
-msgid "Preferred CDN"
-msgstr "Bevorzugter CDN"
+msgctxt "#30031"
+msgid "Radio Channels"
+msgstr "Radio Sender"
 
-msgctxt "#30214"
-msgid "Switch to Sport"
-msgstr "Zum Sport wechseln"
-
-msgctxt "#30215"
-msgid "Switch to Competition"
-msgstr "Zum Wettbewerb wechseln"
-
-msgctxt "#30230"
-msgid "Enter Date"
-msgstr "Datum eingeben"
-
-msgctxt "#30231"
-msgid "Show highlights only"
-msgstr "Nur Highlights anzeigen"
+msgctxt "#30032"
+msgid "Programme Guide"
+msgstr "Programmführer"

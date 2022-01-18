@@ -52,7 +52,9 @@ xbmc.log("UserID: " + str(api.USERID), level=xbmc.LOGDEBUG)
 xbmc.log("Token: " + str(api.TOKEN), level=xbmc.LOGDEBUG)
 xbmc.log("DeviceID: " + str(api.DEVICE_ID), level=xbmc.LOGDEBUG)
 
-CATEGORIES = ['TV Channels', 'Radio Channels']
+CATEGORIES = [plugin.addon.getLocalizedString(30030),
+              plugin.addon.getLocalizedString(30031),
+              plugin.addon.getLocalizedString(30032)]
 
 
 def get_url(**kwargs):
@@ -103,7 +105,7 @@ def list_subcategories(path):
     current_node = api.get_catalog_structure()
     parent_category = ""
     if path is not None:
-        sections = path_parse("/"+path)
+        sections = path_parse("/" + path)
         i = 0
         while i < len(sections):
             current_node = get_children(current_node, sections[i])
@@ -124,7 +126,7 @@ def list_subcategories(path):
             if path is None:
                 url = get_url(action='listing', category=plugin.get_dict_value(child, 'ReferenceId'))
             else:
-                url = get_url(action='listing', category=path+"/"+plugin.get_dict_value(child, 'ReferenceId'))
+                url = get_url(action='listing', category=path + "/" + plugin.get_dict_value(child, 'ReferenceId'))
             is_folder = True
             xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
             count += 1
@@ -155,8 +157,8 @@ def list_subcategories(path):
                 metadata = {'mediatype': 'video'}
                 list_item.setInfo('video', metadata)
                 url = get_url(action='play', video=plugin.get_dict_value(catalog_entry, 'ReferenceId'))
-            # Add the list item to a virtual Kodi folder.
-            # is_folder = False means that this item won't open any sub-list.
+                # Add the list item to a virtual Kodi folder.
+                # is_folder = False means that this item won't open any sub-list.
                 is_folder = False
             else:
                 url = get_url(action='series', category=plugin.get_dict_value(series_data, 'SeriesReferenceId'))
@@ -199,6 +201,18 @@ def list_categories():
     xbmcplugin.endOfDirectory(_HANDLE)
 
 
+def get_now_event(epg_list):
+    now_event = None
+    if epg_list is not None:
+        now = plugin.get_time_now()
+        for event in epg_list:
+            event_start = plugin.get_dict_value(event, 'TimeStartUnixEpoch')
+            event_end = plugin.get_dict_value(event, 'TimeEndUnixEpoch')
+            if event_start <= now <= event_end:
+                now_event = event
+    return now_event
+
+
 def list_videos(category):
     """
     Create the list of playable videos in the Kodi interface.
@@ -215,10 +229,25 @@ def list_videos(category):
     # Iterate through videos.
     channels = api.get_channels()
     if channels is not None:
+        channelids = []
         for channel in channels:
-            if (plugin.get_dict_value(channel, 'Radio') and category == 'Radio Channels')\
-                    or (not plugin.get_dict_value(channel, 'Radio') and category == 'TV Channels'):
-                list_item = xbmcgui.ListItem(label=plugin.get_dict_value(channel, 'Name'))
+            channelids.append(plugin.get_dict_value(channel, 'ReferenceId'))
+        start = "/Date(" + str(plugin.get_time_offset(-4)) + ")/"
+        end = "/Date(" + str(plugin.get_time_offset(4)) + ")/"
+        programmes = api.get_programme(channelids, start, end)
+        for channel in channels:
+            if (plugin.get_dict_value(channel, 'Radio') and category == plugin.addon.getLocalizedString(30031)) \
+                    or (not plugin.get_dict_value(channel, 'Radio') and category == plugin.addon.getLocalizedString(30030)):
+                channel_epg = None
+                for programme in programmes:
+                    if plugin.get_dict_value(programme, 'ReferenceID') == plugin.get_dict_value(channel, 'ReferenceId'):
+                        channel_epg = plugin.get_dict_value(programme, 'EpgList')
+                if channel_epg is not None:
+                    now = get_now_event(channel_epg)
+                else:
+                    now = None
+                label = plugin.get_dict_value(channel, 'Name') + str(" | ") + plugin.get_dict_value(now, 'Title')
+                list_item = xbmcgui.ListItem(label=label)
                 list_item.setArt({'thumb': plugin.get_dict_value(channel, 'Icon'),
                                   'icon': plugin.get_dict_value(channel, 'Icon'),
                                   'fanart': plugin.get_dict_value(channel, 'Icon')})
@@ -236,10 +265,21 @@ def list_videos(category):
                     metadata = {'mediatype': 'video'}
                     list_item.setInfo('video', metadata)
 
-                url = get_url(action='play', video=plugin.get_dict_value(channel, 'StreamingURL'))
+                url = get_url(action='play',
+                              video=plugin.get_dict_value(channel, 'StreamingURL'),
+                              referenceid=plugin.get_dict_value(now, 'ReferenceId'))
                 # Add the list item to a virtual Kodi folder.
                 # is_folder = False means that this item won't open any sub-list.
                 is_folder = False
+                # Add our item to the Kodi virtual folder listing.
+                xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
+            elif category == plugin.addon.getLocalizedString(30032):
+                list_item = xbmcgui.ListItem(label=plugin.get_dict_value(channel, 'Name'))
+                list_item.setArt({'thumb': plugin.get_dict_value(channel, 'Icon'),
+                                  'icon': plugin.get_dict_value(channel, 'Icon'),
+                                  'fanart': plugin.get_dict_value(channel, 'Icon')})
+                url = get_url(action='EPG', channel=plugin.get_dict_value(channel, 'ReferenceId'))
+                is_folder = True
                 # Add our item to the Kodi virtual folder listing.
                 xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     # Add a sort method for the virtual folder items (alphabetically, ignore articles)
@@ -248,11 +288,53 @@ def list_videos(category):
     xbmcplugin.endOfDirectory(_HANDLE)
 
 
-def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids, channel_id):
+def list_epg(channel):
+    channelids = [channel]
+    epg_before = -int(plugin.get_setting("epgbefore"))
+    epg_after = int(plugin.get_setting("epgafter"))
+    start = "/Date(" + str(plugin.get_time_offset(epg_before)) + ")/"
+    end = "/Date(" + str(plugin.get_time_offset(epg_after)) + ")/"
+    programmes = api.get_programme(channelids, start, end)
+    xbmcplugin.setContent(_HANDLE, 'images')
+    if programmes is not None:
+        programme = programmes[0]
+        epglist = plugin.get_dict_value(programme, 'EpgList')
+        timenow = plugin.get_datetime_now()
+        for item in epglist:
+            timestart = str(plugin.get_date_from_epoch(plugin.get_dict_value(item, 'TimeStart'))) + \
+                        " | " + str(plugin.get_time_from_epoch(plugin.get_dict_value(item, 'TimeStart')))
+            entry = timestart + " | " + plugin.get_dict_value(item, 'Title')
+            event_is_finished = timenow > plugin.get_datetime_from_epoch(plugin.get_dict_value(item, 'TimeEnd'))
+            if event_is_finished:
+                entry = '[COLOR green]' + entry + '[/COLOR]'
+            list_item = xbmcgui.ListItem(label=entry)
+            list_item.setArt({'thumb': plugin.get_dict_value(item, 'ImagePath'),
+                              'icon': plugin.get_dict_value(programme, 'Icon'),
+                              'fanart': plugin.get_dict_value(item, 'ImagePath')})
+            url = get_url(action='play',
+                          video=str(channelids[0]),
+                          referenceid=plugin.get_dict_value(item, 'ReferenceId'))
+            list_item.setProperty('IsPlayable', 'true')
+            if plugin.get_dict_value(programme, 'Radio'):
+                metadata = {'mediatype': 'audio'}
+                list_item.setInfo('music', metadata)
+            else:
+                metadata = {'mediatype': 'video'}
+                list_item.setInfo('video', metadata)
+            is_folder = False
+            # Add our item to the Kodi virtual folder listing.
+            xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
+    xbmcplugin.endOfDirectory(_HANDLE)
+
+
+def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
+                       channel_id, epg_ref_id, starttime, endtime):
     parts = urlparse(filename)
     directories = parts.path.strip('/').split('/')
-    contentdrmid = directories[0] + "_" + directories[1]
-    result = api.authorize_session(contenttype, content_ref_id, contentdrmid, video_store_ids, channel_id)
+    contentdrmid = str(directories[0]) + "_" + str(directories[1])
+    print('ContentDRMID: ' + str(contentdrmid))
+    result = api.authorize_session(contenttype, content_ref_id, contentdrmid,
+                                   video_store_ids, channel_id, starttime, endtime)
     api.report_session_event(plugin.get_dict_value(result, 'SessionId'), content_ref_id)
 
     user_agent = "kodi plugin for hrti.hrt.hr (python)"
@@ -262,6 +344,13 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids, c
 
     list_item.setMimeType('application/xml+dash')
     list_item.setContentLookup(False)
+
+    if epg_ref_id is not None:
+        epg_details = api.get_epg_details(channel_id, epg_ref_id)
+        metadata = {'plot': plugin.get_dict_value(epg_details, 'DescriptionLong'),
+                    'plotoutline': plugin.get_dict_value(epg_details, 'DescriptionShort')}
+        list_item.setInfo('video', metadata)
+        list_item.setArt({'thumb': plugin.get_dict_value(epg_details, 'ImagePath')})
 
     list_item.setProperty('inputstream', 'inputstream.adaptive')
     list_item.setProperty('inputstream.adaptive.manifest_type', 'mpd')
@@ -291,7 +380,7 @@ def list_seasons(ref_id):
         list_item.setInfo('video', {'title': plugin.get_dict_value(season, 'Title'),
                                     'genre': plugin.get_dict_value(season, 'Title'),
                                     'mediatype': 'video'})
-        url = get_url(action='episodes', category=ref_id+'/'+plugin.get_dict_value(season, 'ReferenceId'))
+        url = get_url(action='episodes', category=ref_id + '/' + plugin.get_dict_value(season, 'ReferenceId'))
         is_folder = True
         xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     xbmcplugin.endOfDirectory(_HANDLE)
@@ -322,30 +411,54 @@ def list_episodes(ref_id):
     xbmcplugin.endOfDirectory(_HANDLE)
 
 
-def play_video(path):
+def play_video(path, epg_ref_id):
     """
     Play a video by the provided path.
     :param path: Fully-qualified video URL
+    :param epg_ref_id EPG Reference
     :type path: str
     """
     parts = urlparse(path)
-    if parts.scheme == "":
+    if epg_ref_id is None:
         voddetails = api.get_vod_details(path)
+        print(voddetails)
         filename = plugin.get_dict_value(voddetails, 'FileName')
         content_type = plugin.get_dict_value(voddetails, 'Type')
         video_store_ids = plugin.get_dict_value(voddetails, 'SVODVideostores')
         if content_type != 'series':
-            authorize_and_play(filename, content_type, path, video_store_ids, None)
+            authorize_and_play(filename, content_type, path, video_store_ids, None, None, None, None)
     else:
         channels = api.get_channels()
         for channel in channels:
-            if path == plugin.get_dict_value(channel, 'StreamingURL'):
+            if parts.scheme == "":
                 refid = plugin.get_dict_value(channel, 'ReferenceID')
-                if plugin.get_dict_value(channel, 'Radio'):
-                    content_type = "rlive"
-                else:
-                    content_type = "tlive"
-                authorize_and_play(path, content_type, refid, None, refid)
+                if path == refid:
+                    event = api.get_epg_details(refid, epg_ref_id)
+                    timeend = plugin.get_datetime_from_epoch(plugin.get_dict_value(event, 'TimeEnd'))
+                    if plugin.get_datetime_now() < timeend:
+                        url = plugin.get_dict_value(channel, 'StreamingUrl')
+                        if plugin.get_dict_value(channel, 'Radio'):
+                            content_type = "rlive"
+                        else:
+                            content_type = "tlive"
+                        authorize_and_play(url, content_type, refid, None, refid, epg_ref_id, None, None)
+                    else:
+                        url = plugin.get_dict_value(event, 'FileName')
+                        if plugin.get_dict_value(channel, 'Radio'):
+                            content_type = "thepg"
+                        else:
+                            content_type = "thepg"
+                        authorize_and_play(url, content_type, epg_ref_id, None, refid,
+                                           epg_ref_id, plugin.get_dict_value(event, 'TimeStart'),
+                                           plugin.get_dict_value(event, 'TimeEnd'))
+            else:
+                if path == plugin.get_dict_value(channel, 'StreamingURL'):
+                    refid = plugin.get_dict_value(channel, 'ReferenceID')
+                    if plugin.get_dict_value(channel, 'Radio'):
+                        content_type = "rlive"
+                    else:
+                        content_type = "tlive"
+                    authorize_and_play(path, content_type, refid, None, refid, epg_ref_id, None, None)
 
 
 def router(paramstring):
@@ -363,19 +476,27 @@ def router(paramstring):
     if params:
         if params['action'] == 'listing':
             # Display the list of videos in a provided category.
-            if params['category'] == 'TV Channels' or params['category'] == 'Radio Channels':
+            if params['category'] == plugin.addon.getLocalizedString(30030) or \
+                    params['category'] == plugin.addon.getLocalizedString(30031) or \
+                    params['category'] == plugin.addon.getLocalizedString(30032):
                 list_videos(params['category'])
             else:
                 list_subcategories(params['category'])
         elif params['action'] == 'play':
             # Play a video from a provided URL.
-            play_video(params['video'])
+            try:
+                epg_ref_id = params['referenceid']
+            except KeyError:
+                epg_ref_id = None
+            play_video(params['video'], epg_ref_id)
         elif params['action'] == 'series':
             # Play a video from a provided URL.
             list_seasons(params['category'])
         elif params['action'] == 'episodes':
             # Play a video from a provided URL.
             list_episodes(params['category'])
+        elif params['action'] == 'EPG':
+            list_epg(params['channel'])
         elif params['action'] == 'logout':
             api.logout()
         else:
