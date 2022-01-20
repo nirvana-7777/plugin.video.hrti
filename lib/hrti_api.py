@@ -100,12 +100,24 @@ class HRTiAPI:
             self.plugin.set_setting('geoblocked', str(geoblocked))
             self.plugin.set_setting('videostoreenabled', str(videostoreenabled))
             self.plugin.set_setting('pvrhours', str(pvrhours))
-            validfrom = self.plugin.get_date_from_epoch(tokenvalidfrom)
-            validto = self.plugin.get_date_from_epoch(tokenvalidto)
+            validfrom = self.plugin.get_datetime_from_epoch(tokenvalidfrom)
+            validto = self.plugin.get_datetime_from_epoch(tokenvalidto)
             self.plugin.set_setting('validfrom', str(validfrom))
             self.plugin.set_setting('validto', str(validto))
             xbmc.log("hrti grant access: " + str(result), level=xbmc.LOGDEBUG)
         return result
+
+    def is_token_valid(self):
+        validfrom = self.plugin.get_setting('validfrom')
+        validto = self.plugin.get_setting('validto')
+        now = self.plugin.get_time_now()
+        print(validfrom)
+        print(now)
+        print(validto)
+        if validfrom <= now <= validto:
+            return True
+        else:
+            return False
 
     def register_device(self):
 
