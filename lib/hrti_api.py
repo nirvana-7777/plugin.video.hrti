@@ -150,6 +150,8 @@ class HRTiAPI:
         payload = json.dumps({})
         referer = "https://hrti.hrt.hr/signin"
         result = self.api_post(url, payload, referer)
+        if result is None:
+            self.register_device()
         return result
 
     def get_catalog_structure(self):
