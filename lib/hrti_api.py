@@ -79,7 +79,7 @@ class HRTiAPI:
         referer = "https://hrti.hrt.hr/signin"
         result = self.api_post(url, payload, referer)
 
-        if result is not None:
+        if result is not None and username != 'anonymoushrt':
             self.TOKEN = result['Token']
             self.plugin.set_setting('token', self.TOKEN)
             tokenvalidfrom = result['ValidFrom']
