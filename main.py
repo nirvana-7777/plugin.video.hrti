@@ -29,8 +29,6 @@ username = plugin.get_setting("username")
 password = plugin.get_setting("password")
 token = plugin.get_setting("token")
 userid = plugin.get_setting("customerid")
-print(token)
-print(userid)
 if token == '' or token == 'lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8kmqwKNSUc8Gw' or userid == "":
     login_result = api.grant_access(username, password)
     if login_result is None:
@@ -43,7 +41,6 @@ else:
     api.USERID = userid
     api.TOKEN = token
 device_id = plugin.get_setting("device_id")
-print(device_id)
 if device_id == "":
     device_id = plugin.uniq_id()
     plugin.set_setting("device_id", device_id)
@@ -335,11 +332,10 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
     parts = urlparse(filename)
     directories = parts.path.strip('/').split('/')
     contentdrmid = str(directories[0]) + "_" + str(directories[1])
-    print('ContentDRMID: ' + str(contentdrmid))
     result = api.authorize_session(contenttype, content_ref_id, contentdrmid,
                                    video_store_ids, channel_id, starttime, endtime)
-    api.report_session_event(plugin.get_dict_value(result, 'SessionId'), content_ref_id)
-
+    if not api.report_session_event(plugin.get_dict_value(result, 'SessionId'), content_ref_id):
+        plugin.dialog_ok("Report Session has failed - Relogin")
     user_agent = "kodi plugin for hrti.hrt.hr (python)"
 
     license_str = api.get_license()
@@ -424,7 +420,6 @@ def play_video(path, epg_ref_id):
     parts = urlparse(path)
     if epg_ref_id is None:
         voddetails = api.get_vod_details(path)
-        print(voddetails)
         filename = plugin.get_dict_value(voddetails, 'FileName')
         content_type = plugin.get_dict_value(voddetails, 'Type')
         video_store_ids = plugin.get_dict_value(voddetails, 'SVODVideostores')
