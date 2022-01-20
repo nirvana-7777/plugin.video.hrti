@@ -334,6 +334,8 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
     contentdrmid = str(directories[0]) + "_" + str(directories[1])
     result = api.authorize_session(contenttype, content_ref_id, contentdrmid,
                                    video_store_ids, channel_id, starttime, endtime)
+    if not result('Authorized'):
+        plugin.dialog_ok("Authorization has failed - Check Credentials - Relogin")
     if not api.report_session_event(plugin.get_dict_value(result, 'SessionId'), content_ref_id):
         plugin.dialog_ok("Report Session has failed - Relogin")
     user_agent = "kodi plugin for hrti.hrt.hr (python)"
