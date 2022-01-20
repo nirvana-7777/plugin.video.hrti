@@ -43,6 +43,7 @@ else:
     api.USERID = userid
     api.TOKEN = token
 device_id = plugin.get_setting("device_id")
+print(device_id)
 if device_id == "":
     device_id = plugin.uniq_id()
     plugin.set_setting("device_id", device_id)
