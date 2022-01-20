@@ -332,11 +332,13 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
     parts = urlparse(filename)
     directories = parts.path.strip('/').split('/')
     contentdrmid = str(directories[0]) + "_" + str(directories[1])
-    print('ContentDRMID: ' + str(contentdrmid))
     result = api.authorize_session(contenttype, content_ref_id, contentdrmid,
                                    video_store_ids, channel_id, starttime, endtime)
-    api.report_session_event(plugin.get_dict_value(result, 'SessionId'), content_ref_id)
-
+    authorized = plugin.get_dict_value(result, 'Authorized')
+    if not authorized:
+        plugin.dialog_ok("Authorization has failed - Check Credentials - Relogin")
+    if not api.report_session_event(plugin.get_dict_value(result, 'SessionId'), content_ref_id):
+        plugin.dialog_ok("Report Session has failed - Re-login")
     user_agent = "kodi plugin for hrti.hrt.hr (python)"
 
     license_str = api.get_license()
@@ -421,12 +423,14 @@ def play_video(path, epg_ref_id):
     parts = urlparse(path)
     if epg_ref_id is None:
         voddetails = api.get_vod_details(path)
-        print(voddetails)
         filename = plugin.get_dict_value(voddetails, 'FileName')
-        content_type = plugin.get_dict_value(voddetails, 'Type')
-        video_store_ids = plugin.get_dict_value(voddetails, 'SVODVideostores')
-        if content_type != 'series':
-            authorize_and_play(filename, content_type, path, video_store_ids, None, None, None, None)
+        if filename is not None:
+            content_type = plugin.get_dict_value(voddetails, 'Type')
+            video_store_ids = plugin.get_dict_value(voddetails, 'SVODVideostores')
+            if content_type != 'series':
+                authorize_and_play(filename, content_type, path, video_store_ids, None, None, None, None)
+        else:
+            api.register_device()
     else:
         channels = api.get_channels()
         for channel in channels:

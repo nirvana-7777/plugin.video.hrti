@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.hrti" version="0.9.0" name="HRTi" provider-name="Nirvana">
+<addon id="plugin.video.hrti" version="0.9.1" name="HRTi" provider-name="Nirvana">
     <requires>
         <import addon="xbmc.python" version="3.0.0"/>
         <import addon="script.module.inputstreamhelper" version="0.5.0"/>
@@ -17,11 +17,7 @@
     <extension point="xbmc.addon.metadata">
         <reuselanguageinvoker>true</reuselanguageinvoker>
         <news>
-            - Fixed: Radio
-            - Added: EPG
-            - Added: Restart from EPG (green items)
-            - Added: EPG Details for Radio / TV
-            - Added: Plot / Description
+            - Re-register device if deleted via web
         </news>
         <assets>
             <icon>resources/icon.png</icon>
@@ -31,10 +27,16 @@
             <screenshot>resources/media/screenshot-03.jpg</screenshot>
             <screenshot>resources/media/screenshot-04.jpg</screenshot>
         </assets>
-        <summary lang="de_DE">Kroatisches Fernsehen HRT</summary>
+        <summary lang="de_DE">Kroatisches Fernsehen HRT: TV, Radio, Videostore, Auditorium
+        </summary>
         <description lang="de_DE">
         </description>
         <disclaimer lang="de_DE">Inoffizielles Addon - Benutzung auf eigene Gefahr</disclaimer>
+        <summary lang="gb_GB">Croatian Television HRT: TV, Radio, Videostore, Auditorium
+        </summary>
+        <description lang="gb_GB">
+        </description>
+        <disclaimer lang="de_DE">Inofficial Addon - Use on own risk</disclaimer>
         <platform>all</platform>
         <license>GNU GENERAL PUBLIC LICENSE. Version 3, 29 June 2007</license>
         <website>https://www.hrti.hrt.hr</website>

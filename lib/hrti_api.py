@@ -79,7 +79,7 @@ class HRTiAPI:
         referer = "https://hrti.hrt.hr/signin"
         result = self.api_post(url, payload, referer)
 
-        if result is not None:
+        if result is not None and username != 'anonymoushrt':
             self.TOKEN = result['Token']
             self.plugin.set_setting('token', self.TOKEN)
             tokenvalidfrom = result['ValidFrom']
@@ -150,6 +150,8 @@ class HRTiAPI:
         payload = json.dumps({})
         referer = "https://hrti.hrt.hr/signin"
         result = self.api_post(url, payload, referer)
+        if result is None:
+            self.register_device()
         return result
 
     def get_catalog_structure(self):
@@ -295,6 +297,26 @@ class HRTiAPI:
             "ChannelReferenceId": channel_ref_id,
         })
         referer = "https://hrti.hrt.hr/live/radio"
+        result = self.api_post(url, payload, referer)
+        return result
+
+    def get_watch_later(self):
+
+        url = self.hrtiBaseUrl + "GetWatchLater"
+
+        payload = json.dumps({
+        })
+        referer = "https://hrti.hrt.hr/watch_later"
+        result = self.api_post(url, payload, referer)
+        return result
+
+    def get_editors_choice(self):
+
+        url = self.hrtiBaseUrl + "GetEditorsChoice"
+
+        payload = json.dumps({
+        })
+        referer = "https://hrti.hrt.hr/editors_choice"
         result = self.api_post(url, payload, referer)
         return result
 
