@@ -423,6 +423,7 @@ def play_video(path, epg_ref_id):
     parts = urlparse(path)
     if epg_ref_id is None:
         voddetails = api.get_vod_details(path)
+        print(voddetails)
         filename = plugin.get_dict_value(voddetails, 'FileName')
         content_type = plugin.get_dict_value(voddetails, 'Type')
         video_store_ids = plugin.get_dict_value(voddetails, 'SVODVideostores')
