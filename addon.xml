@@ -17,7 +17,7 @@
     <extension point="xbmc.addon.metadata">
         <reuselanguageinvoker>true</reuselanguageinvoker>
         <news>
-            - Re-register device if deleted via web
+             - Delete Token, DeviceID on logout
         </news>
         <assets>
             <icon>resources/icon.png</icon>

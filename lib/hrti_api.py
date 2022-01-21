@@ -111,9 +111,9 @@ class HRTiAPI:
         validfrom = self.plugin.get_setting('validfrom')
         validto = self.plugin.get_setting('validto')
         now = self.plugin.get_time_now()
-        print(validfrom)
-        print(now)
-        print(validto)
+        # print(validfrom)
+        # print(now)
+        # print(validto)
         if validfrom <= now <= validto:
             return True
         else:
