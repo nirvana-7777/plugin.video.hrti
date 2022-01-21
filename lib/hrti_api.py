@@ -100,12 +100,24 @@ class HRTiAPI:
             self.plugin.set_setting('geoblocked', str(geoblocked))
             self.plugin.set_setting('videostoreenabled', str(videostoreenabled))
             self.plugin.set_setting('pvrhours', str(pvrhours))
-            validfrom = self.plugin.get_date_from_epoch(tokenvalidfrom)
-            validto = self.plugin.get_date_from_epoch(tokenvalidto)
+            validfrom = self.plugin.get_datetime_from_epoch(tokenvalidfrom)
+            validto = self.plugin.get_datetime_from_epoch(tokenvalidto)
             self.plugin.set_setting('validfrom', str(validfrom))
             self.plugin.set_setting('validto', str(validto))
             xbmc.log("hrti grant access: " + str(result), level=xbmc.LOGDEBUG)
         return result
+
+    def is_token_valid(self):
+        validfrom = self.plugin.get_setting('validfrom')
+        validto = self.plugin.get_setting('validto')
+        now = self.plugin.get_time_now()
+        # print(validfrom)
+        # print(now)
+        # print(validto)
+        if validfrom <= now <= validto:
+            return True
+        else:
+            return False
 
     def register_device(self):
 
@@ -151,6 +163,8 @@ class HRTiAPI:
         referer = "https://hrti.hrt.hr/signin"
         result = self.api_post(url, payload, referer)
         if result is None:
+            device_id = self.plugin.uniq_id()
+            plugin.set_setting("device_id", device_id)
             self.register_device()
         return result
 
@@ -339,6 +353,10 @@ class HRTiAPI:
         })
         referer = "https://hrti.hrt.hr/"
         result = self.api_post(url, payload, referer)
+        self.plugin.set_setting('token', '')
+        self.plugin.set_setting('validfrom', '')
+        self.plugin.set_setting('validto', '')
+        self.plugin.set_setting('device_id', '')
         return result
 
     def get_license(self):
