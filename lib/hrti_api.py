@@ -163,6 +163,8 @@ class HRTiAPI:
         referer = "https://hrti.hrt.hr/signin"
         result = self.api_post(url, payload, referer)
         if result is None:
+            device_id = self.plugin.uniq_id()
+            plugin.set_setting("device_id", device_id)
             self.register_device()
         return result
 
