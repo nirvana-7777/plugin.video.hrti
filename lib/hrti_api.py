@@ -351,6 +351,10 @@ class HRTiAPI:
         })
         referer = "https://hrti.hrt.hr/"
         result = self.api_post(url, payload, referer)
+        self.plugin.set_setting('token', '')
+        self.plugin.set_setting('validfrom', '')
+        self.plugin.set_setting('validto', '')
+        self.plugin.set_setting('device_id', '')
         return result
 
     def get_license(self):
