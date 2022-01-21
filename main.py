@@ -29,8 +29,8 @@ username = plugin.get_setting("username")
 password = plugin.get_setting("password")
 token = plugin.get_setting("token")
 userid = plugin.get_setting("customerid")
-if api.is_token_valid():
-    print('isvalid')
+# if api.is_token_valid():
+#     print('isvalid')
 if token == '' or token == 'lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8kmqwKNSUc8Gw' or userid == "":
     login_result = api.grant_access(username, password)
     if login_result is None:
