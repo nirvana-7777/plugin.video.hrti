@@ -19,6 +19,9 @@
         <news>
              - Delete Token, DeviceID on logout
         </news>
+        <news lang="hr_HR">
+             - Obriši Token i ID uređaja pri odjavi
+        </news>
         <assets>
             <icon>resources/icon.png</icon>
             <fanart>resources/fanart.jpg</fanart>
@@ -27,16 +30,33 @@
             <screenshot>resources/media/screenshot-03.jpg</screenshot>
             <screenshot>resources/media/screenshot-04.jpg</screenshot>
         </assets>
-        <summary lang="de_DE">Kroatisches Fernsehen HRT: TV, Radio, Videostore, Auditorium
+        <summary lang="de_DE">Kroatisches Radio Fernsehen HRT: TV, Radio, Videostore, Auditorium
         </summary>
         <description lang="de_DE">
         </description>
         <disclaimer lang="de_DE">Inoffizielles Addon - Benutzung auf eigene Gefahr</disclaimer>
-        <summary lang="gb_GB">Croatian Television HRT: TV, Radio, Videostore, Auditorium
+        <summary lang="gb_GB">HRTi platform of Croatian Radio Television
         </summary>
         <description lang="gb_GB">
+                    Addon for HRTi platform which allows you to watching
+                    live HRT TV channels, listening HRT radio stations,
+                    watching videostore which contains TV Shows,
+                    documentary movies and series, movies and series,
+                    radiostore for listening HRT radio shows and
+                    program guide for radio and TV programs.
         </description>
-        <disclaimer lang="de_DE">Inofficial Addon - Use on own risk</disclaimer>
+        <disclaimer lang="gb_GB">Unofficial Addon - Use on own risk</disclaimer>
+        <summary lang="hr_HR"> HRTi platforma Hrvatske Radio Televizije
+        </summary>
+        <description lang="hr_HR">
+                    Dodatak za HRTi platformu koja omogućuje gledanje
+                    HRT programa uživo, slušanje HRT radijskih programa,
+                    gledanja videoteke koja sadrži emisije, dokumentarne
+                    i igrane filmove i serije, slušaonicu za preslušavanje
+                    emisija HRT radija i programski vodič za
+                    radijske i TV programe.
+        </description>
+        <disclaimer lang="hr_HR">Neslužbeni dodatak - Koristite na vlastitu odgovornost</disclaimer>
         <platform>all</platform>
         <license>GNU GENERAL PUBLIC LICENSE. Version 3, 29 June 2007</license>
         <website>https://www.hrti.hrt.hr</website>
