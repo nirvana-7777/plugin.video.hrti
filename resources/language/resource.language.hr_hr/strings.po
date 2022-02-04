@@ -1,0 +1,123 @@
+# Kodi Media Center language file
+# Addon Name: HRTi
+# Addon id: plugin.video.hrti
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: hr_HR\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n""Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: gogo <trebelnik2@gmail.com>\n"
+"Language-Team: \n"
+"X-Generator: Poedit 2.3\n"
+
+msgctxt "#30000"
+msgid "Username / Password"
+msgstr "Korisničko ime / Lozinka"
+
+msgctxt "#30002"
+msgid "Sign Out"
+msgstr "Odjava"
+
+msgctxt "#30003"
+msgid "Username"
+msgstr "Korisničko ime"
+
+msgctxt "#30004"
+msgid "Password"
+msgstr "Lozinka"
+
+msgctxt "#30010"
+msgid "View Account Details"
+msgstr "Pojedinosti računa"
+
+msgctxt "#30011"
+msgid "Customer ID"
+msgstr "ID korisnika"
+
+msgctxt "#30012"
+msgid "Email"
+msgstr "E-pošta"
+
+msgctxt "#30013"
+msgid "First Name"
+msgstr "Ime"
+
+msgctxt "#30014"
+msgid "Last Name"
+msgstr "Prezime"
+
+msgctxt "#30015"
+msgid "Language"
+msgstr "Jezik"
+
+msgctxt "#30016"
+msgid "Geoblocking Enabled"
+msgstr "Geoblokiranje omogućeno"
+
+msgctxt "#30017"
+msgid "Videostore Enabled"
+msgstr "Videoteka omogućena"
+
+msgctxt "#30018"
+msgid "Hours on NPVR"
+msgstr "Sati na NPVR"
+
+msgctxt "#30019"
+msgid "Session valid from:"
+msgstr "Valjanost sesije od:"
+
+msgctxt "#30009"
+msgid "Session valid to:"
+msgstr "Valjanost sesije do:"
+
+msgctxt "#30020"
+msgid "EPG Settings"
+msgstr "EPG postavke"
+
+msgctxt "#30021"
+msgid "Hours of EPG before now"
+msgstr "Sati EPG-a prije trenutnog emitiranja"
+
+msgctxt "#30022"
+msgid "Hours of EPG after now"
+msgstr "Sati EPG-a poslije trenutnog emitiranja"
+
+msgctxt "#30030"
+msgid "TV Channels"
+msgstr "TV programi"
+
+msgctxt "#30031"
+msgid "Radio Channels"
+msgstr "Radio programi"
+
+msgctxt "#30032"
+msgid "Programme Guide"
+msgstr "Programski vodič"
+
+msgctxt "#30040"
+msgid "Devices"
+msgstr "Uređaji"
+
+msgctxt "#30041"
+msgid "Device Reference ID"
+msgstr "ID uređaja"
+
+msgctxt "#30042"
+msgid "Connection Type"
+msgstr "Vrsta povezivanja"
+
+msgctxt "#30043"
+msgid "Application Version"
+msgstr "Inačica aplikacije"
+
+msgctxt "#30044"
+msgid "OS Version"
+msgstr "Operativni sustav"
+
+msgctxt "#30045"
+msgid "Client Type"
+msgstr "Vrsta klijenta"
