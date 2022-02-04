@@ -8,6 +8,7 @@ Any trademarks used belong to their owning companies & organisations.
  * valid free HRTi account (https://www.https://hrti.hrt.hr)
  * Croatian IP-address to access geo-blocked content
  * script.module.inputstreamhelper (http://mirrors.kodi.tv/addons/krypton/script.module.inputstreamhelper/)
+ * script.module.kodi-six (https://mirrors.kodi.tv/addons/matrix/script.module.kodi-six/script.module.kodi-six-0.1.3.1.zip)
 
 This add-on requires Kodi 18 or higher with InputStream Adaptive installed.
 
