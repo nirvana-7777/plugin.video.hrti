@@ -21,7 +21,8 @@
              - Version 0.9.1: Delete Token, DeviceID on logout
         </news>
         <news lang="hr_HR">
-             - Obriši Token i ID uređaja pri odjavi
+             - Inačica 0.9.2: Dodan hrvatski jezik / drugi popravci (Thx muzena!)
+             - Inačica 0.9.1: Obriši Token i ID uređaja pri odjavi
         </news>
         <assets>
             <icon>resources/icon.png</icon>
