@@ -10,10 +10,9 @@ import xbmc
 
 
 class HRTiAPI:
-    hrtiEnvUrl = "https://hrti.hrt.hr/assets/config/env.json"
-    hrtiConfUrl = "https://hrti.hrt.hr/assets/config/config.production.json"
-    hrtiBaseUrl = "https://hrti.hrt.hr/api/api/ott/"
-    hsapiBaseUrl = "https://hsapi.aviion.tv/client.svc/json/"
+    hrtiDomain = "https://hrti.hrt.hr"
+    hrtiEnvUrl = hrtiDomain + "/assets/config/env.json"
+    hrtiConfUrl = hrtiDomain + "/assets/config/config.production.json"
     session = requests.Session()
 
     def __init__(self, plugin):
@@ -27,6 +26,8 @@ class HRTiAPI:
         self.__device_reference_id = self.plugin.get_setting('devicereferenceid')
         self.__operator_reference_id = self.plugin.get_setting('operatorreferenceid')
         self.__merchant = self.plugin.get_setting('merchant')
+        self.hrtiBaseUrl = self.hrtiDomain + "/" + self.plugin.get_setting('webapiurl') + "/"
+        self.hsapiBaseUrl = self.plugin.get_setting('apiurl') + "/"
 
     def api_post(self, url, payload, referer):
 
@@ -38,14 +39,14 @@ class HRTiAPI:
         headers = {
             'connection': 'keep-alive',
             'deviceid': self.DEVICE_ID,
-            'operatorreferenceid': 'hrt',
+            'operatorreferenceid': self.__operator_reference_id,
             'authorization': 'Client ' + self.TOKEN,
             'ipaddress': str(self.__ip),
             'content-type': 'application/json',
             'accept': 'application/json, text/plain, */*',
             'user-agent': self.__user_agent,
             'devicetypeid': self.__device_reference_id,
-            'origin': 'https://hrti.hrt.hr',
+            'origin': self.hrtiDomain,
             'referer': referer,
             'accept-encoding': 'gzip, deflate, br',
             'accept-language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
@@ -101,10 +102,10 @@ class HRTiAPI:
         payload = json.dumps({
             "Username": username,
             "Password": password,
-            "OperatorReferenceId": "hrt"
+            "OperatorReferenceId": self.__operator_reference_id
         })
 
-        referer = "https://hrti.hrt.hr/signin"
+        referer = self.hrtiDomain + "/signin"
         result = self.api_post(url, payload, referer)
 
         if result is not None and username != 'anonymoushrt':
@@ -161,7 +162,7 @@ class HRTiAPI:
             "OsVersion": self.plugin.get_setting('osversion'),
             "ClientType": self.plugin.get_setting('clienttype')
         })
-        referer = "https://hrti.hrt.hr/"
+        referer = self.hrtiDomain + "/"
         result = self.api_post(url, payload, referer)
         return result
 
@@ -170,7 +171,7 @@ class HRTiAPI:
         url = self.hsapiBaseUrl + "ContentRatingsGet"
 
         payload = json.dumps({})
-        referer = "https://hrti.hrt.hr/"
+        referer = self.hrtiDomain + "/"
         result = self.api_post(url, payload, referer)
         return result
 
@@ -179,7 +180,7 @@ class HRTiAPI:
         url = self.hsapiBaseUrl + "ProfilesGet"
 
         payload = json.dumps({})
-        referer = "https://hrti.hrt.hr/"
+        referer = self.hrtiDomain + "/"
         result = self.api_post(url, payload, referer)
         return result
 
@@ -188,11 +189,11 @@ class HRTiAPI:
         url = self.hrtiBaseUrl + "GetChannels"
 
         payload = json.dumps({})
-        referer = "https://hrti.hrt.hr/signin"
+        referer = self.hrtiDomain + "/signin"
         result = self.api_post(url, payload, referer)
         if result is None:
             device_id = self.plugin.uniq_id()
-            plugin.set_setting("device_id", device_id)
+            self.plugin.set_setting("device_id", device_id)
             self.register_device()
         return result
 
@@ -201,7 +202,7 @@ class HRTiAPI:
         url = self.hrtiBaseUrl + "GetCatalogueStructure"
 
         payload = json.dumps({})
-        referer = "https://hrti.hrt.hr/videostore"
+        referer = self.hrtiDomain + "/videostore"
         result = self.api_post(url, payload, referer)
         return result
 
@@ -214,7 +215,7 @@ class HRTiAPI:
             "ItemsPerPage": max_number,
             "PageNumber": page,
         })
-        referer = "https://hrti.hrt.hr/videostore"
+        referer = self.hrtiDomain + "/videostore"
         result = self.api_post(url, payload, referer)
         return result
 
