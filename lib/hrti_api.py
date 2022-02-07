@@ -74,7 +74,7 @@ class HRTiAPI:
         r = self.session.get(url)
         if r is not None:
             env = r.json()
-            appversion = plugin.get_dict_value(env, 'applicationVersion')
+            appversion = self.plugin.get_dict_value(env, 'applicationVersion')
             print(appversion)
         return r.json()
 
