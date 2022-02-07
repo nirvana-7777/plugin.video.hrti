@@ -35,6 +35,7 @@
         <setting label="30044" type="text" id="osversion" default="Linux" enable="false"/>
         <setting label="30045" type="text" id="clienttype" default="Chrome 96" enable="false"/>
         <setting label="30046" type="text" id="operatorreferenceid" default="hrt" enable="false"/>
+        <setting label="30047" type="text" id="merchant" default="aviion2" enable="false"/>
     </category>
 
 </settings>

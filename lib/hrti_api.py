@@ -25,6 +25,8 @@ class HRTiAPI:
         self.DEVICE_ID = None
         self.TOKEN = ''
         self.__device_reference_id = self.plugin.get_setting('devicereferenceid')
+        self.__operator_reference_id = self.plugin.get_setting('operatorreferenceid')
+        self.__merchant = self.plugin.get_setting('merchant')
 
     def api_post(self, url, payload, referer):
 
@@ -81,6 +83,12 @@ class HRTiAPI:
     def get_conf(self):
         url = self.hrtiConfUrl
         r = self.session.get(url)
+        if r is not None:
+            conf = r.json()
+            operators = self.plugin.get_dict_value(conf, 'operators')
+            hrtop = operators[0]
+            merchant = self.plugin.get_dict_value(hrtop, 'playerMerchant')
+            print(merchant)
         return r.json()
 
     def grant_access(self, username, password):
@@ -377,7 +385,7 @@ class HRTiAPI:
 
     def get_license(self):
         # Prepare for drm keys
-        drm_license = {'userId': self.USERID, 'sessionId': self.__drmid, 'merchant': 'aviion2'}
+        drm_license = {'userId': self.USERID, 'sessionId': self.__drmid, 'merchant': self.__merchant}
         xbmc.log("DRM License: " + str(drm_license), level=xbmc.LOGDEBUG)
         try:
             license_str = base64.b64encode(json.dumps(drm_license))
