@@ -226,7 +226,7 @@ class HRTiAPI:
         payload = json.dumps({
             "ReferenceId": reference_id,
         })
-        referer = "https://hrti.hrt.hr/videostore"
+        referer = self.hrtiDomain + "/videostore"
         result = self.api_post(url, payload, referer)
         return result
 
@@ -239,7 +239,7 @@ class HRTiAPI:
             "StartTime": starttime,
             "EndTime": endtime
         })
-        referer = "https://hrti.hrt.hr/home"
+        referer = self.hrtiDomain + "/home"
         result = self.api_post(url, payload, referer)
         return result
 
@@ -251,7 +251,7 @@ class HRTiAPI:
             "ChannelReferenceId": channelid,
             "ReferenceId": referenceid,
         })
-        referer = "https://hrti.hrt.hr/live/programme"
+        referer = self.hrtiDomain + "/live/programme"
         result = self.api_post(url, payload, referer)
         return result
 
@@ -281,9 +281,9 @@ class HRTiAPI:
         })
         xbmc.log("Authorize Session: " + str(payload), level=xbmc.LOGDEBUG)
         if channelid is None:
-            referer = "https://hrti.hrt.hr/videostore"
+            referer = self.hrtiDomain + "/videostore"
         else:
-            referer = "https://hrti.hrt.hr/live/"
+            referer = self.hrtiDomain + "/live/"
             if contenttype == "tlive":
                 referer += "tv?channel=' + str(channelid)"
             else:
@@ -302,9 +302,9 @@ class HRTiAPI:
             "SessionId": sessionid
         })
         if channelid is None:
-            referer = "https://hrti.hrt.hr/videostore"
+            referer = self.hrtiDomain + "/videostore"
         else:
-            referer = "https://hrti.hrt.hr/live/"
+            referer = self.hrtiDomain + "/live/"
             referer += "tv?channel=' + str(channelid)"
         result = self.api_post(url, payload, referer)
         return result
@@ -316,7 +316,7 @@ class HRTiAPI:
         payload = json.dumps({
             "SeriesReferenceId": series_ref_id
         })
-        referer = "https://hrti.hrt.hr/videostore"
+        referer = self.hrtiDomain + "/videostore"
         result = self.api_post(url, payload, referer)
         return result
 
@@ -328,7 +328,7 @@ class HRTiAPI:
             "SeriesReferenceId": series_ref_id,
             "SeasonReferenceId": season_ref_id
         })
-        referer = "https://hrti.hrt.hr/videostore"
+        referer = self.hrtiDomain + "/videostore"
         result = self.api_post(url, payload, referer)
         return result
 
@@ -339,7 +339,7 @@ class HRTiAPI:
         payload = json.dumps({
             "ChannelReferenceId": channel_ref_id,
         })
-        referer = "https://hrti.hrt.hr/live/radio"
+        referer = self.hrtiDomain + "/live/radio"
         result = self.api_post(url, payload, referer)
         return result
 
@@ -349,7 +349,7 @@ class HRTiAPI:
 
         payload = json.dumps({
         })
-        referer = "https://hrti.hrt.hr/watch_later"
+        referer = self.hrtiDomain + "/watch_later"
         result = self.api_post(url, payload, referer)
         return result
 
@@ -359,7 +359,7 @@ class HRTiAPI:
 
         payload = json.dumps({
         })
-        referer = "https://hrti.hrt.hr/editors_choice"
+        referer = self.hrtiDomain + "/editors_choice"
         result = self.api_post(url, payload, referer)
         return result
 
@@ -380,7 +380,7 @@ class HRTiAPI:
         payload = json.dumps({
             "Serial": self.DEVICE_ID,
         })
-        referer = "https://hrti.hrt.hr/"
+        referer = self.hrtiDomain + "/"
         result = self.api_post(url, payload, referer)
         self.plugin.set_setting('token', '')
         self.plugin.set_setting('validfrom', '')
