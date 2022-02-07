@@ -33,6 +33,8 @@ userid = plugin.get_setting("customerid")
 #     print('isvalid')
 env = api.get_env()
 print(env)
+conf = api.get_conf()
+print(conf)
 if token == '' or token == 'lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8kmqwKNSUc8Gw' or userid == "":
     login_result = api.grant_access(username, password)
     if login_result is None:

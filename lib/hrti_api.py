@@ -11,6 +11,7 @@ import xbmc
 
 class HRTiAPI:
     hrtiEnvUrl = "https://hrti.hrt.hr/assets/config/env.json"
+    hrtiConfUrl = "https://hrti.hrt.hr/assets/config/config.production.json"
     hrtiBaseUrl = "https://hrti.hrt.hr/api/api/ott/"
     hsapiBaseUrl = "https://hsapi.aviion.tv/client.svc/json/"
     session = requests.Session()
@@ -70,6 +71,11 @@ class HRTiAPI:
 
     def get_env(self):
         url = self.hrtiEnvUrl
+        r = self.session.get(url)
+        return r.json()
+
+    def get_conf(self):
+        url = self.hrtiConfUrl
         r = self.session.get(url)
         return r.json()
 
