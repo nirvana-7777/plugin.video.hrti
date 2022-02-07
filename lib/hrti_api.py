@@ -72,6 +72,10 @@ class HRTiAPI:
     def get_env(self):
         url = self.hrtiEnvUrl
         r = self.session.get(url)
+        if r is not None:
+            env = r.json()
+            appversion = plugin.get_dict_value(env, 'applicationVersion')
+            print(appversion)
         return r.json()
 
     def get_conf(self):
