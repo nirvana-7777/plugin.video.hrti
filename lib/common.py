@@ -2,12 +2,12 @@
 
 from __future__ import unicode_literals
 
-import time
+# import time
 
-from kodi_six.utils import PY2, py2_encode, py2_decode
-from six.moves.urllib.parse import urlencode
+# from kodi_six.utils import PY2, py2_encode, py2_decode
+# from six.moves.urllib.parse import urlencode
 
-import _strptime
+# import _strptime
 
 from base64 import b64decode
 from calendar import timegm
@@ -26,10 +26,7 @@ import xbmcaddon
 import xbmcgui
 import xbmcvfs
 
-if PY2:
-    from xbmc import translatePath as xbmcvfs_translatePath
-else:
-    from xbmcvfs import translatePath as xbmcvfs_translatePath
+from xbmcvfs import translatePath as xbmcvfs_translatePath
 
 try:
     import StorageServer
@@ -56,15 +53,15 @@ class Common():
         self.max_bw = self.addon.getSetting('max_bw')
         self.kodi_version = int(xbmc.getInfoLabel('System.BuildVersion').split('.')[0])
 
-        self.railCache = StorageServer.StorageServer(py2_encode('{0}.rail').format(self.addon_id), 24 * 7)
+#        self.railCache = StorageServer.StorageServer(py2_encode('{0}.rail').format(self.addon_id), 24 * 7)
 
 
     def log(self, msg):
         xbmc.log(str(msg), xbmc.LOGDEBUG)
 
 
-    def build_url(self, query):
-        return self.addon_url + '?' + urlencode(query)
+#    def build_url(self, query):
+#        return self.addon_url + '?' + urlencode(query)
 
 
     def gui_language(self):
@@ -77,7 +74,7 @@ class Common():
 
 
     def get_datapath(self):
-        return py2_decode(xbmcvfs_translatePath(self.get_addon().getAddonInfo('profile')))
+        return xbmcvfs_translatePath(self.get_addon().getAddonInfo('profile'))
 
 
     def get_filepath(self, file_name):
@@ -121,7 +118,7 @@ class Common():
     def b64dec(self, data):
         missing_padding = len(data) % 4
         if missing_padding != 0:
-            data += py2_encode('=') * (4 - missing_padding)
+            data += '=' * (4 - missing_padding)
         return b64decode(data)
 
 
@@ -180,11 +177,11 @@ class Common():
 
         # hack response busy
         i = 0
-        while not py2_encode(':') in mac_addr and i < 3:
+        while not ':' in mac_addr and i < 3:
             i += 1
             sleep(1)
             mac_addr = xbmc.getInfoLabel('Network.MacAddress')
-        if py2_encode(':') in mac_addr:
+        if ':' in mac_addr:
             device_id = str(UUID(md5(mac_addr.encode("utf-8")).hexdigest()))
         elif self.get_setting('device_id'):
             device_id = self.get_setting('device_id')
