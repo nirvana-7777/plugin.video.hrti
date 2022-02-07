@@ -75,7 +75,7 @@ class HRTiAPI:
         if r is not None:
             env = r.json()
             appversion = self.plugin.get_dict_value(env, 'applicationVersion')
-            print(appversion)
+            self.plugin.get_setting('applicationversion', str(appversion))
         return r.json()
 
     def get_conf(self):
