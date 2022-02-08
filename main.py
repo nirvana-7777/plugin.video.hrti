@@ -29,12 +29,14 @@ username = plugin.get_setting("username")
 password = plugin.get_setting("password")
 token = plugin.get_setting("token")
 userid = plugin.get_setting("customerid")
-# if api.is_token_valid():
-#     print('isvalid')
-api.get_ip()
-conf = api.get_conf()
-if token == '' or token == 'lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8kmqwKNSUc8Gw' or userid == "":
+ip = plugin.get_setting("ip")
+if token == '' or \
+        token == 'lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8kmqwKNSUc8Gw' or \
+        userid == "" or \
+        ip == "":
+    api.get_ip()
     api.get_env()
+    api.get_conf()
     login_result = api.grant_access(username, password)
     if login_result is None:
         plugin.dialog_ok("Login has failed, check credentials! Using default credentials for this session")
@@ -45,6 +47,7 @@ if token == '' or token == 'lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8
 else:
     api.USERID = userid
     api.TOKEN = token
+    api.IP = ip
 device_id = plugin.get_setting("device_id")
 if device_id == "":
     device_id = plugin.uniq_id()

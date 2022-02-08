@@ -22,7 +22,7 @@ class HRTiAPI:
         self.__user_agent = 'kodi plugin for hrti.hrt.hr (python)'
         self.DEVICE_ID = None
         self.TOKEN = ''
-        self.__ip = None
+        self.IP = None
         self.__device_reference_id = self.plugin.get_setting('devicereferenceid')
         self.__operator_reference_id = self.plugin.get_setting('operatorreferenceid')
         self.__merchant = self.plugin.get_setting('merchant')
@@ -41,7 +41,7 @@ class HRTiAPI:
             'deviceid': self.DEVICE_ID,
             'operatorreferenceid': self.__operator_reference_id,
             'authorization': 'Client ' + self.TOKEN,
-            'ipaddress': str(self.__ip),
+            'ipaddress': str(self.IP),
             'content-type': 'application/json',
             'accept': 'application/json, text/plain, */*',
             'user-agent': self.__user_agent,
@@ -70,7 +70,8 @@ class HRTiAPI:
         url = self.hrtiBaseUrl+"getIPAddress"
         r = self.session.get(url)
         if r is not None:
-            self.__ip = r.json
+            self.IP = r.json()
+            self.plugin.set_setting('ip', self.IP)
         return r.json()
 
     def get_env(self):
@@ -156,7 +157,7 @@ class HRTiAPI:
         payload = json.dumps({
             "DeviceSerial": self.DEVICE_ID,
             "DeviceReferenceId": self.__device_reference_id,
-            "IpAddress": str(self.__ip),
+            "IpAddress": str(self.IP),
             "ConnectionType": self.plugin.get_setting('connectiontype'),
             "ApplicationVersion": self.plugin.get_setting('applicationversion'),
             "DrmId":  self.DEVICE_ID,

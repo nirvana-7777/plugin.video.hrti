@@ -10,7 +10,7 @@
         <setting label="device_id" type="text" id="device_id" default="" visible="false"/>
         <setting label="viewer_id" type="text" id="viewer_id" default="" visible="false"/>
         <setting label="token" type="text" id="token" default="" visible="false"/>
-        <setting label="mpx" type="text" id="mpx" default="" visible="false"/>
+        <setting label="ip" type="text" id="ip" default="" visible="false"/>
     </category>
     <category label="30010">
         <setting label="30011" type="text" id="customerid" default="" enable="false"/>
@@ -34,10 +34,12 @@
         <setting label="30043" type="text" id="applicationversion" default="5.62.5" enable="false"/>
         <setting label="30044" type="text" id="osversion" default="Linux" enable="false"/>
         <setting label="30045" type="text" id="clienttype" default="Chrome 96" enable="false"/>
-        <setting label="30046" type="text" id="operatorreferenceid" default="hrt" enable="false"/>
-        <setting label="30047" type="text" id="merchant" default="aviion2" enable="false"/>
-        <setting label="30048" type="text" id="apiurl" default="https://hsapi.aviion.tv/client.svc/json" enable="false"/>
-        <setting label="30049" type="text" id="webapiurl" default="api/api/ott" enable="false"/>
+    </category>
+    <category label="30050">
+        <setting label="30051" type="text" id="operatorreferenceid" default="hrt" enable="false"/>
+        <setting label="30052" type="text" id="merchant" default="aviion2" enable="false"/>
+        <setting label="30053" type="text" id="apiurl" default="https://hsapi.aviion.tv/client.svc/json" enable="false"/>
+        <setting label="30054" type="text" id="webapiurl" default="api/api/ott" enable="false"/>
     </category>
 
 </settings>

@@ -119,18 +119,22 @@ msgctxt "#30045"
 msgid "Client Type"
 msgstr ""
 
-msgctxt "#30046"
+msgctxt "#30050"
+msgid "Configuration"
+msgstr ""
+
+msgctxt "#30051"
 msgid "Operator Reference ID"
 msgstr ""
 
-msgctxt "#30047"
+msgctxt "#30052"
 msgid "Player Merchant"
 msgstr ""
 
-msgctxt "#30048"
+msgctxt "#30053"
 msgid "API URL"
 msgstr ""
 
-msgctxt "#30049"
+msgctxt "#30054"
 msgid "WebAPI URL"
 msgstr ""
