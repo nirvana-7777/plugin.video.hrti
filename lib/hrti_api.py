@@ -66,7 +66,7 @@ class HRTiAPI:
                                   url + " did not respond 200 OK or JSON but "+str(response.status_code))
         return result
 
-    @staticmethod
+    # @staticmethod
     def get_ip(self):
         url = self.hrtiBaseUrl+"getIPAddress"
         r = self.session.get(url)
