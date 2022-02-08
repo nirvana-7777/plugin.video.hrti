@@ -99,3 +99,47 @@ msgstr "Radio Sender"
 msgctxt "#30032"
 msgid "Programme Guide"
 msgstr "Programmführer"
+
+msgctxt "#30040"
+msgid "Devices"
+msgstr "Geräte"
+
+msgctxt "#30041"
+msgid "Device Reference ID"
+msgstr "Geräte Referenz ID"
+
+msgctxt "#30042"
+msgid "Connection Type"
+msgstr "Verbindungstyp"
+
+msgctxt "#30043"
+msgid "Application Version"
+msgstr "Applikationsversion"
+
+msgctxt "#30044"
+msgid "OS Version"
+msgstr "Betriebssystemversion"
+
+msgctxt "#30045"
+msgid "Client Type"
+msgstr "Clienttyp"
+
+msgctxt "#30050"
+msgid "Configuration"
+msgstr "Konfiguration"
+
+msgctxt "#30051"
+msgid "Operator Reference ID"
+msgstr "Operator Referenz ID"
+
+msgctxt "#30052"
+msgid "Player Merchant"
+msgstr "Player Merchant"
+
+msgctxt "#30053"
+msgid "API URL"
+msgstr "API URL"
+
+msgctxt "#30054"
+msgid "WebAPI URL"
+msgstr "WebAPI URL"
