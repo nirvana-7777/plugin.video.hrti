@@ -87,13 +87,13 @@ class HRTiAPI:
         if r is not None:
             conf = r.json()
             apiurl = self.plugin.get_dict_value(conf, 'apiUrl')
-            print(apiurl)
+            self.plugin.set_setting('apiurl', str(apiurl))
             webapi = self.plugin.get_dict_value(conf, 'webApiUrl')
-            print(webapi)
+            self.plugin.set_setting('webapiurl', str(webapi))
             operators = self.plugin.get_dict_value(conf, 'operators')
             hrtop = operators[0]
             merchant = self.plugin.get_dict_value(hrtop, 'playerMerchant')
-            print(merchant)
+            self.plugin.set_setting('merchant', str(merchant))
         return r.json()
 
     def grant_access(self, username, password):
