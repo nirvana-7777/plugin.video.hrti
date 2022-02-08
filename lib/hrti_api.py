@@ -96,6 +96,8 @@ class HRTiAPI:
             hrtop = operators[0]
             merchant = self.plugin.get_dict_value(hrtop, 'playerMerchant')
             self.plugin.set_setting('merchant', str(merchant))
+            selfcare = self.plugin.get_dict_value(hrtop, 'selfcareUrl')
+            self.plugin.set_setting('selfcareurl', str(selfcare))
         return r.json()
 
     def grant_access(self, username, password):

@@ -138,3 +138,7 @@ msgstr ""
 msgctxt "#30054"
 msgid "WebAPI URL"
 msgstr ""
+
+msgctxt "#30055"
+msgid "Selfcare URL"
+msgstr ""

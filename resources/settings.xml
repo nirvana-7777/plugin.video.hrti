@@ -40,6 +40,7 @@
         <setting label="30052" type="text" id="merchant" default="aviion2" enable="false"/>
         <setting label="30053" type="text" id="apiurl" default="https://hsapi.aviion.tv/client.svc/json" enable="false"/>
         <setting label="30054" type="text" id="webapiurl" default="api/api/ott" enable="false"/>
+        <setting label="30055" type="text" id="selfcareurl" default="https://hrti-selfcare.hrt.hr" enable="false"/>
     </category>
 
 </settings>
