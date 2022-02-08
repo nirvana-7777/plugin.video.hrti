@@ -31,6 +31,7 @@ token = plugin.get_setting("token")
 userid = plugin.get_setting("customerid")
 # if api.is_token_valid():
 #     print('isvalid')
+api.get_ip()
 conf = api.get_conf()
 if token == '' or token == 'lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8kmqwKNSUc8Gw' or userid == "":
     api.get_env()

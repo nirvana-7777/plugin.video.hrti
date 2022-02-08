@@ -18,11 +18,11 @@ class HRTiAPI:
     def __init__(self, plugin):
         self.plugin = plugin
         self.USERID = None
-        self.__ip = self.get_ip(self)
         self.__drmid = None
         self.__user_agent = 'kodi plugin for hrti.hrt.hr (python)'
         self.DEVICE_ID = None
         self.TOKEN = ''
+        self.__ip = None
         self.__device_reference_id = self.plugin.get_setting('devicereferenceid')
         self.__operator_reference_id = self.plugin.get_setting('operatorreferenceid')
         self.__merchant = self.plugin.get_setting('merchant')
@@ -66,10 +66,11 @@ class HRTiAPI:
                                   url + " did not respond 200 OK or JSON but "+str(response.status_code))
         return result
 
-    # @staticmethod
     def get_ip(self):
         url = self.hrtiBaseUrl+"getIPAddress"
         r = self.session.get(url)
+        if r is not None:
+            self.__ip = r.json
         return r.json()
 
     def get_env(self):
