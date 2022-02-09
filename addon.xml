@@ -19,7 +19,7 @@
             - Version 0.9.2: Added croatian language / fix others (Thx muzena!)
             - Version 0.9.1: Delete Token, DeviceID on logout
         </news>
-        <news lang="hr_HR">- Inačica 0.9.2: Dodan hrvatski jezik i drugi popravci (Thx muzena!)[CR]- Inačica 0.9.1: Obriši Token i ID uređaja pri odjavi
+        <news lang="hr_HR">- Inačica 0.9.2: Dodan hrvatski jezik i drugi popravci (Thx muzena!)[CR]- Inačica 0.9.1: Obriši Token i ID uređaja pri odjavi[CR]- Inačica 0.9.3: Uklonjene zavisnosti i sada se koristi HRT-ov env i conf
         </news>
         <assets>
             <icon>resources/icon.png</icon>
