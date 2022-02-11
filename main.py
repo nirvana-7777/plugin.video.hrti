@@ -338,9 +338,9 @@ def list_epg(channel):
     while count >= 0:
         xbmc.executeJSONRPC('{"jsonrpc":"2.0","method":"Input.Down","id":1}')
         count -= 1
-    li = xbmcgui.ListItem()
+    # li = xbmcgui.ListItem()
     dialog = xbmcgui.Dialog()
-    dialog.info(li)
+    dialog.info(list_item)
 
 
 def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
