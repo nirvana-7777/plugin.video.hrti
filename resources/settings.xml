@@ -10,7 +10,7 @@
         <setting label="device_id" type="text" id="device_id" default="" visible="false"/>
         <setting label="viewer_id" type="text" id="viewer_id" default="" visible="false"/>
         <setting label="token" type="text" id="token" default="" visible="false"/>
-        <setting label="ip" type="text" id="ip" default="" visible="false"/>
+        <setting label="ip" type="ipaddress" id="ip" default="" visible="false"/>
     </category>
     <category label="30010">
         <setting label="30011" type="text" id="customerid" default="" enable="false"/>
@@ -25,7 +25,7 @@
         <setting label="30009" type="text" id="validto" default="" enable="false"/>
     </category>
     <category label="30020">
-        <setting label="30021" type="number" id="epgbefore" default="2" enable="true"/>
+        <setting label="30021" type="slider" id="epgbefore" default="24" range="0,72" option="int" enable="true"/>
         <setting label="30022" type="number" id="epgafter" default="48" enable="true"/>
     </category>
     <category label="30040">
