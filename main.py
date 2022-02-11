@@ -335,7 +335,7 @@ def list_epg(channel):
             # Add our item to the Kodi virtual folder listing.
             xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     xbmcplugin.endOfDirectory(_HANDLE)
-    while count > 0:
+    while count >= 0:
         xbmc.executeJSONRPC('{"jsonrpc":"2.0","method":"Input.Down","id":1}')
         count -= 1
 
