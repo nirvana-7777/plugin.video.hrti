@@ -18,7 +18,7 @@ Most Android devices have built-in support for Widevine DRM and don't require an
 
 ## Repository
 In order to receive automatic updates you can install following repository:
-https://repo.kodinerds.net/addons/repository.kodinerds/repository.kodinerds-7.0.1.1.zip
+https://repo.kodinerds.net/addons/repository.kodinerds/repository.kodinerds-7.0.1.2.zip
 
 ## Support
 Please report any issues or bug reports on the [GitHub Issues](https://github.com/nirvana-7777/plugin.video.hrti/issues) page. Remember to include a full, non-cut off Kodi debug log. See the [Kodi wiki page](http://kodi.wiki/view/Log_file/Advanced) for more detailed instructions on how to obtain the log file.
