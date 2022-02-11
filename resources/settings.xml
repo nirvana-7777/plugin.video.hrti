@@ -26,7 +26,7 @@
     </category>
     <category label="30020">
         <setting label="30021" type="slider" id="epgbefore" default="24" range="0,72" option="int" enable="true"/>
-        <setting label="30022" type="number" id="epgafter" default="48" enable="true"/>
+        <setting label="30022" type="slider" id="epgafter" default="48" range="0,48" option="int" enable="true"/>
     </category>
     <category label="30040">
         <setting label="30041" type="number" id="devicereferenceid" default="6" enable="false"/>
