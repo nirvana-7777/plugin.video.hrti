@@ -338,8 +338,8 @@ def list_epg(channel):
     while count >= 0:
         xbmc.executeJSONRPC('{"jsonrpc":"2.0","method":"Input.Down","id":1}')
         count -= 1
-    li = xbmcgui.ListItem
-    dialog = xbmcgui.Dialog(li)
+    li = xbmcgui.ListItem()
+    dialog = xbmcgui.Dialog()
     dialog.info(li)
 
 
