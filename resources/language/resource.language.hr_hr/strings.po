@@ -82,11 +82,11 @@ msgstr "EPG postavke"
 
 msgctxt "#30021"
 msgid "Hours of EPG before now"
-msgstr "Sati EPG-a prije trenutnog emitiranja"
+msgstr "EPG u satima prije trenutnog emitiranja uživo"
 
 msgctxt "#30022"
 msgid "Hours of EPG after now"
-msgstr "Sati EPG-a poslije trenutnog emitiranja"
+msgstr "EPG u satima poslije trenutnog emitiranja uživo"
 
 msgctxt "#30030"
 msgid "TV Channels"
