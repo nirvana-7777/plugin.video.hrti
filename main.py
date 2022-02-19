@@ -304,7 +304,6 @@ def list_epg(channel):
     end = "/Date(" + str(plugin.get_time_offset(epg_after)) + ")/"
     programmes = api.get_programme(channelids, start, end)
     xbmcplugin.setContent(_HANDLE, 'images')
-    count = 0
     if programmes is not None:
         programme = programmes[0]
         epglist = plugin.get_dict_value(programme, 'EpgList')
@@ -316,7 +315,6 @@ def list_epg(channel):
             event_is_finished = timenow > plugin.get_datetime_from_epoch(plugin.get_dict_value(item, 'TimeEnd'))
             if event_is_finished:
                 entry = '[COLOR green]' + entry + '[/COLOR]'
-                count += 1
             list_item = xbmcgui.ListItem(label=entry)
             list_item.setArt({'thumb': plugin.get_dict_value(item, 'ImagePath'),
                               'icon': plugin.get_dict_value(programme, 'Icon'),
@@ -335,9 +333,6 @@ def list_epg(channel):
             # Add our item to the Kodi virtual folder listing.
             xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     xbmcplugin.endOfDirectory(_HANDLE)
-    while count >= 0:
-        xbmc.executeJSONRPC('{"jsonrpc":"2.0","method":"Input.Down","id":1}')
-        count -= 1
     # li = xbmcgui.ListItem()
     dialog = xbmcgui.Dialog()
     dialog.info(list_item)
