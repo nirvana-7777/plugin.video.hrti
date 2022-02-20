@@ -458,6 +458,8 @@ def play_video(path, epg_ref_id):
                             content_type = "tlive"
                         list_item = xbmcgui.ListItem(path=url)
                         list_item.setInfo('video', metadata)
+                        list_item.setArt({'thumb': plugin.get_dict_value(event, 'ImagePath'),
+                                          'fanart': plugin.get_dict_value(event, 'ImagePath')})
                         dialog = xbmcgui.Dialog()
                         dialog.info(list_item)
 
