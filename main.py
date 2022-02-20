@@ -333,9 +333,6 @@ def list_epg(channel):
             # Add our item to the Kodi virtual folder listing.
             xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     xbmcplugin.endOfDirectory(_HANDLE)
-    # li = xbmcgui.ListItem()
-    dialog = xbmcgui.Dialog()
-    dialog.info(list_item)
 
 
 def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
@@ -449,6 +446,8 @@ def play_video(path, epg_ref_id):
                 refid = plugin.get_dict_value(channel, 'ReferenceID')
                 if path == refid:
                     event = api.get_epg_details(refid, epg_ref_id)
+                    metadata = {'plot': plugin.get_dict_value(event, 'DescriptionLong'),
+                                'plotoutline': plugin.get_dict_value(event, 'DescriptionShort')}
                     print(event)
                     timeend = plugin.get_datetime_from_epoch(plugin.get_dict_value(event, 'TimeEnd'))
                     if plugin.get_datetime_now() < timeend:
@@ -464,9 +463,14 @@ def play_video(path, epg_ref_id):
                             content_type = "thepg"
                         else:
                             content_type = "thepg"
-                        authorize_and_play(url, content_type, epg_ref_id, None, refid,
-                                           epg_ref_id, plugin.get_dict_value(event, 'TimeStart'),
-                                           plugin.get_dict_value(event, 'TimeEnd'))
+                        list_item = xbmcgui.ListItem(path=url)
+                        list_item.setInfo('video', metadata)
+                        dialog = xbmcgui.Dialog()
+                        dialog.info(list_item)
+
+            #                        authorize_and_play(url, content_type, epg_ref_id, None, refid,
+#                                           epg_ref_id, plugin.get_dict_value(event, 'TimeStart'),
+#                                           plugin.get_dict_value(event, 'TimeEnd'))
             else:
                 if path == plugin.get_dict_value(channel, 'StreamingURL'):
                     refid = plugin.get_dict_value(channel, 'ReferenceID')
