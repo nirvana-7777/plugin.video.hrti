@@ -451,7 +451,11 @@ def play_video(path, epg_ref_id):
                     print(event)
                     timeend = plugin.get_datetime_from_epoch(plugin.get_dict_value(event, 'TimeEnd'))
                     if plugin.get_datetime_now() < timeend:
-                        url = plugin.get_dict_value(channel, 'StreamingUrl')
+                        timestart = plugin.get_datetime_from_epoch(plugin.get_dict_value(event, 'TimeStart'))
+                        if timestart < plugin.get_datetime_now():
+                            url = plugin.get_dict_value(event, 'FileNameStartOver')
+                        else:
+                            url = plugin.get_dict_value(channel, 'StreamingUrl')
                         if plugin.get_dict_value(channel, 'Radio'):
                             content_type = "rlive"
                         else:
@@ -460,10 +464,9 @@ def play_video(path, epg_ref_id):
                         list_item.setInfo('video', metadata)
                         list_item.setArt({'thumb': plugin.get_dict_value(event, 'ImagePath'),
                                           'fanart': plugin.get_dict_value(event, 'ImagePath')})
-                        dialog = xbmcgui.Dialog()
-                        dialog.info(list_item)
-
-#                        authorize_and_play(url, content_type, refid, None, refid, epg_ref_id, None, None)
+#                        dialog = xbmcgui.Dialog()
+#                        dialog.info(list_item)
+                        authorize_and_play(url, content_type, refid, None, refid, epg_ref_id, None, None)
                     else:
                         url = plugin.get_dict_value(event, 'FileName')
                         if plugin.get_dict_value(channel, 'Radio'):
