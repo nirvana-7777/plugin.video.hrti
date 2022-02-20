@@ -456,21 +456,21 @@ def play_video(path, epg_ref_id):
                             content_type = "rlive"
                         else:
                             content_type = "tlive"
-                        authorize_and_play(url, content_type, refid, None, refid, epg_ref_id, None, None)
+                        list_item = xbmcgui.ListItem(path=url)
+                        list_item.setInfo('video', metadata)
+                        dialog = xbmcgui.Dialog()
+                        dialog.info(list_item)
+
+#                        authorize_and_play(url, content_type, refid, None, refid, epg_ref_id, None, None)
                     else:
                         url = plugin.get_dict_value(event, 'FileName')
                         if plugin.get_dict_value(channel, 'Radio'):
                             content_type = "thepg"
                         else:
                             content_type = "thepg"
-                        list_item = xbmcgui.ListItem(path=url)
-                        list_item.setInfo('video', metadata)
-                        dialog = xbmcgui.Dialog()
-                        dialog.info(list_item)
-
-            #                        authorize_and_play(url, content_type, epg_ref_id, None, refid,
-#                                           epg_ref_id, plugin.get_dict_value(event, 'TimeStart'),
-#                                           plugin.get_dict_value(event, 'TimeEnd'))
+                        authorize_and_play(url, content_type, epg_ref_id, None, refid,
+                                           epg_ref_id, plugin.get_dict_value(event, 'TimeStart'),
+                                           plugin.get_dict_value(event, 'TimeEnd'))
             else:
                 if path == plugin.get_dict_value(channel, 'StreamingURL'):
                     refid = plugin.get_dict_value(channel, 'ReferenceID')
