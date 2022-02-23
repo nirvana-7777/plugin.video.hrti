@@ -461,6 +461,14 @@ def play_video(path, epg_ref_id):
                         else:
                             content_type = "tlive"
                         list_item = xbmcgui.ListItem(path=url)
+                        windowID = xbmcgui.getCurrentWindowId()
+                        print('windowID ' + str(windowID))
+                        controlID = xbmcgui.Window(windowID).getFocusId()
+                        print('controlID ' + str(controlID))
+                        control = xbmcgui.Window(windowID).getControl(controlID)
+                        print('control ' + str(control))
+                        listitem = control.getSelectedItem()
+                        print('listitem ' + listitem)
                         pos = xbmc.getInfoLabel('Container().CurrentItem')
                         print(pos)
                         list_item.setInfo('video', metadata)
