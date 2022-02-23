@@ -448,13 +448,13 @@ def play_video(path, epg_ref_id):
                     event = api.get_epg_details(refid, epg_ref_id)
                     metadata = {'plot': plugin.get_dict_value(event, 'DescriptionLong'),
                                 'plotoutline': plugin.get_dict_value(event, 'DescriptionShort')}
-                    print(event)
+#                    print(event)
                     timeend = plugin.get_datetime_from_epoch(plugin.get_dict_value(event, 'TimeEnd'))
                     if plugin.get_datetime_now() < timeend:
- #                       timestart = plugin.get_datetime_from_epoch(plugin.get_dict_value(event, 'TimeStart'))
- #                       if timestart < plugin.get_datetime_now():
- #                           url = plugin.get_dict_value(event, 'FileNameStartOver')
- #                       else:
+#                        timestart = plugin.get_datetime_from_epoch(plugin.get_dict_value(event, 'TimeStart'))
+#                        if timestart < plugin.get_datetime_now():
+#                            url = plugin.get_dict_value(event, 'FileNameStartOver')
+#                        else:
                         url = plugin.get_dict_value(channel, 'StreamingUrl')
                         if plugin.get_dict_value(channel, 'Radio'):
                             content_type = "rlive"
