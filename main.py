@@ -461,7 +461,7 @@ def play_video(path, epg_ref_id):
                         else:
                             content_type = "tlive"
                         list_item = xbmcgui.ListItem(path=url)
-                        pos = xbmc.getInfoLabel(Container().CurrentItem)
+                        pos = xbmc.getInfoLabel('Container().CurrentItem')
                         print(pos)
                         list_item.setInfo('video', metadata)
                         list_item.setArt({'thumb': plugin.get_dict_value(event, 'ImagePath'),
