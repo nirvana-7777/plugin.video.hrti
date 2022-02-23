@@ -358,7 +358,8 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
     if epg_ref_id is not None:
         epg_details = api.get_epg_details(channel_id, epg_ref_id)
         metadata = {'plot': plugin.get_dict_value(epg_details, 'DescriptionLong'),
-                    'plotoutline': plugin.get_dict_value(epg_details, 'DescriptionShort')}
+                    'plotoutline': plugin.get_dict_value(epg_details, 'DescriptionShort'),
+                    'duration': plugin.get_dict_value(epg_details, 'Duration')}
         list_item.setInfo('video', metadata)
         list_item.setArt({'thumb': plugin.get_dict_value(epg_details, 'ImagePath')})
 
