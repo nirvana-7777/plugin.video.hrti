@@ -451,31 +451,31 @@ def play_video(path, epg_ref_id):
                     print(event)
                     timeend = plugin.get_datetime_from_epoch(plugin.get_dict_value(event, 'TimeEnd'))
                     if plugin.get_datetime_now() < timeend:
-                        timestart = plugin.get_datetime_from_epoch(plugin.get_dict_value(event, 'TimeStart'))
-                        if timestart < plugin.get_datetime_now():
-                            url = plugin.get_dict_value(event, 'FileNameStartOver')
-                        else:
-                            url = plugin.get_dict_value(channel, 'StreamingUrl')
+ #                       timestart = plugin.get_datetime_from_epoch(plugin.get_dict_value(event, 'TimeStart'))
+ #                       if timestart < plugin.get_datetime_now():
+ #                           url = plugin.get_dict_value(event, 'FileNameStartOver')
+ #                       else:
+                        url = plugin.get_dict_value(channel, 'StreamingUrl')
                         if plugin.get_dict_value(channel, 'Radio'):
                             content_type = "rlive"
                         else:
                             content_type = "tlive"
                         list_item = xbmcgui.ListItem(path=url)
-                        if xbmc.getCondVisibility("Window.IsActive(busydialog)"):
-                            xbmc.executebuiltin("Dialog.Close(busydialog)")
-                            xbmc.sleep(500)
-                        windowID = xbmcgui.getCurrentWindowId()
-                        print('windowID ' + str(windowID))
-                        win = xbmcgui.Window(windowID)
-                        print('win ' + str(win))
-                        cid = win.getFocusId()
-                        print('cid ' + str(cid))
-                        ctrl = win.getControl(cid)
-                        print('ctrl ' + str(ctrl))
-                        listitem = ctrl.getSelectedItem()
-                        print('listitem ' + listitem)
-                        pos = xbmc.getInfoLabel('Container().CurrentItem')
-                        print(pos)
+#                        if xbmc.getCondVisibility("Window.IsActive(busydialog)"):
+#                            xbmc.executebuiltin("Dialog.Close(busydialog)")
+#                            xbmc.sleep(500)
+#                        windowID = xbmcgui.getCurrentWindowId()
+#                        print('windowID ' + str(windowID))
+#                        win = xbmcgui.Window(windowID)
+#                        print('win ' + str(win))
+#                        cid = win.getFocusId()
+#                        print('cid ' + str(cid))
+#                        ctrl = win.getControl(cid)
+#                        print('ctrl ' + str(ctrl))
+#                        listitem = ctrl.getSelectedItem()
+#                        print('listitem ' + listitem)
+#                        pos = xbmc.getInfoLabel('Container().CurrentItem')
+#                        print(pos)
                         list_item.setInfo('video', metadata)
                         list_item.setArt({'thumb': plugin.get_dict_value(event, 'ImagePath'),
                                           'fanart': plugin.get_dict_value(event, 'ImagePath')})
