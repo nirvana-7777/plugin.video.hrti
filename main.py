@@ -461,7 +461,7 @@ def play_video(path, epg_ref_id):
                         else:
                             content_type = "tlive"
                         list_item = xbmcgui.ListItem(path=url)
-                        if getCondVisibility("Window.IsActive(busydialog)"):
+                        if xbmc.getCondVisibility("Window.IsActive(busydialog)"):
                             xbmc.executebuiltin("Dialog.Close(busydialog)")
                             xbmc.sleep(500)
                         windowID = xbmcgui.getCurrentWindowId()
