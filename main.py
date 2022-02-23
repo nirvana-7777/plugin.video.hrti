@@ -469,7 +469,7 @@ def play_video(path, epg_ref_id):
                         win = xbmcgui.Window(windowID)
                         print('win ' + str(win))
                         cid = win.getFocusId()
-                        print'cid ' + str(cid))
+                        print('cid ' + str(cid))
                         ctrl = win.getControl(cid)
                         print('ctrl ' + str(ctrl))
                         listitem = ctrl.getSelectedItem()
