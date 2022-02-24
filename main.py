@@ -335,6 +335,13 @@ def list_epg(channel):
     xbmcplugin.endOfDirectory(_HANDLE)
 
 
+def get_category_text(cat_id):
+    categories = api.get_channel_categories()
+    for category in categories:
+        if plugin.get_dict_value(category, 'ReferenceID') == cat_id:
+            return plugin.get_dict_value(category, 'Name')
+    return ''
+
 def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
                        channel_id, epg_ref_id, starttime, endtime):
     parts = urlparse(filename)
@@ -357,9 +364,16 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
 
     if epg_ref_id is not None:
         epg_details = api.get_epg_details(channel_id, epg_ref_id)
+        category_reference = plugin.get_dict_value(epg_details, 'CategoryReferenceID')
+        if isinstance(category_reference, int):
+            category_text = get_category_text(category_reference)
+        else:
+            category_text = category_reference
+        print(category_text)
         metadata = {'plot': plugin.get_dict_value(epg_details, 'DescriptionLong'),
                     'plotoutline': plugin.get_dict_value(epg_details, 'DescriptionShort'),
-                    'duration': plugin.get_dict_value(epg_details, 'Duration')}
+                    'duration': plugin.get_dict_value(epg_details, 'Duration'),
+                    'genre': category_text}
         list_item.setInfo('video', metadata)
         list_item.setArt({'thumb': plugin.get_dict_value(epg_details, 'ImagePath')})
 

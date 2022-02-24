@@ -377,6 +377,16 @@ class HRTiAPI:
         result = self.api_post(url, payload, referer)
         return result
 
+    def get_channel_categories(self):
+
+        url = self.hrtiBaseUrl + "GetChannelCategories"
+
+        payload = json.dumps({
+        })
+        referer = self.hrtiDomain + "/live/programme"
+        result = self.api_post(url, payload, referer)
+        return result
+
     def logout(self):
 
         url = self.hsapiBaseUrl + "DeviceInstanceDelete"
