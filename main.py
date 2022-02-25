@@ -343,7 +343,7 @@ def list_epg(channel):
 
 
 def get_category_text(cat_id):
-    categories = cache.cacheFunction(api.get_channel_categories())
+    categories = cache.cacheFunction(api.get_channel_categories)
     for category in categories:
         if plugin.get_dict_value(category, 'ReferenceID') == str(cat_id):
             return plugin.get_dict_value(category, 'Name')
@@ -463,7 +463,7 @@ def play_video(path, epg_ref_id):
         else:
             api.register_device()
     else:
-        channels = cache.cacheFunction(api.get_channels())
+        channels = cache.cacheFunction(api.get_channels)
         for channel in channels:
             if parts.scheme == "":
                 refid = plugin.get_dict_value(channel, 'ReferenceID')
