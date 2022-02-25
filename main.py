@@ -146,7 +146,7 @@ def list_subcategories(path):
             xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
             count += 1
     if count == 0:
-        catalog = api.get_catalog(parent_category, 250, 1)
+        catalog = cache.cacheFunction(api.get_catalog, parent_category, 250, 1)
         # number = catalog['NumberOfItems'] TODO: handle more than 250 items
         for catalog_entry in catalog['Items']:
             title = plugin.get_dict_value(catalog_entry, 'Title')
@@ -249,7 +249,7 @@ def list_videos(category):
             channelids.append(plugin.get_dict_value(channel, 'ReferenceId'))
         start = "/Date(" + str(plugin.get_time_offset(-4)) + ")/"
         end = "/Date(" + str(plugin.get_time_offset(4)) + ")/"
-        programmes = api.get_programme(channelids, start, end)
+        programmes = cache.cacheFunction(api.get_programme, channelids, start, end)
         for channel in channels:
             if (plugin.get_dict_value(channel, 'Radio') and category == plugin.addon.getLocalizedString(30031)) \
                     or (not plugin.get_dict_value(channel, 'Radio') and category == plugin.addon.getLocalizedString(30030)):
@@ -309,7 +309,7 @@ def list_epg(channel):
     epg_after = int(plugin.get_setting("epgafter"))
     start = "/Date(" + str(plugin.get_time_offset(epg_before)) + ")/"
     end = "/Date(" + str(plugin.get_time_offset(epg_after)) + ")/"
-    programmes = api.get_programme(channelids, start, end)
+    programmes = cache.cacheFunction(api.get_programme, channelids, start, end)
     xbmcplugin.setContent(_HANDLE, 'images')
     if programmes is not None:
         programme = programmes[0]
@@ -402,7 +402,7 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
 
 
 def list_seasons(ref_id):
-    seasons = api.get_seasons(ref_id)
+    seasons = cache.cacheFunction(api.get_seasons, ref_id)
     xbmcplugin.setPluginCategory(_HANDLE, 'Seasons')
     xbmcplugin.setContent(_HANDLE, 'tvshows')
     for season in seasons:
@@ -425,7 +425,7 @@ def list_episodes(ref_id):
     sections = path_parse("/" + ref_id)
     series_id = sections[0]
     season_id = sections[1]
-    episodes = api.get_episodes(series_id, season_id)
+    episodes = cache.cacheFunction(api.get_episodes, series_id, season_id)
     for episode in episodes:
         list_item = xbmcgui.ListItem(label=plugin.get_dict_value(episode, 'Title'))
         list_item.setArt({'thumb': plugin.get_dict_value(episode, 'PosterLandscape'),
@@ -453,7 +453,7 @@ def play_video(path, epg_ref_id):
     """
     parts = urlparse(path)
     if epg_ref_id is None:
-        voddetails = api.get_vod_details(path)
+        voddetails = cache.cacheFunction(api.get_vod_details, path)
         filename = plugin.get_dict_value(voddetails, 'FileName')
         if filename is not None:
             content_type = plugin.get_dict_value(voddetails, 'Type')
