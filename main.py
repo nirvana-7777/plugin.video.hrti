@@ -242,7 +242,7 @@ def list_videos(category):
     xbmcplugin.setContent(_HANDLE, 'videos')
     # Get the list of videos in the category.
     # Iterate through videos.
-    channels = cache.cacheFunction(api.get_channels())
+    channels = cache.cacheFunction(api.get_channels)
     if channels is not None:
         channelids = []
         for channel in channels:
