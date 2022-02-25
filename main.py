@@ -338,6 +338,7 @@ def list_epg(channel):
 def get_category_text(cat_id):
     categories = api.get_channel_categories()
     for category in categories:
+        print(plugin.get_dict_value(category, 'ReferenceID'))
         if plugin.get_dict_value(category, 'ReferenceID') == str(cat_id):
             return plugin.get_dict_value(category, 'Name')
     return ''
