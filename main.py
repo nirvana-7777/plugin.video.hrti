@@ -338,9 +338,10 @@ def list_epg(channel):
 def get_category_text(cat_id):
     categories = api.get_channel_categories()
     for category in categories:
-        if plugin.get_dict_value(category, 'ReferenceID') == cat_id:
+        if plugin.get_dict_value(category, 'ReferenceID') == str(cat_id):
             return plugin.get_dict_value(category, 'Name')
     return ''
+
 
 def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
                        channel_id, epg_ref_id, starttime, endtime):
