@@ -337,9 +337,7 @@ def list_epg(channel):
 
 def get_category_text(cat_id):
     categories = api.get_channel_categories()
-    print(categories)
     for category in categories:
-        print(plugin.get_dict_value(category, 'ReferenceID'))
         if plugin.get_dict_value(category, 'ReferenceID') == str(cat_id):
             return plugin.get_dict_value(category, 'Name')
     return ''
@@ -373,7 +371,6 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
             category_text = get_category_text(category_reference)
         except ValueError:
             category_text = category_reference
-        print(category_text)
         metadata = {'plot': plugin.get_dict_value(epg_details, 'DescriptionLong'),
                     'plotoutline': plugin.get_dict_value(epg_details, 'DescriptionShort'),
                     'duration': plugin.get_dict_value(epg_details, 'Duration'),
