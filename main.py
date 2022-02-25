@@ -117,7 +117,7 @@ def get_children(node, wanted_subcategory):
 
 
 def list_subcategories(path):
-    current_node = api.get_catalog_structure()
+    current_node = cache.cacheFunction(api.get_catalog_structure)
     parent_category = ""
     if path is not None:
         sections = path_parse("/" + path)
@@ -371,7 +371,7 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
     list_item.setContentLookup(False)
 
     if epg_ref_id is not None:
-        epg_details = api.get_epg_details(channel_id, epg_ref_id)
+        epg_details = cache.cacheFunction(api.get_epg_details, channel_id, epg_ref_id)
         category_reference = plugin.get_dict_value(epg_details, 'CategoryReferenceID')
         try:
             int(category_reference)
@@ -468,7 +468,7 @@ def play_video(path, epg_ref_id):
             if parts.scheme == "":
                 refid = plugin.get_dict_value(channel, 'ReferenceID')
                 if path == refid:
-                    event = api.get_epg_details(refid, epg_ref_id)
+                    event = cache.cacheFunction(api.get_epg_details, refid, epg_ref_id)
                     metadata = {'plot': plugin.get_dict_value(event, 'DescriptionLong'),
                                 'plotoutline': plugin.get_dict_value(event, 'DescriptionShort')}
 #                    print(event)
