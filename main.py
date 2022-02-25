@@ -15,6 +15,12 @@ import posixpath
 from lib.hrti_api import HRTiAPI
 from lib.common import Common
 
+try:
+    import StorageServer
+except:
+    import storageserverdummy as StorageServer
+
+
 _HANDLE = int(sys.argv[1])
 _URL = sys.argv[0]
 
@@ -24,6 +30,7 @@ plugin = Common(
     addon_url=_URL
 )
 
+cache = StorageServer.StorageServer("HRTi", 24)
 api = HRTiAPI(plugin)
 username = plugin.get_setting("username")
 password = plugin.get_setting("password")
@@ -235,7 +242,7 @@ def list_videos(category):
     xbmcplugin.setContent(_HANDLE, 'videos')
     # Get the list of videos in the category.
     # Iterate through videos.
-    channels = api.get_channels()
+    channels = cache.cacheFunction(api.get_channels())
     if channels is not None:
         channelids = []
         for channel in channels:
@@ -336,7 +343,7 @@ def list_epg(channel):
 
 
 def get_category_text(cat_id):
-    categories = api.get_channel_categories()
+    categories = cache.cacheFunction(api.get_channel_categories())
     for category in categories:
         if plugin.get_dict_value(category, 'ReferenceID') == str(cat_id):
             return plugin.get_dict_value(category, 'Name')
@@ -456,7 +463,7 @@ def play_video(path, epg_ref_id):
         else:
             api.register_device()
     else:
-        channels = api.get_channels()
+        channels = cache.cacheFunction(api.get_channels())
         for channel in channels:
             if parts.scheme == "":
                 refid = plugin.get_dict_value(channel, 'ReferenceID')
