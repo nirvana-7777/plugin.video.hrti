@@ -368,10 +368,10 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
     if epg_ref_id is not None:
         epg_details = api.get_epg_details(channel_id, epg_ref_id)
         category_reference = plugin.get_dict_value(epg_details, 'CategoryReferenceID')
-        print(category_reference)
-        if isinstance(category_reference, int):
+        try:
+            int(category_reference)
             category_text = get_category_text(category_reference)
-        else:
+        except:
             category_text = category_reference
         print(category_text)
         metadata = {'plot': plugin.get_dict_value(epg_details, 'DescriptionLong'),
