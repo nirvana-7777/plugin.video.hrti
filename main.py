@@ -380,7 +380,7 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
             category_text = category_reference
         metadata = {'plot': plugin.get_dict_value(epg_details, 'DescriptionLong'),
                     'plotoutline': plugin.get_dict_value(epg_details, 'DescriptionShort'),
-                    'duration': plugin.get_dict_value(epg_details, 'Duration'),
+                    'duration': int(plugin.get_dict_value(epg_details, 'Duration')) * 60,
                     'genre': category_text}
         list_item.setInfo('video', metadata)
         list_item.setArt({'thumb': plugin.get_dict_value(epg_details, 'ImagePath')})
