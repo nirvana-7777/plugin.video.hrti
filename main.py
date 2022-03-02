@@ -437,7 +437,7 @@ def list_episodes(ref_id):
         list_item.setInfo('video', {'title': plugin.get_dict_value(episode, 'Title'),
                                     'season': plugin.get_dict_value(episode_data, 'SeasonNr'),
                                     'episode': plugin.get_dict_value(episode_data, 'EpisodeNr'),
-                                    'mpaa': "PG-" + plugin.get_dict_value(episode_data, 'EpisodeNr'),
+                                    'mpaa': "PG-" + str(plugin.get_dict_value(episode_data, 'Content Rating')),
                                     'mediatype': 'video'})
         list_item.setProperty('IsPlayable', 'true')
 
