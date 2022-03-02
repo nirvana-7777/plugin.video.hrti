@@ -423,7 +423,6 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
 
 def list_seasons(ref_id):
     seasons = cache.cacheFunction(api.get_seasons, ref_id)
-    print(seasons)
     xbmcplugin.setPluginCategory(_HANDLE, 'Seasons')
     xbmcplugin.setContent(_HANDLE, 'tvshows')
     for season in seasons:
@@ -447,7 +446,6 @@ def list_episodes(ref_id):
     series_id = sections[0]
     season_id = sections[1]
     episodes = cache.cacheFunction(api.get_episodes, series_id, season_id)
-    print(episodes)
     for episode in episodes:
         episode_data = plugin.get_dict_value(episode, 'EpisodeData')
         list_item = xbmcgui.ListItem(label=plugin.get_dict_value(episode, 'Title'))
