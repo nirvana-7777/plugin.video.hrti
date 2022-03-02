@@ -370,7 +370,7 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
     list_item.setMimeType('application/xml+dash')
     list_item.setContentLookup(False)
 
-    print(contenttype)
+    # print(contenttype)
     if contenttype == "episode" or contenttype == "vod":
         vod_details = cache.cacheFunction(api.get_vod_details, content_ref_id)
         actors = plugin.get_dict_value(vod_details, 'Actors')
