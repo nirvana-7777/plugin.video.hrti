@@ -448,7 +448,7 @@ def list_episodes(ref_id):
     season_id = sections[1]
     episodes = cache.cacheFunction(api.get_episodes, series_id, season_id)
     cm = []
-    cm.append('Episode details', 'XBMC.Action(Info)')
+    cm.append(('Episode details', 'XBMC.Action(Info)'))
     for episode in episodes:
         episode_data = plugin.get_dict_value(episode, 'EpisodeData')
         list_item = xbmcgui.ListItem(label=plugin.get_dict_value(episode, 'Title'))
