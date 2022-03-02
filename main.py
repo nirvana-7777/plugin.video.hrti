@@ -370,6 +370,8 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
     list_item.setMimeType('application/xml+dash')
     list_item.setContentLookup(False)
 
+    print(contenttype)
+    print(content_ref_id)
     if epg_ref_id is not None:
         epg_details = cache.cacheFunction(api.get_epg_details, channel_id, epg_ref_id)
         category_reference = plugin.get_dict_value(epg_details, 'CategoryReferenceID')
@@ -412,7 +414,7 @@ def list_seasons(ref_id):
                           'icon': plugin.get_dict_value(season, 'PosterLandscape'),
                           'fanart': plugin.get_dict_value(season, 'PosterPortrait')})
         list_item.setInfo('video', {'title': plugin.get_dict_value(season, 'Title'),
-                                    'genre': plugin.get_dict_value(season, 'Title'),
+                                    'genre': plugin.get_dict_value(season, 'VodCategoryNames'),
                                     'mediatype': 'video'})
         url = get_url(action='episodes', category=ref_id + '/' + plugin.get_dict_value(season, 'ReferenceId'))
         is_folder = True
