@@ -429,16 +429,19 @@ def list_episodes(ref_id):
     episodes = cache.cacheFunction(api.get_episodes, series_id, season_id)
     print(episodes)
     for episode in episodes:
+        episode_data = plugin.get_dict_value(episode, 'EpisodeData')
         list_item = xbmcgui.ListItem(label=plugin.get_dict_value(episode, 'Title'))
         list_item.setArt({'thumb': plugin.get_dict_value(episode, 'PosterLandscape'),
                           'icon': plugin.get_dict_value(episode, 'PosterLandscape'),
                           'fanart': plugin.get_dict_value(episode, 'PosterPortrait')})
         list_item.setInfo('video', {'title': plugin.get_dict_value(episode, 'Title'),
-                                    'genre': plugin.get_dict_value(episode, 'Title'),
+                                    'season': plugin.get_dict_value(episode_data, 'SeasonNr'),
+                                    'episode': plugin.get_dict_value(episode_data, 'EpisodeNr'),
+                                    'mpaa': "PG-" + plugin.get_dict_value(episode_data, 'EpisodeNr'),
                                     'mediatype': 'video'})
         list_item.setProperty('IsPlayable', 'true')
-        metadata = {'mediatype': 'video'}
-        list_item.setInfo('video', metadata)
+        # metadata = {'mediatype': 'video'}
+        # list_item.setInfo('video', metadata)
 
         url = get_url(action='play', video=plugin.get_dict_value(episode, 'ReferenceId'))
         is_folder = False
