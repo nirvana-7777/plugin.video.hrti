@@ -440,8 +440,6 @@ def list_episodes(ref_id):
                                     'mpaa': "PG-" + plugin.get_dict_value(episode_data, 'EpisodeNr'),
                                     'mediatype': 'video'})
         list_item.setProperty('IsPlayable', 'true')
-        # metadata = {'mediatype': 'video'}
-        # list_item.setInfo('video', metadata)
 
         url = get_url(action='play', video=plugin.get_dict_value(episode, 'ReferenceId'))
         is_folder = False
