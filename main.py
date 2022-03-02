@@ -376,7 +376,7 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
 
         metadata = {'plot': plugin.get_dict_value(vod_details, 'Description'),
                     'genre': plugin.get_dict_value(vod_details, 'AssetCategory'),
-                    'cast': plugin.get_dict_value(vod_details, 'Actors'),
+                    'cast': plugin.get_dict_value(vod_details, 'Actors').split(","),
                     'writer': plugin.get_dict_value(vod_details, 'Writers'),
                     'episode': plugin.get_dict_value(vod_details, 'EpisodeNr'),
                     'season': plugin.get_dict_value(vod_details, 'SeasonNr'),
