@@ -370,8 +370,11 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
     list_item.setMimeType('application/xml+dash')
     list_item.setContentLookup(False)
 
-    print(contenttype)
     print(content_ref_id)
+    if contenttype == "episode":
+        voddetails = cache.cacheFunction(api.get_vod_details, content_ref_id)
+        print(voddetails)
+
     if epg_ref_id is not None:
         epg_details = cache.cacheFunction(api.get_epg_details, channel_id, epg_ref_id)
         category_reference = plugin.get_dict_value(epg_details, 'CategoryReferenceID')
