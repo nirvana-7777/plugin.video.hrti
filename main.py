@@ -447,8 +447,6 @@ def list_episodes(ref_id):
     series_id = sections[0]
     season_id = sections[1]
     episodes = cache.cacheFunction(api.get_episodes, series_id, season_id)
-    cm = []
-    cm.append(('Episode details', 'XBMC.Action(Info)'))
     for episode in episodes:
         episode_data = plugin.get_dict_value(episode, 'EpisodeData')
         list_item = xbmcgui.ListItem(label=plugin.get_dict_value(episode, 'Title'))
@@ -461,9 +459,12 @@ def list_episodes(ref_id):
                                     'mpaa': "PG-" + str(plugin.get_dict_value(episode_data, 'Content Rating')),
                                     'mediatype': 'video'})
         list_item.setProperty('IsPlayable', 'true')
+        vid_ref = plugin.get_dict_value(episode, 'ReferenceId')
+        cm = []
+        cm.append(('Episode details', 'RunPlugin(plugin://plugin.video.hrti/?action=display&id='+str(vid_ref)+')'))
         list_item.addContextMenuItems(cm, replaceItems=False)
 
-        url = get_url(action='play', video=plugin.get_dict_value(episode, 'ReferenceId'))
+        url = get_url(action='play', video=vid_ref)
         is_folder = False
         xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     xbmcplugin.endOfDirectory(_HANDLE)
@@ -585,6 +586,8 @@ def router(paramstring):
             list_episodes(params['category'])
         elif params['action'] == 'EPG':
             list_epg(params['channel'])
+        elif params['action'] == 'display':
+            print('Info display: '+ str(params['id']))
         elif params['action'] == 'logout':
             api.logout()
         else:
