@@ -372,8 +372,21 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
 
     print(content_ref_id)
     if contenttype == "episode":
-        voddetails = cache.cacheFunction(api.get_vod_details, content_ref_id)
-        print(voddetails)
+        vod_details = cache.cacheFunction(api.get_vod_details, content_ref_id)
+
+        metadata = {'plot': plugin.get_dict_value(vod_details, 'Description'),
+                    'genre': plugin.get_dict_value(vod_details, 'AssetCategory'),
+                    'cast': plugin.get_dict_value(vod_details, 'Actors'),
+                    'writer': plugin.get_dict_value(vod_details, 'Writers'),
+                    'episode': plugin.get_dict_value(vod_details, 'EpisodeNr'),
+                    'season': plugin.get_dict_value(vod_details, 'SeasonNr'),
+                    'year': plugin.get_dict_value(vod_details, 'ProductionYear'),
+                    'rating': plugin.get_dict_value(vod_details, 'AssetRatingAverage'),
+                    'studio': plugin.get_dict_value(vod_details, 'Producers'),
+                    'country': plugin.get_dict_value(vod_details, 'ProductionCountries'),
+                    'duration': int(plugin.get_dict_value(vod_details, 'DurationInFrames')/1500),
+                    'mpaa': "PG-" + str(plugin.get_dict_value(episode_data, 'Content Rating'))}
+        list_item.setInfo('video', metadata)
 
     if epg_ref_id is not None:
         epg_details = cache.cacheFunction(api.get_epg_details, channel_id, epg_ref_id)
