@@ -385,7 +385,7 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
                     'studio': plugin.get_dict_value(vod_details, 'Producers'),
                     'country': plugin.get_dict_value(vod_details, 'ProductionCountries'),
                     'duration': int(plugin.get_dict_value(vod_details, 'DurationInFrames')/1500),
-                    'mpaa': "PG-" + str(plugin.get_dict_value(episode_data, 'Content Rating'))}
+                    'mpaa': "PG-" + str(plugin.get_dict_value(vod_details, 'Content Rating'))}
         list_item.setInfo('video', metadata)
 
     if epg_ref_id is not None:
