@@ -447,6 +447,8 @@ def list_episodes(ref_id):
     series_id = sections[0]
     season_id = sections[1]
     episodes = cache.cacheFunction(api.get_episodes, series_id, season_id)
+    cm = []
+    cm.append('Episode details', 'XBMC.Action(Info)')
     for episode in episodes:
         episode_data = plugin.get_dict_value(episode, 'EpisodeData')
         list_item = xbmcgui.ListItem(label=plugin.get_dict_value(episode, 'Title'))
@@ -459,7 +461,7 @@ def list_episodes(ref_id):
                                     'mpaa': "PG-" + str(plugin.get_dict_value(episode_data, 'Content Rating')),
                                     'mediatype': 'video'})
         list_item.setProperty('IsPlayable', 'true')
-        list_item.addContextMenuItems(['Episode details', 'RunPlugin(plugin://plugin.video.hrti/?action=details&id=0)'])
+        list_item.addContextMenuItems(cm, replaceItems=False)
 
         url = get_url(action='play', video=plugin.get_dict_value(episode, 'ReferenceId'))
         is_folder = False
