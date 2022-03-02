@@ -459,6 +459,7 @@ def list_episodes(ref_id):
                                     'mpaa': "PG-" + str(plugin.get_dict_value(episode_data, 'Content Rating')),
                                     'mediatype': 'video'})
         list_item.setProperty('IsPlayable', 'true')
+        list_item.addContextMenuItems(['Episode details', 'RunPlugin(plugin://plugin.video.hrti/?action=details&id=0)'])
 
         url = get_url(action='play', video=plugin.get_dict_value(episode, 'ReferenceId'))
         is_folder = False
