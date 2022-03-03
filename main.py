@@ -174,7 +174,7 @@ def list_subcategories(path):
                 vid_ref = plugin.get_dict_value(catalog_entry, 'ReferenceId')
                 url = get_url(action='play', video=vid_ref)
                 cm = [(plugin.addon.getLocalizedString(30033),
-                       'RunPlugin(plugin://plugin.video.hrti/?action=info&id=' + str(vid_ref) + ')')]
+                       'RunPlugin(plugin://plugin.video.hrti/?action=voddetails&id=' + str(vid_ref) + ')')]
                 list_item.addContextMenuItems(cm, replaceItems=False)
                 # Add the list item to a virtual Kodi folder.
                 # is_folder = False means that this item won't open any sub-list.
@@ -330,10 +330,12 @@ def list_epg(channel):
             list_item.setArt({'thumb': plugin.get_dict_value(item, 'ImagePath'),
                               'icon': plugin.get_dict_value(programme, 'Icon'),
                               'fanart': plugin.get_dict_value(item, 'ImagePath')})
-            url = get_url(action='play',
-                          video=str(channelids[0]),
-                          referenceid=plugin.get_dict_value(item, 'ReferenceId'))
+            epg_ref = plugin.get_dict_value(item, 'ReferenceId')
+            url = get_url(action='play', video=str(channelids[0]), referenceid=epg_ref)
             list_item.setProperty('IsPlayable', 'true')
+            cm = [(plugin.addon.getLocalizedString(30033),
+                   'RunPlugin(plugin://plugin.video.hrti/?action=epgdetails&id=' + str(epg_ref) + ')')]
+            list_item.addContextMenuItems(cm, replaceItems=False)
             if plugin.get_dict_value(programme, 'Radio'):
                 metadata = {'mediatype': 'audio'}
                 list_item.setInfo('music', metadata)
@@ -378,6 +380,10 @@ def get_metadata_vod(vod_details):
     return metadata
 
 
+def get_metadata_epg(epg_details):
+    metadata = {}
+    return metadata
+
 def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
                        channel_id, epg_ref_id, starttime, endtime):
     parts = urlparse(filename)
@@ -398,7 +404,6 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
     list_item.setMimeType('application/xml+dash')
     list_item.setContentLookup(False)
 
-    # print(contenttype)
     if contenttype == "episode" or contenttype == "vod":
         vod_details = cache.cacheFunction(api.get_vod_details, content_ref_id)
         metadata = get_metadata_vod(vod_details)
@@ -406,6 +411,7 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
 
     if epg_ref_id is not None:
         epg_details = cache.cacheFunction(api.get_epg_details, channel_id, epg_ref_id)
+        print(epg_details)
         category_reference = plugin.get_dict_value(epg_details, 'CategoryReferenceID')
         try:
             int(category_reference)
@@ -474,7 +480,7 @@ def list_episodes(ref_id):
         list_item.setProperty('IsPlayable', 'true')
         vid_ref = plugin.get_dict_value(episode, 'ReferenceId')
         cm = [(plugin.addon.getLocalizedString(30033),
-               'RunPlugin(plugin://plugin.video.hrti/?action=info&id=' + str(vid_ref) + ')')]
+               'RunPlugin(plugin://plugin.video.hrti/?action=voddetails&id=' + str(vid_ref) + ')')]
         list_item.addContextMenuItems(cm, replaceItems=False)
 
         url = get_url(action='play', video=vid_ref)
@@ -490,6 +496,17 @@ def display_info(ref_id):
     list_item.setInfo('video', metadata)
     list_item.setArt({'poster': plugin.get_dict_value(vod_details, 'PosterPortrait'),
                       'landscape': plugin.get_dict_value(vod_details, 'PosterLandscape')})
+    dialog = xbmcgui.Dialog()
+    dialog.info(list_item)
+
+
+def display_epg(ref_id):
+    epg_details = cache.cacheFunction(api.get_epg_details, ref_id)
+    metadata = get_metadata_epg(epg_details)
+    list_item = xbmcgui.ListItem(label=plugin.get_dict_value(epg_details, 'Title'))
+    list_item.setInfo('video', metadata)
+    list_item.setArt({'poster': plugin.get_dict_value(epg_details, 'PosterPortrait'),
+                      'landscape': plugin.get_dict_value(epg_details, 'PosterLandscape')})
     dialog = xbmcgui.Dialog()
     dialog.info(list_item)
 
@@ -588,8 +605,10 @@ def router(paramstring):
             list_episodes(params['category'])
         elif params['action'] == 'EPG':
             list_epg(params['channel'])
-        elif params['action'] == 'info':
+        elif params['action'] == 'voddetails':
             display_info(params['id'])
+        elif params['action'] == 'epgdetails':
+            display_epg(params['id'])
         elif params['action'] == 'logout':
             api.logout()
         else:
