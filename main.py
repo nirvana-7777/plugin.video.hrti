@@ -173,9 +173,9 @@ def list_subcategories(path):
                 list_item.setInfo('video', metadata)
                 vid_ref = plugin.get_dict_value(catalog_entry, 'ReferenceId')
                 url = get_url(action='play', video=vid_ref)
-                cm = []
-                cm.append((plugin.addon.getLocalizedString(30033),
-                           'RunPlugin(plugin://plugin.video.hrti/?action=info&id=' + str(vid_ref) + ')'))
+                cm = [(plugin.addon.getLocalizedString(30033),
+                       'RunPlugin(plugin://plugin.video.hrti/?action=info&id=' + str(vid_ref) + ')')]
+                list_item.addContextMenuItems(cm, replaceItems=False)
                 # Add the list item to a virtual Kodi folder.
                 # is_folder = False means that this item won't open any sub-list.
                 is_folder = False
@@ -353,6 +353,7 @@ def get_category_text(cat_id):
             return plugin.get_dict_value(category, 'Name')
     return ''
 
+
 def get_metadata_vod(vod_details):
     actors = plugin.get_dict_value(vod_details, 'Actors')
     if actors is None:
@@ -375,6 +376,7 @@ def get_metadata_vod(vod_details):
                 'duration': int(plugin.get_dict_value(vod_details, 'DurationInFrames') / 1500),
                 'mpaa': rating_str}
     return metadata
+
 
 def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
                        channel_id, epg_ref_id, starttime, endtime):
@@ -471,8 +473,8 @@ def list_episodes(ref_id):
                                     'mediatype': 'video'})
         list_item.setProperty('IsPlayable', 'true')
         vid_ref = plugin.get_dict_value(episode, 'ReferenceId')
-        cm = []
-        cm.append((plugin.addon.getLocalizedString(30033), 'RunPlugin(plugin://plugin.video.hrti/?action=info&id='+str(vid_ref)+')'))
+        cm = [(plugin.addon.getLocalizedString(30033),
+               'RunPlugin(plugin://plugin.video.hrti/?action=info&id=' + str(vid_ref) + ')')]
         list_item.addContextMenuItems(cm, replaceItems=False)
 
         url = get_url(action='play', video=vid_ref)
@@ -489,6 +491,7 @@ def display_info(ref_id):
     list_item.setArt({'poster': plugin.get_dict_value(vod_details, 'PosterPortrait')})
     dialog = xbmcgui.Dialog()
     dialog.info(list_item)
+
 
 def play_video(path, epg_ref_id):
     """
@@ -517,13 +520,8 @@ def play_video(path, epg_ref_id):
                     event = cache.cacheFunction(api.get_epg_details, refid, epg_ref_id)
                     metadata = {'plot': plugin.get_dict_value(event, 'DescriptionLong'),
                                 'plotoutline': plugin.get_dict_value(event, 'DescriptionShort')}
-#                    print(event)
                     timeend = plugin.get_datetime_from_epoch(plugin.get_dict_value(event, 'TimeEnd'))
                     if plugin.get_datetime_now() < timeend:
-#                        timestart = plugin.get_datetime_from_epoch(plugin.get_dict_value(event, 'TimeStart'))
-#                        if timestart < plugin.get_datetime_now():
-#                            url = plugin.get_dict_value(event, 'FileNameStartOver')
-#                        else:
                         url = plugin.get_dict_value(channel, 'StreamingUrl')
                         if plugin.get_dict_value(channel, 'Radio'):
                             content_type = "rlive"
