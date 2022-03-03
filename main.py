@@ -334,7 +334,8 @@ def list_epg(channel):
             url = get_url(action='play', video=str(channelids[0]), referenceid=epg_ref)
             list_item.setProperty('IsPlayable', 'true')
             cm = [(plugin.addon.getLocalizedString(30033),
-                   'RunPlugin(plugin://plugin.video.hrti/?action=epgdetails&id=' + str(epg_ref) + ')')]
+                   'RunPlugin(plugin://plugin.video.hrti/?action=epgdetails&channel=' +
+                   str(channelids[0]) + '&id=' + str(epg_ref) + ')')]
             list_item.addContextMenuItems(cm, replaceItems=False)
             if plugin.get_dict_value(programme, 'Radio'):
                 metadata = {'mediatype': 'audio'}
@@ -508,8 +509,8 @@ def display_info(ref_id):
     dialog.info(list_item)
 
 
-def display_epg(ref_id):
-    epg_details = cache.cacheFunction(api.get_epg_details, ref_id)
+def display_epg(channel_id, ref_id):
+    epg_details = cache.cacheFunction(api.get_epg_details, channel_id, ref_id)
     metadata = get_metadata_epg(epg_details)
     list_item = xbmcgui.ListItem(label=plugin.get_dict_value(epg_details, 'Title'))
     list_item.setInfo('video', metadata)
@@ -616,7 +617,7 @@ def router(paramstring):
         elif params['action'] == 'voddetails':
             display_info(params['id'])
         elif params['action'] == 'epgdetails':
-            display_epg(params['id'])
+            display_epg(params['channel'], params['id'])
         elif params['action'] == 'logout':
             api.logout()
         else:
