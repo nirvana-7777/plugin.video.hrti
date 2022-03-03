@@ -400,6 +400,7 @@ def get_metadata_epg(epg_details):
     metadata = {'plot': plugin.get_dict_value(epg_details, 'DescriptionLong'),
                 'plotoutline': plugin.get_dict_value(epg_details, 'DescriptionShort'),
                 'duration': plugin.get_dict_value(epg_details, 'Duration'),
+                'cast': cast,
                 'genre': plugin.get_dict_value(epg_details, 'CategoryReferenceID'),
                 'mpaa': rating_str}
     return metadata
