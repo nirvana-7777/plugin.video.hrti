@@ -383,25 +383,29 @@ def get_metadata_vod(vod_details):
 
 def parse_credits(epg_credits):
     cast = []
+    directors = []
     for credit in epg_credits:
-        if plugin.get_dict_value(credit, 'Role') == 'actor':
+        role = plugin.get_dict_value(credit, 'Role')
+        if role == 'actor':
             cast.append(plugin.get_dict_value(credit, 'Value'))
-    return cast
+        if role == 'director':
+            directors.append(plugin.get_dict_value(credit, 'Value'))
+    return cast, directors
 
 
 def get_metadata_epg(epg_details):
-    print(epg_details)
     rating = plugin.get_dict_value(epg_details, 'ContentRating')
     rating_str = "None"
     if rating is not None:
         rating_str = "PG-"+str(rating)
     epg_credits = plugin.get_dict_value(epg_details, 'Credits')
-    cast = parse_credits(epg_credits)
+    cast, directors = parse_credits(epg_credits)
 
     metadata = {'plot': plugin.get_dict_value(epg_details, 'DescriptionLong'),
                 'plotoutline': plugin.get_dict_value(epg_details, 'DescriptionShort'),
                 'duration': plugin.get_dict_value(epg_details, 'Duration'),
                 'cast': cast,
+                'director': directors,
                 'genre': plugin.get_dict_value(epg_details, 'CategoryReferenceID'),
                 'mpaa': rating_str}
     return metadata
