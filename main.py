@@ -358,7 +358,7 @@ def get_metadata_vod(vod_details):
     actors = plugin.get_dict_value(vod_details, 'Actors')
     if actors is None:
         actors = ''
-    rating = plugin.get_dict_value(vod_details, 'Content Rating')
+    rating = plugin.get_dict_value(vod_details, 'ContentRating')
     rating_str = "None"
     if rating is not None:
         rating_str = "PG-"+str(rating)
@@ -488,7 +488,8 @@ def display_info(ref_id):
     metadata = get_metadata_vod(vod_details)
     list_item = xbmcgui.ListItem(label=plugin.get_dict_value(vod_details, 'Title'))
     list_item.setInfo('video', metadata)
-    list_item.setArt({'poster': plugin.get_dict_value(vod_details, 'PosterPortrait')})
+    list_item.setArt({'poster': plugin.get_dict_value(vod_details, 'PosterPortrait'),
+                      'landscape': plugin.get_dict_value(vod_details, 'PosterLandscape')})
     dialog = xbmcgui.Dialog()
     dialog.info(list_item)
 
