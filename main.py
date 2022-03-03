@@ -381,7 +381,16 @@ def get_metadata_vod(vod_details):
 
 
 def get_metadata_epg(epg_details):
-    metadata = {}
+    rating = plugin.get_dict_value(epg_details, 'ContentRating')
+    rating_str = "None"
+    if rating is not None:
+        rating_str = "PG-"+str(rating)
+
+    metadata = {'plot': plugin.get_dict_value(epg_details, 'DescriptionLong'),
+                'plotoutline': plugin.get_dict_value(epg_details, 'DescriptionShort'),
+                'duration': plugin.get_dict_value(epg_details, 'Duration'),
+                'genre': plugin.get_dict_value(epg_details, 'CategoryReferenceID'),
+                'mpaa': rating_str}
     return metadata
 
 def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
@@ -411,7 +420,6 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
 
     if epg_ref_id is not None:
         epg_details = cache.cacheFunction(api.get_epg_details, channel_id, epg_ref_id)
-        print(epg_details)
         category_reference = plugin.get_dict_value(epg_details, 'CategoryReferenceID')
         try:
             int(category_reference)
@@ -475,7 +483,7 @@ def list_episodes(ref_id):
         list_item.setInfo('video', {'title': plugin.get_dict_value(episode, 'Title'),
                                     'season': plugin.get_dict_value(episode_data, 'SeasonNr'),
                                     'episode': plugin.get_dict_value(episode_data, 'EpisodeNr'),
-                                    'mpaa': "PG-" + str(plugin.get_dict_value(episode_data, 'Content Rating')),
+                                    'mpaa': "PG-" + str(plugin.get_dict_value(episode_data, 'ContentRating')),
                                     'mediatype': 'video'})
         list_item.setProperty('IsPlayable', 'true')
         vid_ref = plugin.get_dict_value(episode, 'ReferenceId')
@@ -505,8 +513,8 @@ def display_epg(ref_id):
     metadata = get_metadata_epg(epg_details)
     list_item = xbmcgui.ListItem(label=plugin.get_dict_value(epg_details, 'Title'))
     list_item.setInfo('video', metadata)
-    list_item.setArt({'poster': plugin.get_dict_value(epg_details, 'PosterPortrait'),
-                      'landscape': plugin.get_dict_value(epg_details, 'PosterLandscape')})
+    list_item.setArt({'poster': plugin.get_dict_value(epg_details, 'ImagePath'),
+                      'landscape': plugin.get_dict_value(epg_details, 'ImagePath')})
     dialog = xbmcgui.Dialog()
     dialog.info(list_item)
 
