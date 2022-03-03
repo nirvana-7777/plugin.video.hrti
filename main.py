@@ -349,6 +349,24 @@ def get_category_text(cat_id):
             return plugin.get_dict_value(category, 'Name')
     return ''
 
+def get_metadata_vod(vod_details):
+    actors = plugin.get_dict_value(vod_details, 'Actors')
+    if actors is None:
+        actors = ''
+
+    metadata = {'plot': plugin.get_dict_value(vod_details, 'Description'),
+                'genre': plugin.get_dict_value(vod_details, 'AssetCategory'),
+                'cast': actors.split(","),
+                'writer': plugin.get_dict_value(vod_details, 'Writers'),
+                'episode': plugin.get_dict_value(vod_details, 'EpisodeNr'),
+                'season': plugin.get_dict_value(vod_details, 'SeasonNr'),
+                'year': plugin.get_dict_value(vod_details, 'ProductionYear'),
+                'rating': plugin.get_dict_value(vod_details, 'AssetRatingAverage'),
+                'studio': plugin.get_dict_value(vod_details, 'Producers'),
+                'country': plugin.get_dict_value(vod_details, 'ProductionCountries'),
+                'duration': int(plugin.get_dict_value(vod_details, 'DurationInFrames') / 1500),
+                'mpaa': "PG-" + str(plugin.get_dict_value(vod_details, 'Content Rating'))}
+    return metadata
 
 def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
                        channel_id, epg_ref_id, starttime, endtime):
@@ -373,22 +391,7 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
     # print(contenttype)
     if contenttype == "episode" or contenttype == "vod":
         vod_details = cache.cacheFunction(api.get_vod_details, content_ref_id)
-        actors = plugin.get_dict_value(vod_details, 'Actors')
-        if actors is None:
-            actors = ''
-
-        metadata = {'plot': plugin.get_dict_value(vod_details, 'Description'),
-                    'genre': plugin.get_dict_value(vod_details, 'AssetCategory'),
-                    'cast': actors.split(","),
-                    'writer': plugin.get_dict_value(vod_details, 'Writers'),
-                    'episode': plugin.get_dict_value(vod_details, 'EpisodeNr'),
-                    'season': plugin.get_dict_value(vod_details, 'SeasonNr'),
-                    'year': plugin.get_dict_value(vod_details, 'ProductionYear'),
-                    'rating': plugin.get_dict_value(vod_details, 'AssetRatingAverage'),
-                    'studio': plugin.get_dict_value(vod_details, 'Producers'),
-                    'country': plugin.get_dict_value(vod_details, 'ProductionCountries'),
-                    'duration': int(plugin.get_dict_value(vod_details, 'DurationInFrames')/1500),
-                    'mpaa': "PG-" + str(plugin.get_dict_value(vod_details, 'Content Rating'))}
+        metadata = get_metadata_vod(vod_details)
         list_item.setInfo('video', metadata)
 
     if epg_ref_id is not None:
@@ -461,7 +464,7 @@ def list_episodes(ref_id):
         list_item.setProperty('IsPlayable', 'true')
         vid_ref = plugin.get_dict_value(episode, 'ReferenceId')
         cm = []
-        cm.append(('Episode details', 'RunPlugin(plugin://plugin.video.hrti/?action=display&id='+str(vid_ref)+')'))
+        cm.append((plugin.addon.getLocalizedString(30033), 'RunPlugin(plugin://plugin.video.hrti/?action=info&id='+str(vid_ref)+')'))
         list_item.addContextMenuItems(cm, replaceItems=False)
 
         url = get_url(action='play', video=vid_ref)
@@ -469,6 +472,14 @@ def list_episodes(ref_id):
         xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     xbmcplugin.endOfDirectory(_HANDLE)
 
+
+def display_info(ref_id):
+    vod_details = cache.cacheFunction(api.get_vod_details, ref_id)
+    metadata = get_metadata_vod(vod_details)
+    list_item = xbmcgui.ListItem(label=plugin.get_dict_value(vod_details, 'Title'))
+    list_item.setInfo('video', metadata)
+    dialog = xbmcgui.Dialog()
+    dialog.info(list_item)
 
 def play_video(path, epg_ref_id):
     """
@@ -586,8 +597,8 @@ def router(paramstring):
             list_episodes(params['category'])
         elif params['action'] == 'EPG':
             list_epg(params['channel'])
-        elif params['action'] == 'display':
-            print('Info display: '+ str(params['id']))
+        elif params['action'] == 'info':
+            display_info(params['id'])
         elif params['action'] == 'logout':
             api.logout()
         else:

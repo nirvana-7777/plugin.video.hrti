@@ -1,7 +1,7 @@
 # Kodi Media Center language file
 # Addon Name: HRTi
 # Addon id: plugin.video.hrti
-# Addon Provider: Jin
+# Addon Provider: Nirvana
 
 msgid ""
 msgstr ""
@@ -99,6 +99,10 @@ msgstr "Radio Sender"
 msgctxt "#30032"
 msgid "Programme Guide"
 msgstr "Programmführer"
+
+msgctxt "#30033"
+msgid "Detailed information"
+msgstr "Detailinformationen"
 
 msgctxt "#30040"
 msgid "Devices"
