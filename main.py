@@ -486,7 +486,7 @@ def display_info(ref_id):
     metadata = get_metadata_vod(vod_details)
     list_item = xbmcgui.ListItem(label=plugin.get_dict_value(vod_details, 'Title'))
     list_item.setInfo('video', metadata)
-    list_item.setArt('poster', plugin.get_dict_value(vod_details, 'PosterPortrait'))
+    list_item.setArt({'poster': plugin.get_dict_value(vod_details, 'PosterPortrait')})
     dialog = xbmcgui.Dialog()
     dialog.info(list_item)
 
