@@ -390,6 +390,7 @@ def parse_credits(epg_credits):
 
 
 def get_metadata_epg(epg_details):
+    print(epg_details)
     rating = plugin.get_dict_value(epg_details, 'ContentRating')
     rating_str = "None"
     if rating is not None:
