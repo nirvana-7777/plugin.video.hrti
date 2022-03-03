@@ -171,7 +171,11 @@ def list_subcategories(path):
                 list_item.setProperty('IsPlayable', 'true')
                 metadata = {'mediatype': 'video'}
                 list_item.setInfo('video', metadata)
-                url = get_url(action='play', video=plugin.get_dict_value(catalog_entry, 'ReferenceId'))
+                vid_ref = plugin.get_dict_value(catalog_entry, 'ReferenceId')
+                url = get_url(action='play', video=vid_ref)
+                cm = []
+                cm.append((plugin.addon.getLocalizedString(30033),
+                           'RunPlugin(plugin://plugin.video.hrti/?action=info&id=' + str(vid_ref) + ')'))
                 # Add the list item to a virtual Kodi folder.
                 # is_folder = False means that this item won't open any sub-list.
                 is_folder = False
@@ -353,6 +357,10 @@ def get_metadata_vod(vod_details):
     actors = plugin.get_dict_value(vod_details, 'Actors')
     if actors is None:
         actors = ''
+    rating = plugin.get_dict_value(vod_details, 'Content Rating')
+    rating_str = "None"
+    if rating is not None:
+        rating_str = "PG-"+str(rating)
 
     metadata = {'plot': plugin.get_dict_value(vod_details, 'Description'),
                 'genre': plugin.get_dict_value(vod_details, 'AssetCategory'),
@@ -365,7 +373,7 @@ def get_metadata_vod(vod_details):
                 'studio': plugin.get_dict_value(vod_details, 'Producers'),
                 'country': plugin.get_dict_value(vod_details, 'ProductionCountries'),
                 'duration': int(plugin.get_dict_value(vod_details, 'DurationInFrames') / 1500),
-                'mpaa': "PG-" + str(plugin.get_dict_value(vod_details, 'Content Rating'))}
+                'mpaa': rating_str}
     return metadata
 
 def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
@@ -478,6 +486,7 @@ def display_info(ref_id):
     metadata = get_metadata_vod(vod_details)
     list_item = xbmcgui.ListItem(label=plugin.get_dict_value(vod_details, 'Title'))
     list_item.setInfo('video', metadata)
+    list_item.setArt('poster', plugin.get_dict_value(vod_details, 'PosterPortrait'))
     dialog = xbmcgui.Dialog()
     dialog.info(list_item)
 
@@ -521,26 +530,9 @@ def play_video(path, epg_ref_id):
                         else:
                             content_type = "tlive"
                         list_item = xbmcgui.ListItem(path=url)
-#                        if xbmc.getCondVisibility("Window.IsActive(busydialog)"):
-#                            xbmc.executebuiltin("Dialog.Close(busydialog)")
-#                            xbmc.sleep(500)
-#                        windowID = xbmcgui.getCurrentWindowId()
-#                        print('windowID ' + str(windowID))
-#                        win = xbmcgui.Window(windowID)
-#                        print('win ' + str(win))
-#                        cid = win.getFocusId()
-#                        print('cid ' + str(cid))
-#                        ctrl = win.getControl(cid)
-#                        print('ctrl ' + str(ctrl))
-#                        listitem = ctrl.getSelectedItem()
-#                        print('listitem ' + listitem)
-#                        pos = xbmc.getInfoLabel('Container().CurrentItem')
-#                        print(pos)
                         list_item.setInfo('video', metadata)
                         list_item.setArt({'thumb': plugin.get_dict_value(event, 'ImagePath'),
                                           'fanart': plugin.get_dict_value(event, 'ImagePath')})
-#                        dialog = xbmcgui.Dialog()
-#                        dialog.info(list_item)
                         authorize_and_play(url, content_type, refid, None, refid, epg_ref_id, None, None)
                     else:
                         url = plugin.get_dict_value(event, 'FileName')
