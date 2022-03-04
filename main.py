@@ -540,7 +540,6 @@ def list_episodes(ref_id):
 
 def display_info(ref_id):
     vod_details = cache.cacheFunction(api.get_vod_details, ref_id)
-    print(vod_details)
     metadata = get_metadata_vod(vod_details)
     list_item = xbmcgui.ListItem(label=plugin.get_dict_value(vod_details, 'Title'))
     list_item.setInfo('video', metadata)
