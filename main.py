@@ -394,22 +394,31 @@ def parse_credits(epg_credits):
 
 
 def get_metadata_epg(epg_details):
+    category_reference = plugin.get_dict_value(epg_details, 'CategoryReferenceID')
+    try:
+        int(category_reference)
+        category_text = get_category_text(category_reference)
+    except ValueError:
+        category_text = category_reference
     rating = plugin.get_dict_value(epg_details, 'ContentRating')
     print(epg_details)
-    rating_str = "None"
-    if rating is not None:
+    rating_str = ""
+    if rating is not None and rating is not "":
         rating_str = "PG-"+str(rating)
     epg_credits = plugin.get_dict_value(epg_details, 'Credits')
     cast, directors = parse_credits(epg_credits)
 
     metadata = {'plot': plugin.get_dict_value(epg_details, 'DescriptionLong'),
                 'plotoutline': plugin.get_dict_value(epg_details, 'DescriptionShort'),
-                'duration': plugin.get_dict_value(epg_details, 'Duration'),
+                'duration': int(plugin.get_dict_value(epg_details, 'Duration')) * 60,
+                'episode': plugin.get_dict_value(epg_details, 'EpisodeNr'),
+                'season': plugin.get_dict_value(epg_details, 'SeasonNr'),
                 'cast': cast,
                 'director': directors,
-                'genre': plugin.get_dict_value(epg_details, 'CategoryReferenceID'),
+                'genre': category_text,
                 'mpaa': rating_str}
     return metadata
+
 
 def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
                        channel_id, epg_ref_id, starttime, endtime):
@@ -438,16 +447,7 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
 
     if epg_ref_id is not None:
         epg_details = cache.cacheFunction(api.get_epg_details, channel_id, epg_ref_id)
-        category_reference = plugin.get_dict_value(epg_details, 'CategoryReferenceID')
-        try:
-            int(category_reference)
-            category_text = get_category_text(category_reference)
-        except ValueError:
-            category_text = category_reference
-        metadata = {'plot': plugin.get_dict_value(epg_details, 'DescriptionLong'),
-                    'plotoutline': plugin.get_dict_value(epg_details, 'DescriptionShort'),
-                    'duration': int(plugin.get_dict_value(epg_details, 'Duration')) * 60,
-                    'genre': category_text}
+        metadata = get_metadata_epg(epg_details)
         list_item.setInfo('video', metadata)
         list_item.setArt({'thumb': plugin.get_dict_value(epg_details, 'ImagePath')})
 
