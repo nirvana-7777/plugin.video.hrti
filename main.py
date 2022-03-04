@@ -458,6 +458,7 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
         sl = []
         for subtitle in subtitles:
             sl.append(plugin.get_dict_value(subtitle, 'SubtitleURL'))
+        print(sl)
         list_item.setSubtitles(sl)
 
     if epg_ref_id is not None:
