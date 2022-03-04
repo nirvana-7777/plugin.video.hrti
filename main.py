@@ -498,7 +498,11 @@ def list_seasons(ref_id):
         list_item.setInfo('video', {'title': plugin.get_dict_value(season, 'Title'),
                                     'genre': plugin.get_dict_value(season, 'VodCategoryNames'),
                                     'mediatype': 'video'})
-        url = get_url(action='episodes', category=ref_id + '/' + plugin.get_dict_value(season, 'ReferenceId'))
+        vid_ref = plugin.get_dict_value(season, 'ReferenceId')
+        cm = [(plugin.addon.getLocalizedString(30033),
+               'RunPlugin(plugin://plugin.video.hrti/?action=voddetails&id=' + str(vid_ref) + ')')]
+        list_item.addContextMenuItems(cm, replaceItems=False)
+        url = get_url(action='episodes', category=ref_id + '/' + vid_ref)
         is_folder = True
         xbmcplugin.addDirectoryItem(_HANDLE, url, list_item, is_folder)
     xbmcplugin.endOfDirectory(_HANDLE)
@@ -536,6 +540,7 @@ def list_episodes(ref_id):
 
 def display_info(ref_id):
     vod_details = cache.cacheFunction(api.get_vod_details, ref_id)
+    print(vod_details)
     metadata = get_metadata_vod(vod_details)
     list_item = xbmcgui.ListItem(label=plugin.get_dict_value(vod_details, 'Title'))
     list_item.setInfo('video', metadata)
