@@ -413,7 +413,7 @@ def get_metadata_epg(epg_details):
     episode = plugin.get_dict_value(epg_details, 'EpisodeNr')
     season = plugin.get_dict_value(epg_details, 'SeasonNr')
 
-    if episode != '' or saeson != '':
+    if episode != '' or season != '':
         metadata = {'plot': plugin.get_dict_value(epg_details, 'DescriptionLong'),
                     'plotoutline': plugin.get_dict_value(epg_details, 'DescriptionShort'),
                     'duration': int(plugin.get_dict_value(epg_details, 'Duration')) * 60,
