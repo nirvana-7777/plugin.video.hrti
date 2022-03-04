@@ -407,6 +407,8 @@ def get_metadata_epg(epg_details):
         rating_str = "PG-"+str(rating)
     epg_credits = plugin.get_dict_value(epg_details, 'Credits')
     cast, directors = parse_credits(epg_credits)
+    print("Episode:")
+    print(plugin.get_dict_value(epg_details, 'EpisodeNr'))
 
     metadata = {'plot': plugin.get_dict_value(epg_details, 'DescriptionLong'),
                 'plotoutline': plugin.get_dict_value(epg_details, 'DescriptionShort'),
