@@ -401,7 +401,6 @@ def get_metadata_epg(epg_details):
     except ValueError:
         category_text = category_reference
     rating = plugin.get_dict_value(epg_details, 'ContentRating')
-    print(epg_details)
     rating_str = ""
     if rating is not None and rating is not "":
         rating_str = "PG-"+str(rating)
