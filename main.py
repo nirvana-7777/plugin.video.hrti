@@ -255,8 +255,8 @@ def list_videos(category):
         end = "/Date(" + str(plugin.get_time_offset(4)) + ")/"
         programmes = cache.cacheFunction(api.get_programme, channelids, start, end)
         for channel in channels:
-            if (plugin.get_dict_value(channel, 'Radio') and category == plugin.addon.getLocalizedString(30031)) \
-                    or (not plugin.get_dict_value(channel, 'Radio') and category == plugin.addon.getLocalizedString(30030)):
+            if (plugin.get_dict_value(channel, 'Radio') and category == plugin.addon.getLocalizedString(30031)) or \
+                    (not plugin.get_dict_value(channel, 'Radio') and category == plugin.addon.getLocalizedString(30030)):
                 channel_epg = None
                 for programme in programmes:
                     if plugin.get_dict_value(programme, 'ReferenceID') == plugin.get_dict_value(channel, 'ReferenceId'):
