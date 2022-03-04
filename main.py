@@ -362,8 +362,8 @@ def get_metadata_vod(vod_details):
     if actors is None:
         actors = ''
     rating = plugin.get_dict_value(vod_details, 'ContentRating')
-    rating_str = "None"
-    if rating is not None:
+    rating_str = ""
+    if rating is not None and rating is not "":
         rating_str = "PG-"+str(rating)
 
     metadata = {'plot': plugin.get_dict_value(vod_details, 'Description'),
@@ -406,16 +406,27 @@ def get_metadata_epg(epg_details):
         rating_str = "PG-"+str(rating)
     epg_credits = plugin.get_dict_value(epg_details, 'Credits')
     cast, directors = parse_credits(epg_credits)
+    episode = plugin.get_dict_value(epg_details, 'EpisodeNr')
+    season = plugin.get_dict_value(epg_details, 'SeasonNr')
 
-    metadata = {'plot': plugin.get_dict_value(epg_details, 'DescriptionLong'),
-                'plotoutline': plugin.get_dict_value(epg_details, 'DescriptionShort'),
-                'duration': int(plugin.get_dict_value(epg_details, 'Duration')) * 60,
-                'episode': plugin.get_dict_value(epg_details, 'EpisodeNr'),
-                'season': plugin.get_dict_value(epg_details, 'SeasonNr'),
-                'cast': cast,
-                'director': directors,
-                'genre': category_text,
-                'mpaa': rating_str}
+    if episode is not '' or saeson is not '':
+        metadata = {'plot': plugin.get_dict_value(epg_details, 'DescriptionLong'),
+                    'plotoutline': plugin.get_dict_value(epg_details, 'DescriptionShort'),
+                    'duration': int(plugin.get_dict_value(epg_details, 'Duration')) * 60,
+                    'episode': episode,
+                    'season': season,
+                    'cast': cast,
+                    'director': directors,
+                    'genre': category_text,
+                    'mpaa': rating_str}
+    else:
+        metadata = {'plot': plugin.get_dict_value(epg_details, 'DescriptionLong'),
+                    'plotoutline': plugin.get_dict_value(epg_details, 'DescriptionShort'),
+                    'duration': int(plugin.get_dict_value(epg_details, 'Duration')) * 60,
+                    'cast': cast,
+                    'director': directors,
+                    'genre': category_text,
+                    'mpaa': rating_str}
     return metadata
 
 
@@ -443,6 +454,9 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
         vod_details = cache.cacheFunction(api.get_vod_details, content_ref_id)
         metadata = get_metadata_vod(vod_details)
         list_item.setInfo('video', metadata)
+        subtitles = plugin.get_dict_value(vod_details, 'Subtitles')
+        subtitleURL = plugin.get_dict_value(subtitles, 'SubtitleURL')
+        print(subtitleURL)
 
     if epg_ref_id is not None:
         epg_details = cache.cacheFunction(api.get_epg_details, channel_id, epg_ref_id)
