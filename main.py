@@ -455,8 +455,9 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
         metadata = get_metadata_vod(vod_details)
         list_item.setInfo('video', metadata)
         subtitles = plugin.get_dict_value(vod_details, 'Subtitles')
-        subtitleURL = plugin.get_dict_value(subtitles, 'SubtitleURL')
-        print(subtitleURL)
+        for subtitle in subtitles
+            subtitleURL = plugin.get_dict_value(subtitle, 'SubtitleURL')
+            print(subtitleURL)
 
     if epg_ref_id is not None:
         epg_details = cache.cacheFunction(api.get_epg_details, channel_id, epg_ref_id)
