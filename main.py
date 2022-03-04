@@ -459,7 +459,7 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
         metadata = get_metadata_vod(vod_details)
         list_item.setInfo('video', metadata)
         subtitles = plugin.get_dict_value(vod_details, 'Subtitles')
-        if is not None:
+        if subtitles is not None:
             sl = []
             for subtitle in subtitles:
                 sl.append(plugin.get_dict_value(subtitle, 'SubtitleURL'))
