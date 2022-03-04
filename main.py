@@ -361,6 +361,9 @@ def get_metadata_vod(vod_details):
     actors = plugin.get_dict_value(vod_details, 'Actors')
     if actors is None:
         actors = ''
+    directors = plugin.get_dict_value(vod_details, 'Directors')
+    if directors is None:
+        directors = ''
     rating = plugin.get_dict_value(vod_details, 'ContentRating')
     rating_str = ""
     if rating is not None and rating != "":
@@ -369,6 +372,7 @@ def get_metadata_vod(vod_details):
     metadata = {'plot': plugin.get_dict_value(vod_details, 'Description'),
                 'genre': plugin.get_dict_value(vod_details, 'AssetCategory'),
                 'cast': actors.split(","),
+                'director': directors.split(","),
                 'writer': plugin.get_dict_value(vod_details, 'Writers'),
                 'episode': plugin.get_dict_value(vod_details, 'EpisodeNr'),
                 'season': plugin.get_dict_value(vod_details, 'SeasonNr'),
@@ -458,7 +462,6 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
         sl = []
         for subtitle in subtitles:
             sl.append(plugin.get_dict_value(subtitle, 'SubtitleURL'))
-        print(sl)
         list_item.setSubtitles(sl)
 
     if epg_ref_id is not None:
