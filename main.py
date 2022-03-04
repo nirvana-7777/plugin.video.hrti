@@ -363,7 +363,7 @@ def get_metadata_vod(vod_details):
         actors = ''
     rating = plugin.get_dict_value(vod_details, 'ContentRating')
     rating_str = ""
-    if rating is not None and rating is not "":
+    if rating is not None and rating != "":
         rating_str = "PG-"+str(rating)
 
     metadata = {'plot': plugin.get_dict_value(vod_details, 'Description'),
@@ -402,14 +402,14 @@ def get_metadata_epg(epg_details):
         category_text = category_reference
     rating = plugin.get_dict_value(epg_details, 'ContentRating')
     rating_str = ""
-    if rating is not None and rating is not "":
+    if rating is not None and rating != "":
         rating_str = "PG-"+str(rating)
     epg_credits = plugin.get_dict_value(epg_details, 'Credits')
     cast, directors = parse_credits(epg_credits)
     episode = plugin.get_dict_value(epg_details, 'EpisodeNr')
     season = plugin.get_dict_value(epg_details, 'SeasonNr')
 
-    if episode is not '' or saeson is not '':
+    if episode != '' or saeson != '':
         metadata = {'plot': plugin.get_dict_value(epg_details, 'DescriptionLong'),
                     'plotoutline': plugin.get_dict_value(epg_details, 'DescriptionShort'),
                     'duration': int(plugin.get_dict_value(epg_details, 'Duration')) * 60,
