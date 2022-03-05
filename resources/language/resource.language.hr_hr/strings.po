@@ -100,6 +100,10 @@ msgctxt "#30032"
 msgid "Programme Guide"
 msgstr "Programski vodič"
 
+msgctxt "#30033"
+msgid "Detailed information"
+msgstr "Opširnije informacije"
+
 msgctxt "#30040"
 msgid "Devices"
 msgstr "Uređaji"
