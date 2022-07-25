@@ -247,6 +247,7 @@ def list_videos(category):
     # Get the list of videos in the category.
     # Iterate through videos.
     channels = cache.cacheFunction(api.get_channels)
+    print(channels)
     if channels is not None:
         channelids = []
         for channel in channels:
