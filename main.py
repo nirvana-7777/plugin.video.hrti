@@ -263,6 +263,7 @@ def list_videos(category):
                         channel_epg = plugin.get_dict_value(programme, 'EpgList')
                 label = plugin.get_dict_value(channel, 'Name')
                 if channel_epg is not None:
+                    print(channel_epg)
                     now = get_now_event(channel_epg)
                     if now is not None:
                         label += str(" | ") + plugin.get_dict_value(now, 'Title')
