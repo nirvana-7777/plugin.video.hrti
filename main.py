@@ -247,7 +247,6 @@ def list_videos(category):
     # Get the list of videos in the category.
     # Iterate through videos.
     channels = cache.cacheFunction(api.get_channels)
-    print(channels)
     if channels is not None:
         channelids = []
         for channel in channels:
@@ -262,11 +261,12 @@ def list_videos(category):
                 for programme in programmes:
                     if plugin.get_dict_value(programme, 'ReferenceID') == plugin.get_dict_value(channel, 'ReferenceId'):
                         channel_epg = plugin.get_dict_value(programme, 'EpgList')
+                label = plugin.get_dict_value(channel, 'Name')
                 if channel_epg is not None:
                     now = get_now_event(channel_epg)
+                    label += str(" | ") + plugin.get_dict_value(now, 'Title')
                 else:
                     now = None
-                label = plugin.get_dict_value(channel, 'Name') + str(" | ") + plugin.get_dict_value(now, 'Title')
                 list_item = xbmcgui.ListItem(label=label)
                 list_item.setArt({'thumb': plugin.get_dict_value(channel, 'Icon'),
                                   'icon': plugin.get_dict_value(channel, 'Icon'),
