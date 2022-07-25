@@ -264,7 +264,8 @@ def list_videos(category):
                 label = plugin.get_dict_value(channel, 'Name')
                 if channel_epg is not None:
                     now = get_now_event(channel_epg)
-                    label += str(" | ") + plugin.get_dict_value(now, 'Title')
+                    if now is not None:
+                        label += str(" | ") + plugin.get_dict_value(now, 'Title')
                 else:
                     now = None
                 list_item = xbmcgui.ListItem(label=label)
