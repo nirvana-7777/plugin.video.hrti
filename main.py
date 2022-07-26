@@ -223,6 +223,7 @@ def list_categories():
 def get_now_event(epg_list):
     now_event = None
     if epg_list is not None:
+        now_event = epg_list[0]
         now = plugin.get_time_now()
         for event in epg_list:
             event_start = plugin.get_dict_value(event, 'TimeStartUnixEpoch')
