@@ -415,6 +415,7 @@ def get_metadata_epg(epg_details):
     cast, directors = parse_credits(epg_credits)
     episode = plugin.get_dict_value(epg_details, 'EpisodeNr')
     season = plugin.get_dict_value(epg_details, 'SeasonNr')
+    print(epg_details)
 
     if episode != '' or season != '':
         metadata = {'plot': plugin.get_dict_value(epg_details, 'DescriptionLong'),
