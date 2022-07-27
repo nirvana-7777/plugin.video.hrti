@@ -415,11 +415,14 @@ def get_metadata_epg(epg_details):
     cast, directors = parse_credits(epg_credits)
     episode = plugin.get_dict_value(epg_details, 'EpisodeNr')
     season = plugin.get_dict_value(epg_details, 'SeasonNr')
-    print(epg_details)
+    title = plugin.get_dict_value(epg_details, 'Title')
+    original = plugin.get_dict_value(epg_details, 'OriginalTitle')
 
     if episode != '' or season != '':
         metadata = {'plot': plugin.get_dict_value(epg_details, 'DescriptionLong'),
                     'plotoutline': plugin.get_dict_value(epg_details, 'DescriptionShort'),
+                    'title': title,
+                    'originaltitle': original,
                     'duration': int(plugin.get_dict_value(epg_details, 'Duration')) * 60,
                     'episode': episode,
                     'season': season,
@@ -430,6 +433,8 @@ def get_metadata_epg(epg_details):
     else:
         metadata = {'plot': plugin.get_dict_value(epg_details, 'DescriptionLong'),
                     'plotoutline': plugin.get_dict_value(epg_details, 'DescriptionShort'),
+                    'title': title,
+                    'originaltitle': original,
                     'duration': int(plugin.get_dict_value(epg_details, 'Duration')) * 60,
                     'cast': cast,
                     'director': directors,
