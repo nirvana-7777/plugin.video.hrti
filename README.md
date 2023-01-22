@@ -1,15 +1,15 @@
 # HRTi Video Plugin for Kodi (plugin.video.hrti)
 
 ## Disclaimer
-This plugin is not officially commisioned/supported by HRT.
+This plugin is not officially commissioned/supported by HRT.
 Any trademarks used belong to their owning companies & organisations.
 
 ## Dependencies
  * valid free HRTi account (https://www.https://hrti.hrt.hr)
  * Croatian IP-address to access geo-blocked content
- * script.module.inputstreamhelper (https://mirrors.kodi.tv/addons/matrix/script.module.inputstreamhelper/)
+ * script.module.inputstreamhelper (https://mirrors.kodi.tv/addons/nexus/script.module.inputstreamhelper/)
  
-This add-on requires Kodi 19 - Matrix or higher with InputStream Adaptive installed.
+This add-on requires Kodi 20 - Nexus or higher with InputStream Adaptive installed.
 
 ## DRM protected streams
 HRT's content is DRM protected and requires the proprietary decryption module Widevine CDM for playback. You will be prompted to install this if you're starting the addon without the binary installed.
@@ -24,4 +24,4 @@ https://repo.kodinerds.net
 Please report any issues or bug reports on the [GitHub Issues](https://github.com/nirvana-7777/plugin.video.hrti/issues) page. Remember to include a full, non-cut off Kodi debug log. See the [Kodi wiki page](http://kodi.wiki/view/Log_file/Advanced) for more detailed instructions on how to obtain the log file.
 
 ## License
-This add-on is licensed under the **GNU GENERAL PUBLIC LICENSE Version 3**. Please see the [LICENSE.txt](LICENSE.txt) file for details.
+This add-on is licensed under the **GNU GENERAL PUBLIC LICENSE Version 3**. Please see the [LICENSE.txt](https://www.gnu.org/licenses/gpl-3.0.html) file for details.
