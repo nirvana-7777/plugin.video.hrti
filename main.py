@@ -626,7 +626,7 @@ def play_video(path, epg_ref_id):
                         content_type = "rlive"
                     else:
                         content_type = "tlive"
-                    print("Now: /Date(" + plugin.get_epoch_now() + "600)/")
+                    print("Now2: /Date(" + plugin.get_epoch_now() + "600)/")
                     authorize_and_play(path, content_type, refid, None, refid, epg_ref_id, None, None)
 
 
