@@ -628,8 +628,12 @@ def play_video(path, epg_ref_id):
                         content_type = "tlive"
                     starttime = plugin.get_time_offset(0)
                     endtime = plugin.get_time_offset(12)
-                    print("Start: /Date(" + str(starttime) + "600)/")
-                    print("End: /Date(" + str(endtime) + "600)/")
+                    startstr = "/Date(" + str(starttime) + ")/"
+                    endstr = "/Date(" + str(endtime) + ")/"
+                    print("Start: " + startstr)
+                    print("End: " + endstr)
+                    result = api.get_geoblocked_content(refid, startstr, endstr)
+                    print(result)
                     authorize_and_play(path, content_type, refid, None, refid, epg_ref_id, None, None)
 
 
