@@ -626,10 +626,10 @@ def play_video(path, epg_ref_id):
                         content_type = "rlive"
                     else:
                         content_type = "tlive"
-                    current_date = plugin.get_datetime_now()
-                    endtime = current_date + 43200
-                    print("Start: /Date(" + plugin.epoch_to_str(current_date) + "600)/")
-                    print("End: /Date(" + plugin.epoch_to_str(endtime) + "600)/")
+                    starttime = plugin.get_time_offset(0)
+                    endtime = plugin.get_time_offset(12)
+                    print("Start: /Date(" + str(starttime) + "600)/")
+                    print("End: /Date(" + str(endtime) + "600)/")
                     authorize_and_play(path, content_type, refid, None, refid, epg_ref_id, None, None)
 
 
