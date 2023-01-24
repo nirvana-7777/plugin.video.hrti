@@ -236,7 +236,7 @@ class Common():
         return date
 
     def get_epoch_now(self):
-        return datetime.now().strftime(%s)
+        return datetime.now().strftime('%s')
 
     def get_datetime_from_epoch(self, timestamp):
         TimestampUtc = re.split('\(|\)', timestamp)[1][:10]
