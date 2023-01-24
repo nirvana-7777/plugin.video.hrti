@@ -608,7 +608,6 @@ def play_video(path, epg_ref_id):
                         list_item.setInfo('video', metadata)
                         list_item.setArt({'thumb': plugin.get_dict_value(event, 'ImagePath'),
                                           'fanart': plugin.get_dict_value(event, 'ImagePath')})
-                        print("Now: " + plugin.get_datetime_now())
                         authorize_and_play(url, content_type, refid, None, refid, epg_ref_id, None, None)
                     else:
                         url = plugin.get_dict_value(event, 'FileName')
@@ -626,6 +625,7 @@ def play_video(path, epg_ref_id):
                         content_type = "rlive"
                     else:
                         content_type = "tlive"
+                    print("Now: " + plugin.get_datetime_now())
                     authorize_and_play(path, content_type, refid, None, refid, epg_ref_id, None, None)
 
 
