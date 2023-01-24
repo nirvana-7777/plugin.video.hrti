@@ -269,6 +269,19 @@ class HRTiAPI:
         result = self.api_post(url, payload, referer)
         return result
 
+    def get_geoblocked_content(self, channelid, starttime, endtime):
+
+        url = self.hrtiBaseUrl + "GetGeoblockedContent"
+
+        payload = json.dumps({
+            "ChannelReferenceId": channelid,
+            "Starttime": starttime,
+            "EndTime": endtime
+        })
+        referer = self.hrtiDomain + "/live/tv?channel=" + str(channelid)
+        result = self.api_post(url, payload, referer)
+        return result
+
     def authorize_session(self, contenttype, contentrefid, contentdrmid,
                           videostorerefids, channelid, starttime, endtime):
 
@@ -289,7 +302,7 @@ class HRTiAPI:
         else:
             referer = self.hrtiDomain + "/live/"
             if contenttype == "tlive":
-                referer += "tv?channel=' + str(channelid)"
+                referer += "tv?channel=" + str(channelid)
             else:
                 referer += "radio"
         result = self.api_post(url, payload, referer)
