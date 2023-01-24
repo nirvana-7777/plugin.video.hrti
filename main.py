@@ -450,6 +450,7 @@ def authorize_and_play(filename, contenttype, content_ref_id, video_store_ids,
     contentdrmid = str(directories[0]) + "_" + str(directories[1])
     result = api.authorize_session(contenttype, content_ref_id, contentdrmid,
                                    video_store_ids, channel_id, starttime, endtime)
+    print(result)
     authorized = plugin.get_dict_value(result, 'Authorized')
     if not authorized:
         plugin.dialog_ok("Authorization has failed - Check Credentials - Relogin")
