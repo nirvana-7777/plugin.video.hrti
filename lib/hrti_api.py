@@ -38,7 +38,7 @@ class HRTiAPI:
 
         proxies = {
             'http': 'http://10.77.77.7:8080',
-            'https': 'https://10.77.77.7:8080',
+            'https': 'https://10.77.77.7:8080'
         }
 
         headers = {
