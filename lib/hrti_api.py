@@ -269,13 +269,13 @@ class HRTiAPI:
         result = self.api_post(url, payload, referer)
         return result
 
-    def get_geoblocked_content(self, channelid, starttime, endtime):
+    def get_geoblocked_content(self, channelids, starttime, endtime):
 
         url = self.hrtiBaseUrl + "GetGeoblockedContent"
 
         payload = json.dumps({
-            "ChannelReferenceId": channelid,
-            "Starttime": starttime,
+            "ChannelReferenceIds": channelids,
+            "StartTime": starttime,
             "EndTime": endtime
         })
         referer = self.hrtiDomain + "/live/tv?channel=" + str(channelid)
