@@ -41,7 +41,7 @@ class HRTiAPI:
 
         proxies = {
             'http': 'http://10.77.77.7:8080',
-            'https': 'https://10.77.77.7:8080'
+            'https': 'http://10.77.77.7:8080'
         }
         self.session.proxies.update(proxies)
 
