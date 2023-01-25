@@ -293,7 +293,7 @@ class HRTiAPI:
             "ContentDrmId": contentdrmid,
             "VideostoreReferenceIds": videostorerefids,
             "ChannelReferenceId": channelid,
-            "Starttime": starttime,
+            "StartTime": starttime,
             "EndTime": endtime
         })
         xbmc.log("Authorize Session: " + str(payload), level=xbmc.LOGDEBUG)
