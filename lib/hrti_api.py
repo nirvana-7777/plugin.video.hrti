@@ -278,7 +278,7 @@ class HRTiAPI:
             "StartTime": starttime,
             "EndTime": endtime
         })
-        referer = self.hrtiDomain + "/live/tv?channel=" + str(channelid)
+        referer = self.hrtiDomain + "/live/tv?channel=" #+ str(channelid)
         result = self.api_post(url, payload, referer)
         return result
 
