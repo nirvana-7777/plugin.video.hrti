@@ -280,7 +280,6 @@ class HRTiAPI:
             "EndTime": endtime
         })
         first_chid = channelids[0]
-        print(first_chid)
         referer = self.hrtiDomain + "/live/tv?channel=" + str(first_chid)
         result = self.api_post(url, payload, referer)
         return result

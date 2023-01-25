@@ -36,7 +36,8 @@ username = plugin.get_setting("username")
 password = plugin.get_setting("password")
 token = plugin.get_setting("token")
 userid = plugin.get_setting("customerid")
-ip = plugin.get_setting("ip")
+#ip = plugin.get_setting("ip")
+ip = api.get_ip()
 if token == '' or \
         token == 'lAWX321gC0Gc5c4d7QGg3g7CbuTPbavEeQuhKRyebvaQWEaWO2N8kmqwKNSUc8Gw' or \
         userid == "" or \
