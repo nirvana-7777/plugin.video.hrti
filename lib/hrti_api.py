@@ -82,6 +82,7 @@ class HRTiAPI:
         if r is not None:
             self.IP = r.json()
             self.plugin.set_setting('ip', self.IP)
+            print("IP: " + self.IP)
         return r.json()
 
     def get_env(self):
