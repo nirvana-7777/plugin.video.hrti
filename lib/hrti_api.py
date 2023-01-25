@@ -36,6 +36,11 @@ class HRTiAPI:
             if cookie.domain == '.hrti.hrt.hr':
                 cookie_header = cookie.name + "=" + cookie.value
 
+        proxies = {
+            'http': '10.77.77.7:8080',
+            'https': '10.77.77.7:8080'
+        }
+
         headers = {
             'connection': 'keep-alive',
             'deviceid': self.DEVICE_ID,
@@ -52,7 +57,7 @@ class HRTiAPI:
             'accept-language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
             'Cookie': cookie_header
         }
-        response = self.session.post(url, headers=headers, data=payload)
+        response = self.session.post(url, headers=headers, data=payload, proxies=proxies)
         result = None
         if response.status_code == 200 and response.headers.get('content-type') == "application/json; charset=utf-8":
             errorcode = response.json().get("ErrorCode")
