@@ -632,7 +632,9 @@ def play_video(path, epg_ref_id):
                     endstr = "/Date(" + str(endtime) + ")/"
                     print("Start: " + startstr)
                     print("End: " + endstr)
-                    result = api.get_geoblocked_content(refid, startstr, endstr)
+                    channelids = []
+                    channelids.append(refid)
+                    result = api.get_geoblocked_content(channelids, startstr, endstr)
                     print(result)
                     authorize_and_play(path, content_type, refid, None, refid, epg_ref_id, None, None)
 
