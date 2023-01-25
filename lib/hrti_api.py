@@ -28,6 +28,9 @@ class HRTiAPI:
         self.__merchant = self.plugin.get_setting('merchant')
         self.hrtiBaseUrl = self.hrtiDomain + "/" + self.plugin.get_setting('webapiurl') + "/"
         self.hsapiBaseUrl = self.plugin.get_setting('apiurl') + "/"
+        self.proxy = self.plugin.get_setting('proxy')
+        #if self.proxy is not None:
+
 
     def api_post(self, url, payload, referer):
 
@@ -40,6 +43,7 @@ class HRTiAPI:
             'http': 'http://10.77.77.7:8080',
             'https': 'https://10.77.77.7:8080'
         }
+        self.session.proxies.update(proxies)
 
         headers = {
             'connection': 'keep-alive',
