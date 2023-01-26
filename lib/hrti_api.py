@@ -238,6 +238,7 @@ class HRTiAPI:
         })
         referer = self.hrtiDomain + "/videostore"
         result = self.api_post(url, payload, referer)
+        print(result)
         return result
 
     def get_programme(self, channelids, starttime, endtime):
