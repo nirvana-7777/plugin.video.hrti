@@ -581,6 +581,7 @@ def play_video(path, epg_ref_id):
     parts = urlparse(path)
     if epg_ref_id is None:
         voddetails = cache.cacheFunction(api.get_vod_details, path)
+        print(voddetails)
         filename = plugin.get_dict_value(voddetails, 'FileName')
         if filename is not None:
             content_type = plugin.get_dict_value(voddetails, 'Type')
