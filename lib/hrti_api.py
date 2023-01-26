@@ -53,7 +53,7 @@ class HRTiAPI:
             'accept-language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
             'Cookie': cookie_header
         }
-        print(headers)
+#        print(headers)
         response = self.session.post(url, headers=headers, data=payload)
         result = None
         if response.status_code == 200 and response.headers.get('content-type') == "application/json; charset=utf-8":
@@ -303,7 +303,7 @@ class HRTiAPI:
             "StartTime": starttime,
             "EndTime": endtime
         })
-        print(payload)
+#        print(payload)
         xbmc.log("Authorize Session: " + str(payload), level=xbmc.LOGDEBUG)
         if channelid is None:
             referer = self.hrtiDomain + "/videostore"
