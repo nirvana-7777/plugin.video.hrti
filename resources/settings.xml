@@ -11,6 +11,7 @@
         <setting label="viewer_id" type="text" id="viewer_id" default="" visible="false"/>
         <setting label="token" type="text" id="token" default="" visible="false"/>
         <setting label="ip" type="ipaddress" id="ip" default="" visible="false"/>
+        <setting label="ipconfig" type="ipaddress" id="ipconfig" default="" visible="true"/>
     </category>
     <category label="30010">
         <setting label="30011" type="text" id="customerid" default="" enable="false"/>

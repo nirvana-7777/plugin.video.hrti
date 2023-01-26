@@ -39,11 +39,11 @@ class HRTiAPI:
             if cookie.domain == '.hrti.hrt.hr':
                 cookie_header = cookie.name + "=" + cookie.value
 
-        proxies = {
-            'http': 'http://10.77.77.7:8080',
-            'https': 'http://10.77.77.7:8080'
-        }
-        self.session.proxies.update(proxies)
+#        proxies = {
+#            'http': 'http://10.77.77.7:8080',
+#            'https': 'http://10.77.77.7:8080'
+#        }
+#        self.session.proxies.update(proxies)
 
         headers = {
             'connection': 'keep-alive',
@@ -78,13 +78,17 @@ class HRTiAPI:
         return result
 
     def get_ip(self):
-        url = self.hrtiBaseUrl+"getIPAddress"
-        r = self.session.get(url)
-        if r is not None:
-            self.IP = r.json()
-            self.plugin.set_setting('ip', self.IP)
-            print("IP: " + self.IP)
-        return r.json()
+        ip = self.plugin.set_setting('ipconfig')
+        if ip == '':
+            url = self.hrtiBaseUrl+"getIPAddress"
+            r = self.session.get(url)
+            if r is not None:
+                self.IP = r.json()
+                self.plugin.set_setting('ip', self.IP)
+        else:
+            self.IP = ip
+        print("IP: " + self.IP)
+        return self.IP
 
     def get_env(self):
         url = self.hrtiEnvUrl
