@@ -78,7 +78,7 @@ class HRTiAPI:
         return result
 
     def get_ip(self):
-        ip = self.plugin.set_setting('ipconfig')
+        ip = self.plugin.get_setting('ipconfig')
         if ip == '':
             url = self.hrtiBaseUrl+"getIPAddress"
             r = self.session.get(url)
