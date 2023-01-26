@@ -29,8 +29,6 @@ class HRTiAPI:
         self.hrtiBaseUrl = self.hrtiDomain + "/" + self.plugin.get_setting('webapiurl') + "/"
         self.hsapiBaseUrl = self.plugin.get_setting('apiurl') + "/"
         self.proxy = self.plugin.get_setting('proxy')
-        #if self.proxy is not None:
-
 
     def api_post(self, url, payload, referer):
 
@@ -39,19 +37,12 @@ class HRTiAPI:
             if cookie.domain == '.hrti.hrt.hr':
                 cookie_header = cookie.name + "=" + cookie.value
 
-#        proxies = {
-#            'http': 'http://10.77.77.7:8080',
-#            'https': 'http://10.77.77.7:8080'
-#        }
-#        self.session.proxies.update(proxies)
-
         headers = {
             'connection': 'keep-alive',
             'deviceid': self.DEVICE_ID,
             'operatorreferenceid': self.__operator_reference_id,
             'authorization': 'Client ' + self.TOKEN,
             'ipaddress': str(self.IP),
-#            'ipaddress': '193.160.118.176',
             'content-type': 'application/json',
             'accept': 'application/json, text/plain, */*',
             'user-agent': self.__user_agent,
@@ -62,7 +53,6 @@ class HRTiAPI:
             'accept-language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
             'Cookie': cookie_header
         }
-        print(headers)
         response = self.session.post(url, headers=headers, data=payload)
         result = None
         if response.status_code == 200 and response.headers.get('content-type') == "application/json; charset=utf-8":
@@ -87,7 +77,6 @@ class HRTiAPI:
                 self.plugin.set_setting('ip', self.IP)
         else:
             self.IP = ip
-        print("IP: " + self.IP)
         return self.IP
 
     def get_env(self):
