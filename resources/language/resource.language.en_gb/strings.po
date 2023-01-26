@@ -27,6 +27,10 @@ msgctxt "#30004"
 msgid "Password"
 msgstr ""
 
+msgctxt "#30005"
+msgid "IP Address"
+msgstr ""
+
 msgctxt "#30010"
 msgid "View Account Details"
 msgstr ""

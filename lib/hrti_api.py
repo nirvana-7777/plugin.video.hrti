@@ -50,8 +50,8 @@ class HRTiAPI:
             'deviceid': self.DEVICE_ID,
             'operatorreferenceid': self.__operator_reference_id,
             'authorization': 'Client ' + self.TOKEN,
-#            'ipaddress': str(self.IP),
-            'ipaddress': '193.160.118.176',
+            'ipaddress': str(self.IP),
+#            'ipaddress': '193.160.118.176',
             'content-type': 'application/json',
             'accept': 'application/json, text/plain, */*',
             'user-agent': self.__user_agent,
@@ -78,7 +78,7 @@ class HRTiAPI:
         return result
 
     def get_ip(self):
-        ip = self.plugin.get_setting('ipconfig')
+        ip = self.plugin.get_setting('ip')
         if ip == '':
             url = self.hrtiBaseUrl+"getIPAddress"
             r = self.session.get(url)
