@@ -4,13 +4,13 @@
         <setting label="30003" type="text" id="username" default=""/>
         <setting label="30004" type="text" id="password" option="hidden"  default=""/>
         <setting label="30001" type="bool" id="save_login" default="false" visible="false"/>
+        <setting label="30005" type="ipaddress" id="ip" default="" visible="true"/>
         <setting label="30002" type="action" id="logout" action="RunPlugin(plugin://plugin.video.hrti/?action=logout)" option="close"/>
         <setting label="country" type="text" id="country" default="" visible="false"/>
         <setting label="language" type="text" id="language" default="en" visible="false"/>
         <setting label="device_id" type="text" id="device_id" default="" visible="false"/>
         <setting label="viewer_id" type="text" id="viewer_id" default="" visible="false"/>
         <setting label="token" type="text" id="token" default="" visible="false"/>
-        <setting label="30005" type="ipaddress" id="ip" default="" visible="true"/>
     </category>
     <category label="30010">
         <setting label="30011" type="text" id="customerid" default="" enable="false"/>
