@@ -587,7 +587,7 @@ def play_video(path, epg_ref_id):
             content_type = plugin.get_dict_value(voddetails, 'Type')
             video_store_ids = plugin.get_dict_value(voddetails, 'SVODVideostores')
             if content_type != 'series':
-                authorize_and_play(filename, content_type, path, video_store_ids, None, None, None, None)
+                authorize_and_play(filename, "svod", path, video_store_ids, None, None, None, None)
         else:
             api.register_device()
     else:
