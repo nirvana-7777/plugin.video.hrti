@@ -121,23 +121,6 @@ class Common():
             data += '=' * (4 - missing_padding)
         return b64decode(data)
 
-
-    def get_resource(self, text, prefix=''):
-        data_found = False
-        data = self.get_cache(self.resources)
-        if data.get('Strings'):
-            strings = data['Strings']
-            try:
-                text = strings['{0}{1}'.format(prefix, text.replace(' ', ''))]
-                data_found = True
-            except KeyError:
-                text = text.replace('_', ' ')
-        return {'text': self.initcap(text), 'found': data_found}
-
-
-    def logout(self):
-        return self.dialog_yesno(self.get_resource('signout_body').get('text'))
-
     def get_time_offset(self, offset):
         millisecond = datetime.now() + timedelta(hours=offset)
         return int(mktime(millisecond.timetuple()) * 1000)
@@ -187,7 +170,6 @@ class Common():
             device_id = self.get_setting('device_id')
         else:
             self.log("[{0}] error: failed to get device id ({1})".format(self.addon_id, str(mac_addr)))
-            self.dialog_ok(self.get_resource('error_4005_ConnectionLost').get('text'))
         self.set_setting('device_id', device_id)
         return device_id
 
@@ -199,21 +181,6 @@ class Common():
     def start_is_helper(self):
         helper = Helper(protocol='mpd', drm='widevine')
         return helper.check_inputstream()
-
-
-    def days(self, title, now, start):
-        if start and not title == 'Live':
-            today = date.today()
-            if now[:10] == start[:10]:
-                return self.get_resource('tileLabelToday', 'browseui_').get('text')
-            elif str(today + timedelta(days=1)) == start[:10]:
-                return self.get_resource('tileLabelTomorrow', 'browseui_').get('text')
-            else:
-                for i in range(2, 8):
-                    if str(today + timedelta(days=i)) == start[:10]:
-                        return self.get_resource((today + timedelta(days=i)).strftime('%A'), 'calendar_').get('text')
-        return self.get_resource(title, 'browseui_').get('text')
-
 
     def epg_date(self, date):
         return datetime.fromtimestamp(mktime(strptime(date, self.date_format)))
@@ -316,28 +283,11 @@ class Common():
         return text
 
 
-    def get_cdn(self, cdns):
-        if self.select_cdn:
-            ret = self.get_dialog().select(self.get_string(30023), cdns)
-            if not ret == -1:
-                self.preferred_cdn = cdns[ret]
-                self.set_setting('preferred_cdn', self.preferred_cdn)
-                self.set_setting('select_cdn', 'false')
-        return self.preferred_cdn
-
-
     def validate_pin(self, pin):
         result = False
         if len(pin) == 4 and pin.isdigit():
             result = True
         return result
-
-
-    def youth_protection_pin(self, verify_age):
-        pin = ''
-        if verify_age:
-            pin = self.get_dialog().input(self.get_resource('youthProtectionTV_verified_body').get('text'), type=xbmcgui.INPUT_ALPHANUM, option=xbmcgui.ALPHANUM_HIDE_INPUT)
-        return pin
 
 
     def get_dict_value(self, dict, key):
